@@ -1,0 +1,325 @@
+;;; -*- coding: utf-8; mode: lisp-data -*-
+(("/Users/getz/.emacs.d/init.el" . 4015)
+ ("/Users/getz/"
+  (dired-filename . "/Users/getz/Virtual"))
+ ("/Users/"
+  (dired-filename . "/Users/getz"))
+ ("/Users/getz/Virtual/"
+  (dired-filename . "/Users/getz/Virtual/Shared"))
+ ("/Users/getz/.emacs.d/mixins/base.el" . 4269)
+ ("/Users/getz/.emacs.d/"
+  (dired-filename . "/Users/getz/.emacs.d/early-init.el"))
+ ("/Users/getz/.emacs.d/mixins/dashboard.el" . 3495)
+ ("/Users/getz/.emacs.d/early-init.el" . 666)
+ ("/Users/getz/Virtual/Shared/FPGA/EITF35/Lab1/sequence_detector_tb.vhd" . 511)
+ ("/Users/getz/Documents/Courses/EITF35/Ivar/VLSI-design-EITF35/src/lab1/"
+  (dired-filename . "/Users/getz/Documents/Courses/EITF35/Ivar/VLSI-design-EITF35/src/lab1/par2ser.vhd"))
+ ("/Users/getz/Documents/Courses/EITF35/Ivar/VLSI-design-EITF35/src/lab1/par2ser.vhd" . 1420)
+ ("/Users/getz/Documents/Courses/EITF35/Ivar/VLSI-design-EITF35/src/lab1/sequence_detector_mealy.vhd" . 1296)
+ ("/Users/getz/Virtual/Shared/FPGA/EITF35/Lab1/par2ser.vhd" . 1081)
+ ("/Users/getz/Virtual/Shared/FPGA/EITF35/Lab1/sequence_detector_moore.vhd" . 1959)
+ ("/Users/getz/Virtual/Shared/FPGA/EITF35/Lab1/sequence_detector_mealy.vhd" . 1576)
+ ("/Users/getz/Virtual/Shared/FPGA/EITF35/Lab1/"
+  (dired-filename . "/Users/getz/Virtual/Shared/FPGA/EITF35/Lab1/sequence_detector_tb.vhd"))
+ ("/Users/getz/Documents/Courses/EITF35/Ivar/VLSI-design-EITF35/src/lab1/sequence_detector_moore.vhd" . 1246)
+ ("/Users/getz/Virtual/Shared/FPGA/EITF35/Lab1/stimulus_generator.vhd" . 1339)
+ ("/Users/getz/Documents/Courses/EITF35/Ivar/VLSI-design-EITF35/test/tb_lab1.vhd" . 2153)
+ ("/Users/getz/Virtual/Shared/"
+  (dired-filename . "/Users/getz/Virtual/Shared/FPGA"))
+ ("/Users/getz/Virtual/Shared/FPGA/"
+  (dired-filename . "/Users/getz/Virtual/Shared/FPGA/EITF35"))
+ ("/Users/getz/Virtual/Shared/FPGA/EITF35/"
+  (dired-filename . "/Users/getz/Virtual/Shared/FPGA/EITF35/Lab1"))
+ ("/Users/getz/Zotero/"
+  (dired-filename . "/Users/getz/Zotero/.DS_Store"))
+ ("/Users/getz/Virtual/OpenBSD Aarch64.utm/"
+  (dired-filename . "/Users/getz/Virtual/OpenBSD Aarch64.utm/Images"))
+ ("/Users/getz/Virtual/Shared/FPGA/ghdltest/"
+  (dired-filename . "/Users/getz/Virtual/Shared/FPGA/ghdltest/par2ser.vhd"))
+ ("/Users/getz/Virtual/Shared/FPGA/f4pga-examples/"
+  (dired-filename . "/Users/getz/Virtual/Shared/FPGA/f4pga-examples/xc7"))
+ ("/Users/getz/Virtual/Shared/FPGA/f4pga/"
+  (dired-filename . "/Users/getz/Virtual/Shared/FPGA/f4pga/.git"))
+ ("/Users/getz/Virtual/Shared/FPGA/VLSI-design-EITF35/"
+  (dired-filename . "/Users/getz/Virtual/Shared/FPGA/VLSI-design-EITF35/test"))
+ ("/Users/getz/Virtual/Shared/FPGA/EITF35/Lab1/flash/"
+  (dired-filename . "/Users/getz/Virtual/Shared/FPGA/EITF35/Lab1/flash/.DS_Store"))
+ ("/Users/getz/Documents/Courses/EITF35/Ivar/VLSI-design-EITF35/test/"
+  (dired-filename . "/Users/getz/Documents/Courses/EITF35/Ivar/VLSI-design-EITF35/test/tb_lab1.vhd"))
+ ("/Users/getz/Documents/Courses/EITF35/Ivar/VLSI-design-EITF35/src/lab1/sequence_detector_tb.txt" . 3307)
+ ("/Users/getz/Virtual/Shared/FPGA/ghdltest/sequence_detector_tb.vhd" . 1959)
+ ("/Users/getz/Virtual/Shared/FPGA/ghdltest/par2ser.vhd" . 552)
+ ("/Users/getz/Documents/Courses/EDAF80/Labs/lab1/code/"
+  (dired-filename . "/Users/getz/Documents/Courses/EDAF80/Labs/lab1/code/src"))
+ ("/Users/getz/Documents/Courses/EITF35/"
+  (dired-filename . "/Users/getz/Documents/Courses/EITF35/Ivar"))
+ ("/Users/getz/Public/"
+  (dired-filename . "/Users/getz/Public/.localized"))
+ ("/Users/getz/Applications/"
+  (dired-filename . "/Users/getz/Applications/Autodesk Fusion 360 Service Utility.app"))
+ ("/Users/getz/Desktop/"
+  (dired-filename . "/Users/getz/Desktop/AcerA770"))
+ ("/Users/getz/Developer/"
+  (dired-filename . "/Users/getz/Developer/git"))
+ ("/Users/getz/Documents/"
+  (dired-filename . "/Users/getz/Documents/Courses"))
+ ("/Users/getz/Documents/Courses/"
+  (dired-filename . "/Users/getz/Documents/Courses/EDAF80"))
+ ("/Users/getz/Documents/Courses/EDAF80/"
+  (dired-filename . "/Users/getz/Documents/Courses/EDAF80/Labs"))
+ ("/Users/getz/Documents/Courses/EDAF80/Labs/"
+  (dired-filename . "/Users/getz/Documents/Courses/EDAF80/Labs/lab1"))
+ ("/Users/getz/Documents/Courses/EDAF80/Labs/lab1/"
+  (dired-filename . "/Users/getz/Documents/Courses/EDAF80/Labs/lab1/code"))
+ ("/Users/getz/Virtual/Shared/FPGA/f4pga-examples/xc7/pulse_width_led/pulse_led.v" . 48)
+ ("/Users/getz/.emacs.d/mixins/lsp.el" . 764)
+ ("/Users/getz/Virtual/Shared/FPGA/f4pga-examples/xc7/pulse_width_led/"
+  (dired-filename . "/Users/getz/Virtual/Shared/FPGA/f4pga-examples/xc7/pulse_width_led/pulse_led.v"))
+ ("/Users/getz/Virtual/Shared/FPGA/f4pga-examples/xc7/"
+  (dired-filename . "/Users/getz/Virtual/Shared/FPGA/f4pga-examples/xc7/pulse_width_led"))
+ ("/Users/getz/Virtual/Shared/FPGA/f4pga-examples/xc7/adder_test/"
+  (dired-filename . "/Users/getz/Virtual/Shared/FPGA/f4pga-examples/xc7/adder_test/arty.xdc"))
+ ("/Users/getz/Downloads/"
+  (dired-filename . "/Users/getz/Downloads/(Prentice Hall electronics and VLSI series) Jan M Rabaey_ Anantha P Chandrakasan_ Borivoje Nikolić, Assistant Professor - Digital integrated circuits _ a design perspective-Pearson Education (2003)-1.pdf"))
+ ("/Users/getz/Virtual/Shared/FPGA/f4pga-examples/xc7/additional_examples/"
+  (dired-filename . "/Users/getz/Virtual/Shared/FPGA/f4pga-examples/xc7/additional_examples/button_controller"))
+ ("/Users/getz/Virtual/Shared/FPGA/f4pga-examples/xc7/counter_test/"
+  (dired-filename . "/Users/getz/Virtual/Shared/FPGA/f4pga-examples/xc7/counter_test/Makefile"))
+ ("/Users/getz/Virtual/Shared/FPGA/f4pga-examples/xc7/linux_litex_demo/"
+  (dired-filename . "/Users/getz/Virtual/Shared/FPGA/f4pga-examples/xc7/linux_litex_demo/Makefile"))
+ ("/Users/getz/Virtual/Shared/FPGA/f4pga-examples/xc7/litex_demo/"
+  (dired-filename . "/Users/getz/Virtual/Shared/FPGA/f4pga-examples/xc7/litex_demo/.gitignore"))
+ ("/Users/getz/Virtual/Shared/FPGA/f4pga-examples/xc7/litex_sata_demo/"
+  (dired-filename . "/Users/getz/Virtual/Shared/FPGA/f4pga-examples/xc7/litex_sata_demo/Makefile"))
+ ("/Users/getz/Virtual/Shared/FPGA/f4pga-examples/xc7/picosoc_demo/"
+  (dired-filename . "/Users/getz/Virtual/Shared/FPGA/f4pga-examples/xc7/picosoc_demo/Makefile"))
+ ("/Users/getz/.emacs.d/mixins/"
+  (dired-filename . "/Users/getz/.emacs.d/mixins/vim-like.el"))
+ ("/Users/getz/.emacs.d/mixins/vim-like.el" . 642)
+ ("/Users/getz/Documents/Courses/EITF35/Ivar/"
+  (dired-filename . "/Users/getz/Documents/Courses/EITF35/Ivar/VLSI-design-EITF35"))
+ ("/Users/getz/Documents/Courses/EITF35/Ivar/VLSI-design-EITF35/"
+  (dired-filename . "/Users/getz/Documents/Courses/EITF35/Ivar/VLSI-design-EITF35/src"))
+ ("/Users/getz/Documents/Courses/EITF35/Ivar/VLSI-design-EITF35/src/"
+  (dired-filename . "/Users/getz/Documents/Courses/EITF35/Ivar/VLSI-design-EITF35/src/lab1"))
+ ("/Users/getz/Pictures/"
+  (dired-filename . "/Users/getz/Pictures/.DS_Store"))
+ ("/Users/getz/OrbStack/"
+  (dired-filename . "/Users/getz/OrbStack/README.txt"))
+ ("/Users/getz/Nextcloud/"
+  (dired-filename . "/Users/getz/Nextcloud/.DS_Store"))
+ ("/Users/getz/Music/"
+  (dired-filename . "/Users/getz/Music/.DS_Store"))
+ ("/Users/getz/Movies/"
+  (dired-filename . "/Users/getz/Movies/.DS_Store"))
+ ("/Users/getz/MATLAB/"
+  (dired-filename . "/Users/getz/MATLAB/Projects"))
+ ("/Users/getz/Library/"
+  (dired-filename . "/Users/getz/Library/.DS_Store"))
+ ("/Users/getz/Documents/DF/"
+  (dired-filename . "/Users/getz/Documents/DF/.DS_Store"))
+ ("/Users/getz/Documents/Courses/ETIN20/"
+  (dired-filename . "/Users/getz/Documents/Courses/ETIN20/Digital integrated circuits _ a design perspective1.pdf"))
+ ("/Users/getz/Documents/Courses/EITF35/Labs/"
+  (dired-filename . "/Users/getz/Documents/Courses/EITF35/Labs/Lab1"))
+ ("/Users/getz/Documents/Courses/EITF35/Ivar/VLSI-design-EITF35/src/lib_vhd/"
+  (dired-filename . "/Users/getz/Documents/Courses/EITF35/Ivar/VLSI-design-EITF35/src/lib_vhd/matrix_package.vhd"))
+ ("/Users/getz/Documents/Courses/EITF35/Ivar/VLSI-design-EITF35/src/lab3/"
+  (dired-filename . "/Users/getz/Documents/Courses/EITF35/Ivar/VLSI-design-EITF35/src/lab3/7SegDriver.vhd"))
+ ("/Users/getz/Documents/Courses/EITF35/Ivar/VLSI-design-EITF35/src/lab2/"
+  (dired-filename . "/Users/getz/Documents/Courses/EITF35/Ivar/VLSI-design-EITF35/src/lab2/binary_to_sg.vhd"))
+ ("/Users/getz/Documents/Courses/EDAF80/Labs/lab1/code/src/EDAF80/assignment1.cpp" . 974)
+ ("/Users/getz/.emacs.d/mixins/completion.el" . 416)
+ ("/Users/getz/.emacs.d/mixins/themes.el" . 3694)
+ ("/Users/getz/Documents/Courses/EDAF80/Labs/lab1/code/src/EDAF80/"
+  (dired-filename . "/Users/getz/Documents/Courses/EDAF80/Labs/lab1/code/src"))
+ ("/Users/getz/Documents/Courses/EDAF80/Labs/lab1/code/src/EDAF80/CelestialBody.cpp" . 4043)
+ ("/Users/getz/Documents/Courses/EDAF80/Labs/lab1/code/src/core/"
+  (dired-filename . "/Users/getz/Documents/Courses/EDAF80/Labs/lab1/code/src/core/Bonobo.cpp"))
+ ("/Users/getz/Documents/Courses/EDAF80/Labs/lab1/code/src/EDAF80/CelestialBody.hpp" . 3429)
+ ("/Users/getz/Documents/Courses/EDAF80/Labs/lab1/code/src/"
+  (dired-filename . "/Users/getz/Documents/Courses/EDAF80/Labs/lab1/code/src/EDAF80"))
+ ("/Users/getz/Documents/Courses/EDAF80/Labs/lab1/code/src/core/Bonobo.h" . 113)
+ ("/Users/getz/Documents/Courses/EDAF80/Labs/lab1/code/src/core/Bonobo.cpp" . 217)
+ ("/Users/getz/Developer/git/emacsdev/emacs.d/init.el" . 5379)
+ ("/Users/getz/Developer/git/emacsdev/emacs.d/"
+  (dired-filename . "/Users/getz/Developer/git/emacsdev/emacs.d/init.el"))
+ ("/Users/getz/Developer/git/"
+  (dired-filename . "/Users/getz/Developer/git/emacsdev"))
+ ("/Users/getz/Developer/git/emacsdev/"
+  (dired-filename . "/Users/getz/Developer/git/emacsdev/emacs.d"))
+ ("/Users/getz/Developer/git/emacsdev/emacs-bedrock/"
+  (dired-filename . "/Users/getz/Developer/git/emacsdev/emacs-bedrock/README.md"))
+ ("/Users/getz/Virtual/Shared/FPGA/EITF35/.git/"
+  (dired-filename . "/Users/getz/Virtual/Shared/FPGA/EITF35/.git/COMMIT_EDITMSG"))
+ ("/Users/getz/Virtual/Shared/FPGA/VLSI-design-EITF35/src/lab1/"
+  (dired-filename . "/Users/getz/Virtual/Shared/FPGA/VLSI-design-EITF35/src/lab1/sqdm.v"))
+ ("/Users/getz/Virtual/Shared/FPGA/VLSI-design-EITF35/src/"
+  (dired-filename . "/Users/getz/Virtual/Shared/FPGA/VLSI-design-EITF35/src/lab1"))
+ ("/Users/getz/Virtual/Shared/Bilder/"
+  (dired-filename . "/Users/getz/Virtual/Shared/Bilder/BodeISammaPlot.png"))
+ ("/Users/getz/Virtual/Shared/FPGA/VLSI-design-EITF35/test/"
+  (dired-filename . "/Users/getz/Virtual/Shared/FPGA/VLSI-design-EITF35/test/tb_lab1.vhd"))
+ ("/Users/getz/Virtual/Shared/FPGA/VLSI-design-EITF35/src/lib_vhd/"
+  (dired-filename . "/Users/getz/Virtual/Shared/FPGA/VLSI-design-EITF35/src/lib_vhd/matrix_package.vhd"))
+ ("/Users/getz/Virtual/Shared/FPGA/VLSI-design-EITF35/src/lab3/"
+  (dired-filename . "/Users/getz/Virtual/Shared/FPGA/VLSI-design-EITF35/src/lab3/7SegDriver.vhd"))
+ ("/Users/getz/Virtual/Shared/FPGA/VLSI-design-EITF35/src/lab2/"
+  (dired-filename . "/Users/getz/Virtual/Shared/FPGA/VLSI-design-EITF35/src/lab2/binary_to_sg.vhd"))
+ ("/"
+  (dired-filename . "/Users"))
+ ("/Users/getz/Documents/Courses/EDAF80/code/"
+  (dired-filename . "/Users/getz/Documents/Courses/EDAF80/code/src"))
+ ("/Users/getz/Documents/Courses/EDAF80/code/src/"
+  (dired-filename . "/Users/getz/Documents/Courses/EDAF80/code/src/EDAF80"))
+ ("/Users/getz/.emacs.d.bak/"
+  (dired-filename . "/Users/getz/.emacs.d.bak/.DS_Store"))
+ ("/Users/getz/.stack/"
+  (dired-filename . "/Users/getz/.stack/config.yaml"))
+ ("/Users/getz/.start_app_logs/"
+  (dired-filename . "/Users/getz/.start_app_logs/2023_07_02_14_34_47_45333.txt"))
+ ("/Users/getz/Documents/Courses/EDAF80/code/src/EDAF80/"
+  (dired-filename . "/Users/getz/Documents/Courses/EDAF80/code/src/EDAF80/assignment1.cpp"))
+ ("/Users/getz/Documents/Courses/EDAF80/build/"
+  (dired-filename . "/Users/getz/Documents/Courses/EDAF80/build/CMakeCache.txt"))
+ ("/Users/getz/Documents/Courses/EDAF80/Seminars/"
+  (dired-filename . "/Users/getz/Documents/Courses/EDAF80/Seminars/Sem1"))
+ ("/Users/getz/Documents/Courses/EDAF80/Labs/test/"
+  (dired-filename . "/Users/getz/Documents/Courses/EDAF80/Labs/test/.cache"))
+ ("/Users/getz/Documents/Courses/EDAF80/Labs/lab5/"
+  (dired-filename . "/Users/getz/Documents/Courses/EDAF80/Labs/lab5/Assignment5_GameProject.pdf"))
+ ("/Users/getz/Documents/Courses/EDAF80/Labs/lab4/"
+  (dired-filename . "/Users/getz/Documents/Courses/EDAF80/Labs/lab4/Assignment4_OceanSurface.pdf"))
+ ("/Users/getz/Documents/Courses/EDAF80/Labs/lab3/"
+  (dired-filename . "/Users/getz/Documents/Courses/EDAF80/Labs/lab3/Assignment3_Shading.pdf"))
+ ("/Users/getz/Documents/Courses/EDAF80/Labs/lab2/"
+  (dired-filename . "/Users/getz/Documents/Courses/EDAF80/Labs/lab2/Assignment2_TessellationAndInterpolation.pdf"))
+ ("/Users/getz/Documents/Courses/EDAF80/Labs/lab1/code/src/external/"
+  (dired-filename . "/Users/getz/Documents/Courses/EDAF80/Labs/lab1/code/src/external/CMakeLists.txt"))
+ ("/Users/getz/Documents/Courses/EDAF80/Labs/lab1/code/src/EDAN35/"
+  (dired-filename . "/Users/getz/Documents/Courses/EDAF80/Labs/lab1/code/src/EDAN35/CMakeLists.txt"))
+ ("/Users/getz/Documents/Courses/EDAF80/Labs/lab1/code/src/EDAF80/.git/"
+  (dired-filename . "/Users/getz/Documents/Courses/EDAF80/Labs/lab1/code/src/EDAF80/.git/HEAD"))
+ ("/Users/getz/Documents/Courses/EDAF80/Labs/lab1/code/src/EDAF80/build/"
+  (dired-filename . "/Users/getz/Documents/Courses/EDAF80/Labs/lab1/code/src/EDAF80/build/.cmake"))
+ ("/Users/getz/.elm/"
+  (dired-filename . "/Users/getz/.elm/0.19.1"))
+ ("/Users/getz/.dotfiles/"
+  (dired-filename . "/Users/getz/.dotfiles/.git"))
+ ("/Users/getz/.BurpSuite/"
+  (dired-filename . "/Users/getz/.BurpSuite/ConfigLibrary"))
+ ("/Users/getz/.Trash/"
+  (dired-filename . "/Users/getz/.Trash/.DS_Store"))
+ ("/Users/getz/.rustup/"
+  (dired-filename . "/Users/getz/.rustup/downloads"))
+ ("/Users/getz/.ssh/"
+  (dired-filename . "/Users/getz/.ssh/config"))
+ ("/Users/getz/Developer/git/emacsdev/emacs-bedrock/mixins/lsp.el" . 270)
+ ("/Users/getz/Documents/Courses/EITF35/Labs/Lab1/vhdl/src/"
+  (dired-filename . "/Users/getz/Documents/Courses/EITF35/Labs/Lab1/vhdl"))
+ ("/Users/getz/Documents/Courses/EITF35/Labs/Lab1/vhdl/"
+  (dired-filename . "/Users/getz/Documents/Courses/EITF35/Labs/Lab1"))
+ ("/Users/getz/Documents/Courses/EITF35/Labs/Lab1/"
+  (dired-filename . "/Users/getz/Documents/Courses/EITF35/Labs/Lab1/vhdl"))
+ ("/Users/getz/Documents/Courses/EITF35/Labs/Lab1/vhdl/src/par2ser.vhd" . 256)
+ ("/Users/getz/Virtual/Shared/FPGA/f4pga-examples/xc7/adder_test/adder.v" . 53)
+ ("/Users/getz/Virtual/Shared/Shared files/"
+  (dired-filename . "/Users/getz/Virtual/Shared/Shared files/Crackmes"))
+ ("/Users/getz/Virtual/scripts/"
+  (dired-filename . "/Users/getz/Virtual/scripts/tap-down"))
+ ("/Users/getz/Virtual/Windows XP Professional X64 UTM Edition.utm/"
+  (dired-filename . "/Users/getz/Virtual/Windows XP Professional X64 UTM Edition.utm/Data"))
+ ("/Users/getz/Virtual/Shared/Windows 10 X64 IoT Enterprise LTSC 2021 en-US APRIL 2023 {Gen2}/"
+  (dired-filename . "/Users/getz/Virtual/Shared/Windows 10 X64 IoT Enterprise LTSC 2021 en-US APRIL 2023 {Gen2}/.DS_Store"))
+ ("/Users/getz/Virtual/Shared/Shared files/Crackmes/"
+  (dired-filename . "/Users/getz/Virtual/Shared/Shared files/Crackmes/Linux"))
+ ("/Users/getz/Virtual/Shared/MS_Solitaire_Windows_XP/"
+  (dired-filename . "/Users/getz/Virtual/Shared/MS_Solitaire_Windows_XP/cards.dll"))
+ ("/Users/getz/Virtual/Shared/FPGA/f4pga-examples/.git/"
+  (dired-filename . "/Users/getz/Virtual/Shared/FPGA/f4pga-examples/.git/HEAD"))
+ ("/Users/getz/Virtual/Shared/FPGA/f4pga-examples/.github/"
+  (dired-filename . "/Users/getz/Virtual/Shared/FPGA/f4pga-examples/.github/dependabot.yml"))
+ ("/Users/getz/Virtual/Shared/FPGA/f4pga-examples/common/"
+  (dired-filename . "/Users/getz/Virtual/Shared/FPGA/f4pga-examples/common/common.mk"))
+ ("/Users/getz/Virtual/Shared/FPGA/f4pga-examples/docs/"
+  (dired-filename . "/Users/getz/Virtual/Shared/FPGA/f4pga-examples/docs/.gitattributes"))
+ ("/Users/getz/Virtual/Shared/FPGA/f4pga-examples/eos-s3/"
+  (dired-filename . "/Users/getz/Virtual/Shared/FPGA/f4pga-examples/eos-s3/btn_counter"))
+ ("/Users/getz/Virtual/Shared/FPGA/f4pga-examples/projf-makefiles/"
+  (dired-filename . "/Users/getz/Virtual/Shared/FPGA/f4pga-examples/projf-makefiles/hello"))
+ ("/Users/getz/Virtual/Shared/FPGA/f4pga-examples/scripts/"
+  (dired-filename . "/Users/getz/Virtual/Shared/FPGA/f4pga-examples/scripts/make"))
+ ("/Users/getz/Virtual/Shared/FPGA/f4pga-examples/third_party/"
+  (dired-filename . "/Users/getz/Virtual/Shared/FPGA/f4pga-examples/third_party/projf-explore"))
+ ("/Users/getz/Virtual/Shared/FPGA/f4pga-examples/xc7/timer/"
+  (dired-filename . "/Users/getz/Virtual/Shared/FPGA/f4pga-examples/xc7/timer/Makefile"))
+ ("/Users/getz/.emacs.d/.cache/"
+  (dired-filename . "/Users/getz/.emacs.d/.cache/svg-lib"))
+ ("/Users/getz/.emacs.d/.git/"
+  (dired-filename . "/Users/getz/.emacs.d/.git/HEAD"))
+ ("/Users/getz/.fleet/"
+  (dired-filename . "/Users/getz/.fleet/themes"))
+ ("/Users/getz/.gem/"
+  (dired-filename . "/Users/getz/.gem/ruby"))
+ ("/Users/getz/.ghidra/"
+  (dired-filename . "/Users/getz/.ghidra/.ghidra_10.3.1_PUBLIC"))
+ ("/Users/getz/.gnupg/"
+  (dired-filename . "/Users/getz/.gnupg/common.conf"))
+ ("/Users/getz/Documents/Courses/EITF35/Labs/Lab2/"
+  (dired-filename . "/Users/getz/Documents/Courses/EITF35/Labs/Lab2/Lab2.zip"))
+ ("/Users/getz/Developer/git/emacsdev/emacs-bedrock/mixins/dev.el" . 3287)
+ ("/Users/getz/Developer/git/emacsdev/emacs-bedrock/mixins/"
+  (dired-filename . "/Users/getz/Developer/git/emacsdev/emacs-bedrock/mixins/fontaine.el"))
+ ("/Users/getz/Developer/git/emacsdev/emacs-bedrock/mixins/fontaine.el" . 3527)
+ ("/Users/getz/Developer/git/emacsdev/emacs-bedrock/mixins/vim-like.el" . 565)
+ ("/Users/getz/Developer/git/emacsdev/emacs-bedrock/mixins/completion.el" . 199)
+ ("/Users/getz/Developer/git/emacsdev/emacs-bedrock/mixins/themes.el" . 44)
+ ("/Users/getz/Developer/git/emacsdev/emacs-bedrock/init.el" . 8913)
+ ("/Users/getz/Documents/Courses/EDAF80/code/src/EDAF80/assignment1.cpp" . 1729)
+ ("/Users/getz/Developer/git/emacsdev/emacs-bedrock/mixins/dashboard.el" . 3625)
+ ("/Users/getz/Developer/AdvancedUPE/"
+  (dired-filename . "/Users/getz/Developer/AdvancedUPE/apue-code"))
+ ("/Users/getz/Developer/Java/"
+  (dired-filename . "/Users/getz/Developer/Java/untitled"))
+ ("/Users/getz/Developer/Python/"
+  (dired-filename . "/Users/getz/Developer/Python/Environments"))
+ ("/Users/getz/Developer/RE/"
+  (dired-filename . "/Users/getz/Developer/RE/SimpleKeyGen"))
+ ("/Users/getz/Developer/Rust/"
+  (dired-filename . "/Users/getz/Developer/Rust/kahansum"))
+ ("/Users/getz/Developer/Shit/"
+  (dired-filename . "/Users/getz/Developer/Shit/crc"))
+ ("/Users/getz/Developer/TinyC/"
+  (dired-filename . "/Users/getz/Developer/TinyC/test.c"))
+ ("/Users/getz/Developer/Tutorials-master/"
+  (dired-filename . "/Users/getz/Developer/Tutorials-master/LICENSE"))
+ ("/Users/getz/Developer/cheribsd/"
+  (dired-filename . "/Users/getz/Developer/cheribsd/CHERI-UPDATING.md"))
+ ("/Users/getz/Developer/git/Emacs.app/"
+  (dired-filename . "/Users/getz/Developer/git/Emacs.app/Contents"))
+ ("/Users/getz/Developer/git/IHaskell/"
+  (dired-filename . "/Users/getz/Developer/git/IHaskell/Dockerfile"))
+ ("/Users/getz/Developer/git/Mas0nShi-typoraCracker_-_2021-12-04_14-27-57/"
+  (dired-filename . "/Users/getz/Developer/git/Mas0nShi-typoraCracker_-_2021-12-04_14-27-57/LICENSE"))
+ ("/Users/getz/Developer/git/PianobarNowPlayable/"
+  (dired-filename . "/Users/getz/Developer/git/PianobarNowPlayable/LICENSE.txt"))
+ ("/Users/getz/Developer/git/cosmopolitan/"
+  (dired-filename . "/Users/getz/Developer/git/cosmopolitan/CONTRIBUTING.md"))
+ ("/Users/getz/Documents/Bank/"
+  (dired-filename . "/Users/getz/Documents/Bank/Insättning utlandsbet Ref 294224803006GETZ MIKALSEN.pdf"))
+ ("/Users/getz/Documents/Books/"
+  (dired-filename . "/Users/getz/Documents/Books/Analog Electronics"))
+ ("/Users/getz/Documents/Courses/RIS - IEEE/"
+  (dired-filename . "/Users/getz/Documents/Courses/RIS - IEEE/ Mechanically reprogrammable Pancharatnam–Berry metasurface for microwaves.pdf"))
+ ("/Users/getz/Documents/Courses/Old/"
+  (dired-filename . "/Users/getz/Documents/Courses/Old/EITA35"))
+ ("/Users/getz/Documents/Courses/OFFBEAT COMPUTING CLUB/"
+  (dired-filename . "/Users/getz/Documents/Courses/OFFBEAT COMPUTING CLUB/Highlight - CSES Problem Solving Club - Meetup #1 - Weird Algorithm, Missing Number, Repetitions, Increasing Array [v1181719786].mp4"))
+ ("/Users/getz/Documents/Courses/IDrive/"
+  (dired-filename . "/Users/getz/Documents/Courses/IDrive/Gemensam Pluggdrive för I"))
+ ("/Users/getz/Documents/Courses/Github/"
+  (dired-filename . "/Users/getz/Documents/Courses/Github/Reference_Material-Equation_Sheets"))
+ ("/Users/getz/Documents/Courses/FAFA01/"
+  (dired-filename . "/Users/getz/Documents/Courses/FAFA01/Exempeltenta_1.pdf"))
+ ("/Users/getz/Documents/Courses/Emaster/"
+  (dired-filename . "/Users/getz/Documents/Courses/Emaster/E Master")))

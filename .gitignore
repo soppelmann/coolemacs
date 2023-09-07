@@ -1,0 +1,10 @@
+/#*
+/.lsp*
+/.cache/
+/eln-cache/
+/elpa/
+/history
+/transient/
+/auto-save-list/
+/eshell/
+/projects
