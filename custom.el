@@ -92,10 +92,10 @@
      (eshell-connection-default-profile
       (eshell-path-env-list))))
  '(package-selected-packages
-   '(nerd-icons-completion doom-modeline nano-modeline multi-vterm vhdl-ts-mode corfu embark consult cape diff-hl yaml-mode dashboard embark-consult dired-sidebar marginalia json-mode magit vertico fontaine avy evil verilog-ext corfu-terminal which-key orderless dimmer ranger kind-icon exec-path-from-shell rainbow-delimiters vhdl-ext)))
+   '(org-modern modus-themes ef-themes google-c-style nerd-icons-completion doom-modeline nano-modeline multi-vterm vhdl-ts-mode corfu embark consult cape diff-hl yaml-mode dashboard embark-consult dired-sidebar marginalia json-mode magit vertico fontaine avy evil verilog-ext corfu-terminal which-key orderless dimmer ranger kind-icon exec-path-from-shell rainbow-delimiters vhdl-ext)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(mode-line ((t :box (:style released-button)))))

@@ -1,26 +1,57 @@
 ;;; -*- coding: utf-8; mode: lisp-data -*-
-(("/Users/getz/.emacs.d/init.el" . 4015)
- ("/Users/getz/"
-  (dired-filename . "/Users/getz/Virtual"))
+(("/Users/getz/"
+  (dired-filename . "/Users/getz/.zshrc.bak"))
+ ("/Users/getz/.emacs.d/mixins/"
+  (dired-filename . "/Users/getz/.emacs.d/mixins/base.el"))
+ ("/Users/getz/Documents/Courses/EDAF80/Labs/lab1/code/src/EDAF80/"
+  (dired-filename . "/Users/getz/Documents/Courses/EDAF80/Labs/lab1/code/src/EDAF80/assignment1.cpp"))
+ ("/Users/getz/Documents/Courses/EDAF80/Labs/lab1/code/src/EDAF80/assignment1.cpp" . 1984)
+ ("/Users/getz/.emacs.d/mixins/base.el" . 4002)
+ ("/Users/getz/.emacs.d/mixins/org.el" . 3619)
+ ("/Users/getz/.emacs.d/"
+  (dired-filename . "/Users/getz"))
+ ("/Users/getz/.emacs.d/mixins/themes.el" . 3984)
+ ("/Users/getz/Nextcloud/Notebooks/TXT/Advanced Unix Programming CS631/"
+  (dired-filename . "/Users/getz/Nextcloud/Notebooks/TXT"))
+ ("/Users/getz/Nextcloud/Notebooks/TXT/"
+  (dired-filename . "/Users/getz/Nextcloud/Notebooks"))
+ ("/Users/getz/Nextcloud/Notebooks/"
+  (dired-filename . "/Users/getz/Nextcloud/Notebooks/example.org"))
+ ("/Users/getz/Nextcloud/Notebooks/TXT/Advanced Unix Programming CS631/1/"
+  (dired-filename . "/Users/getz/Nextcloud/Notebooks/TXT/Advanced Unix Programming CS631"))
+ ("/Users/getz/Nextcloud/Notebooks/TXT/Advanced Unix Programming CS631/1/basics.md" . 1434)
+ ("/Users/getz/Nextcloud/Notebooks/example.org" . 446)
+ ("/Users/getz/Nextcloud/"
+  (dired-filename . "/Users/getz/Nextcloud/Notebooks"))
+ ("/Users/getz/.emacs.d/init.el" . 10372)
+ ("/Users/getz/.emacs.d/mixins/org-intro.txt" . 2560)
+ ("/Users/getz/.emacs.d/mixins/dev.el" . 2237)
+ ("/Users/getz/.emacs.d.bak/"
+  (dired-filename . "/Users/getz/.emacs.d.bak/init.el"))
+ ("/Users/getz/.emacs.d.bak/init.el" . 30245)
+ ("/Users/getz/.emacs.d/.gitignore" . 17)
+ ("/Users/getz/.emacs.d/mixins/fontaine.el" . 34)
+ ("/Users/getz/.emacs.d/mixins/dashboard.el" . 3393)
+ ("/Users/getz/.emacs.d/mixins/completion.el" . 3172)
+ ("/Users/getz/.emacs.d/mixins/vim-like.el" . 1898)
+ ("/Users/getz/Documents/Courses/EDAF80/Labs/lab1/code/src/EDAF80/CelestialBody.cpp" . 4042)
+ ("/Users/getz/Virtual/Shared/FPGA/EITF35/Lab1/sequence_detector_tb.vhd" . 3249)
+ ("/Users/getz/Virtual/Shared/FPGA/EITF35/Lab1/sequence_detector_moore.vhd" . 809)
+ ("/Users/getz/Virtual/Shared/FPGA/EITF35/Lab1/par2ser.vhd" . 1505)
+ ("/Users/getz/Virtual/Shared/FPGA/EITF35/Lab1/"
+  (dired-filename . "/Users/getz/Virtual/Shared/FPGA/EITF35/Lab1/sequence_detector_mealy.vhd"))
+ ("/Users/getz/Virtual/Shared/FPGA/EITF35/Lab1/sequence_detector_mealy.vhd" . 1639)
+ ("/Users/getz/Library/Logs/JetBrains/CLion2023.2/idea.log" . 75580)
+ ("/Users/getz/Documents/Courses/EDAF80/Labs/lab1/code/src/EDAF80/CMakeLists.txt" . 556)
  ("/Users/"
   (dired-filename . "/Users/getz"))
  ("/Users/getz/Virtual/"
   (dired-filename . "/Users/getz/Virtual/Shared"))
- ("/Users/getz/.emacs.d/mixins/base.el" . 4269)
- ("/Users/getz/.emacs.d/"
-  (dired-filename . "/Users/getz/.emacs.d/early-init.el"))
- ("/Users/getz/.emacs.d/mixins/dashboard.el" . 3495)
  ("/Users/getz/.emacs.d/early-init.el" . 666)
- ("/Users/getz/Virtual/Shared/FPGA/EITF35/Lab1/sequence_detector_tb.vhd" . 511)
  ("/Users/getz/Documents/Courses/EITF35/Ivar/VLSI-design-EITF35/src/lab1/"
   (dired-filename . "/Users/getz/Documents/Courses/EITF35/Ivar/VLSI-design-EITF35/src/lab1/par2ser.vhd"))
  ("/Users/getz/Documents/Courses/EITF35/Ivar/VLSI-design-EITF35/src/lab1/par2ser.vhd" . 1420)
  ("/Users/getz/Documents/Courses/EITF35/Ivar/VLSI-design-EITF35/src/lab1/sequence_detector_mealy.vhd" . 1296)
- ("/Users/getz/Virtual/Shared/FPGA/EITF35/Lab1/par2ser.vhd" . 1081)
- ("/Users/getz/Virtual/Shared/FPGA/EITF35/Lab1/sequence_detector_moore.vhd" . 1959)
- ("/Users/getz/Virtual/Shared/FPGA/EITF35/Lab1/sequence_detector_mealy.vhd" . 1576)
- ("/Users/getz/Virtual/Shared/FPGA/EITF35/Lab1/"
-  (dired-filename . "/Users/getz/Virtual/Shared/FPGA/EITF35/Lab1/sequence_detector_tb.vhd"))
  ("/Users/getz/Documents/Courses/EITF35/Ivar/VLSI-design-EITF35/src/lab1/sequence_detector_moore.vhd" . 1246)
  ("/Users/getz/Virtual/Shared/FPGA/EITF35/Lab1/stimulus_generator.vhd" . 1339)
  ("/Users/getz/Documents/Courses/EITF35/Ivar/VLSI-design-EITF35/test/tb_lab1.vhd" . 2153)
@@ -93,9 +124,6 @@
   (dired-filename . "/Users/getz/Virtual/Shared/FPGA/f4pga-examples/xc7/litex_sata_demo/Makefile"))
  ("/Users/getz/Virtual/Shared/FPGA/f4pga-examples/xc7/picosoc_demo/"
   (dired-filename . "/Users/getz/Virtual/Shared/FPGA/f4pga-examples/xc7/picosoc_demo/Makefile"))
- ("/Users/getz/.emacs.d/mixins/"
-  (dired-filename . "/Users/getz/.emacs.d/mixins/vim-like.el"))
- ("/Users/getz/.emacs.d/mixins/vim-like.el" . 642)
  ("/Users/getz/Documents/Courses/EITF35/Ivar/"
   (dired-filename . "/Users/getz/Documents/Courses/EITF35/Ivar/VLSI-design-EITF35"))
  ("/Users/getz/Documents/Courses/EITF35/Ivar/VLSI-design-EITF35/"
@@ -106,8 +134,6 @@
   (dired-filename . "/Users/getz/Pictures/.DS_Store"))
  ("/Users/getz/OrbStack/"
   (dired-filename . "/Users/getz/OrbStack/README.txt"))
- ("/Users/getz/Nextcloud/"
-  (dired-filename . "/Users/getz/Nextcloud/.DS_Store"))
  ("/Users/getz/Music/"
   (dired-filename . "/Users/getz/Music/.DS_Store"))
  ("/Users/getz/Movies/"
@@ -128,12 +154,6 @@
   (dired-filename . "/Users/getz/Documents/Courses/EITF35/Ivar/VLSI-design-EITF35/src/lab3/7SegDriver.vhd"))
  ("/Users/getz/Documents/Courses/EITF35/Ivar/VLSI-design-EITF35/src/lab2/"
   (dired-filename . "/Users/getz/Documents/Courses/EITF35/Ivar/VLSI-design-EITF35/src/lab2/binary_to_sg.vhd"))
- ("/Users/getz/Documents/Courses/EDAF80/Labs/lab1/code/src/EDAF80/assignment1.cpp" . 974)
- ("/Users/getz/.emacs.d/mixins/completion.el" . 416)
- ("/Users/getz/.emacs.d/mixins/themes.el" . 3694)
- ("/Users/getz/Documents/Courses/EDAF80/Labs/lab1/code/src/EDAF80/"
-  (dired-filename . "/Users/getz/Documents/Courses/EDAF80/Labs/lab1/code/src"))
- ("/Users/getz/Documents/Courses/EDAF80/Labs/lab1/code/src/EDAF80/CelestialBody.cpp" . 4043)
  ("/Users/getz/Documents/Courses/EDAF80/Labs/lab1/code/src/core/"
   (dired-filename . "/Users/getz/Documents/Courses/EDAF80/Labs/lab1/code/src/core/Bonobo.cpp"))
  ("/Users/getz/Documents/Courses/EDAF80/Labs/lab1/code/src/EDAF80/CelestialBody.hpp" . 3429)
@@ -172,8 +192,6 @@
   (dired-filename . "/Users/getz/Documents/Courses/EDAF80/code/src"))
  ("/Users/getz/Documents/Courses/EDAF80/code/src/"
   (dired-filename . "/Users/getz/Documents/Courses/EDAF80/code/src/EDAF80"))
- ("/Users/getz/.emacs.d.bak/"
-  (dired-filename . "/Users/getz/.emacs.d.bak/.DS_Store"))
  ("/Users/getz/.stack/"
   (dired-filename . "/Users/getz/.stack/config.yaml"))
  ("/Users/getz/.start_app_logs/"

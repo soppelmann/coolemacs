@@ -1,4 +1,8 @@
+/places
+/recentf
+/.DS_STORE
 /#*
+/custom.el
 /.lsp*
 /.cache/
 /eln-cache/

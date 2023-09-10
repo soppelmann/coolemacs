@@ -107,6 +107,8 @@
 ;; Highlight trailing whitespace
 ;(set-default 'show-trailing-whitespace t)
 
+;; Fix something with symlinks
+(setq find-file-visit-truename t)
 
 
 
@@ -134,12 +136,6 @@
   ;; but you can use any other Nerd Font if you want
   ;; (nerd-icons-font-family "Symbols Nerd Font Mono")
   )
-
-;(setq doom-modeline-icon t)
-;(setq doom-modeline-support-imenu t)
-(use-package doom-modeline
-  :ensure t
-  :hook (after-init . doom-modeline-mode))
 
 
 
@@ -183,10 +179,17 @@
                   (let ((buffer-file-name (buffer-name)))
                     (set-auto-mode)))))
 
+;(setq doom-modeline-icon t)
+;(setq doom-modeline-support-imenu t)
+(use-package doom-modeline
+  :ensure t
+  :hook (after-init . doom-modeline-mode))
+
 
 ;; Mode line information
-(setq line-number-mode t)                        ; Show current line in modeline
-(setq column-number-mode t)                      ; Show column as well
+(setq line-number-mode nil)                        ; Show current line in modeline
+(setq column-number-mode nil)                      ; Show column as well
+(setq mode-line-percent-position nil)              ; No percent
 
 (setq x-underline-at-descent-line nil)           ; Prettier underlines
 (setq switch-to-buffer-obey-display-actions t)   ; Make switching buffers more consistent
@@ -262,9 +265,21 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq custom-safe-themes t)
 
-(use-package emacs
-  :config
-  (load-theme 'modus-vivendi-deuteranopia))          ; for light theme, use modus-operandi
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;;   Custom functions
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+(defun clear-register ()
+  "Clear the contents of an interactively chosen register."
+  (interactive)
+  (let ((register (register-read-with-preview "Clear register: ")))
+    (when register
+      (set-register register nil)
+      (message "Cleared register %c." register))))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
@@ -293,6 +308,9 @@
 ;; Nice fonts for emacs
 (load-file (expand-file-name "mixins/fontaine.el" user-emacs-directory))
 
+;; Nice fonts for emacs
+(load-file (expand-file-name "mixins/themes.el" user-emacs-directory))
+
 ;; Set up language servers etc
 (load-file (expand-file-name "mixins/lsp.el" user-emacs-directory))
 
@@ -300,7 +318,7 @@
 ;; Org-mode configuration
 ;; WARNING: need to customize things inside the mixin file before use! See
 ;; the file mixins/org-intro.txt for help.
-;(load-file (expand-file-name "mixins/org.el" user-emacs-directory))
+(load-file (expand-file-name "mixins/org.el" user-emacs-directory))
 
 ;; Email configuration in Emacs
 ;; WARNING: needs the `mu' program installed; see the mixin file for more

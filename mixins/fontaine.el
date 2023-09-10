@@ -87,16 +87,3 @@
 ;; my `modus-themes' and `ef-themes' via the hooks they provide).
 (dolist (hook '(modus-themes-after-load-theme-hook ef-themes-post-load-hook))
   (add-hook hook #'fontaine-apply-current-preset))
-
-;; All configs that need to apply for
-;; each new emacsclient window
-;; need to be wrapped inside this hook!
-(add-hook
- 'after-make-frame-functions
- (lambda (frame)
-   (fontaine-set-preset 'large)
-   ;(set-frame-font "Go Mono 13" nil t)
-   (scroll-bar-mode 0)
-   ;(split-window-config)
-   ;'(restore-desktop)
-   ))

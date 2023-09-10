@@ -133,9 +133,39 @@
  :config
  (push 'toggle-window-split dired-sidebar-toggle-hidden-commands)
  (push 'rotate-windows dired-sidebar-toggle-hidden-commands)
+ (setq dired-sidebar-use-one-instance t)
  (setq dired-sidebar-subtree-line-prefix "__")
  (setq dired-sidebar-use-term-integration t)
  (setq dired-use-ls-dired nil))
+
+(use-package ibuffer-sidebar
+  :ensure t
+  :commands (ibuffer-sidebar-toggle-sidebar)
+  :config
+  (setq ibuffer-sidebar-use-custom-font t)
+  )
+
+
+(defvar +sidebar-toggle-flag t
+  "Flag to toggle whether to run `ibuffer-update'.")
+
+(defun +sidebar-toggle ()
+  "Toggle both `dired-sidebar' and `ibuffer-sidebar'."
+  (interactive)
+  (dired-sidebar-toggle-with-current-directory)
+  (ibuffer-sidebar-toggle-sidebar)
+  (when +sidebar-toggle-flag
+    (ibuffer-update nil t))
+  (setq +sidebar-toggle-flag (not +sidebar-toggle-flag))
+  (other-window 2)
+  )
+
+;(global-set-key (kbd "C-c d") 'dired-sidebar-toggle-with-current-directory)
+;(global-set-key (kbd "C-c d") 'dired-sidebar-toggle-sidebar)
+(global-set-key (kbd "C-c d") '+sidebar-toggle)
+
+
+
 
 ;; Omit files in dired
 (setq dired-omit-files
@@ -149,9 +179,6 @@
 ;; Toggle on hide by default
 ;(add-hook 'dired-mode-hook 'dired-omit-mode)
 
-
-(add-hook 'dired-sidebar-mode-hook 'evil-normal-state)
-(global-set-key (kbd "C-c d") 'dired-sidebar-toggle-sidebar)
 
 (setq winner-dont-bind-my-keys t)
 ;(setq winner-mode-map (make-sparse-keymap))

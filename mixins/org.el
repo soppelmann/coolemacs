@@ -41,10 +41,10 @@
 ;;; Phase 2 variables
 
 ;; Agenda variables
-(setq org-directory "~/Documents/org/") ; Non-absolute paths for agenda and
+(setq org-directory "~/Nextcloud/Notebooks/") ; Non-absolute paths for agenda and
                                         ; capture templates will look here.
 
-(setq org-agenda-files '("inbox.org" "work.org"))
+;(setq org-agenda-files '("inbox.org" "work.org"))
 
 ;; Default tags
 (setq org-tag-alist '(
@@ -72,16 +72,16 @@
 ;;; Phase 3 variables
 
 ;; Org-roam variables
-(setq org-roam-directory "~/Documents/org-roam/")
-(setq org-roam-index-file "~/Documents/org-roam/index.org")
+;(setq org-roam-directory "~/Documents/org-roam/")
+;(setq org-roam-index-file "~/Documents/org-roam/index.org")
 
 ;;; Optional variables
 
 ;; Advanced: Custom link types
 ;; This example is for linking a person's 7-character ID to their page on the
 ;; free genealogy website Family Search.
-(setq org-link-abbrev-alist
-      '(("family_search" . "https://www.familysearch.org/tree/person/details/%s")))
+;(setq org-link-abbrev-alist
+;      '(("family_search" . "https://www.familysearch.org/tree/person/details/%s")))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
@@ -91,7 +91,8 @@
 
 (use-package org
   :hook ((org-mode . visual-line-mode)  ; wrap lines at word breaks
-         (org-mode . flyspell-mode))    ; spell checking!
+         (org-mode . flyspell-mode)    ; spell checking!
+         (org-mode . org-modern-mode))    ; spell checking!
 
   :bind (:map global-map
               ("C-c l s" . org-store-link)          ; Mnemonic: link → store
@@ -105,6 +106,9 @@
 
   ;; Make exporting quotes better
   (setq org-export-with-smart-quotes t)
+
+  ;; Support shift select
+  (setq org-support-shift-select t)
   )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -153,17 +157,17 @@
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(use-package org-roam
-  :ensure t
-  :config
-  (org-roam-db-autosync-mode)
-  ;; Dedicated side window for backlinks
-  (add-to-list 'display-buffer-alist
-               '("\\*org-roam\\*"
-                 (display-buffer-in-side-window)
-                 (side . right)
-                 (window-width . 0.4)
-                 (window-height . fit-window-to-buffer))))
+;(use-package org-roam
+;  :ensure t
+;  :config
+;  (org-roam-db-autosync-mode)
+;  ;; Dedicated side window for backlinks
+;  (add-to-list 'display-buffer-alist
+;               '("\\*org-roam\\*"
+;                 (display-buffer-in-side-window)
+;                 (side . right)
+;                 (window-width . 0.4)
+;                 (window-height . fit-window-to-buffer))))
 
 ;; Pretty web interface for org-roam
 ;(use-package org-roam-ui
@@ -174,3 +178,53 @@
 ;        org-roam-ui-follow t
 ;        org-roam-ui-update-on-save t
 ;        org-roam-ui-open-on-start t))
+
+(use-package org-modern
+  :ensure t)
+
+;;;; Minimal UI
+;;;(package-initialize)
+;;(menu-bar-mode -1)
+;;(tool-bar-mode -1)
+;;(scroll-bar-mode -1)
+;;
+;;;; Choose some fonts
+;;;; (set-face-attribute 'default nil :family "Iosevka")
+;;;; (set-face-attribute 'variable-pitch nil :family "Iosevka Aile")
+;;;; (set-face-attribute 'org-modern-symbol nil :family "Iosevka")
+;;
+;;;; Add frame borders and window dividers
+;;(modify-all-frames-parameters
+;; '((right-divider-width . 40)
+;;   (internal-border-width . 40)))
+;;(dolist (face '(window-divider
+;;                window-divider-first-pixel
+;;                window-divider-last-pixel))
+;;  (face-spec-reset-face face)
+;;  (set-face-foreground face (face-attribute 'default :background)))
+;;(set-face-background 'fringe (face-attribute 'default :background))
+
+(setq
+ ;; Edit settings
+ org-auto-align-tags nil
+ org-tags-column 0
+ org-catch-invisible-edits 'show-and-error
+ org-special-ctrl-a/e t
+ org-insert-heading-respect-content t
+
+ ;; Org styling, hide markup etc.
+ org-hide-emphasis-markers t
+ org-pretty-entities t
+ org-ellipsis "…"
+
+ ;; Agenda styling
+ org-agenda-tags-column 0
+ org-agenda-block-separator ?─
+ org-agenda-time-grid
+ '((daily today require-timed)
+   (800 1000 1200 1400 1600 1800 2000)
+   " ┄┄┄┄┄ " "┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄")
+ org-agenda-current-time-string
+ "⭠ now ─────────────────────────────────────────────────")
+
+;(global-org-modern-mode)

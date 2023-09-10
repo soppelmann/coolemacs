@@ -1,6 +1,12 @@
+(use-package modus-themes
+  :ensure t)
+
+(use-package ef-themes
+  :ensure t)
+
 (setq
  modus-themes-custom-auto-reload nil
- modus-themes-to-toggle '(modus-operandi-tinted modus-vivendi-tinted)
+; modus-themes-to-toggle '(modus-operandi-tinted modus-vivendi-tinted)
  modus-themes-mixed-fonts t
  modus-themes-variable-pitch-ui nil
  modus-themes-italic-constructs t
@@ -92,3 +98,19 @@
 ;; you are using the default mode line and not an extra package).
 (custom-set-faces
  '(mode-line ((t :box (:style released-button)))))
+
+;; All configs that need to apply for
+;; each new emacsclient window
+;; need to be wrapped inside this hook!
+(add-hook
+ 'after-make-frame-functions
+ (lambda (frame)
+   ;(fontaine-set-preset 'large)
+   (scroll-bar-mode 0)
+   (ef-themes-select 'ef-maris-dark)
+;   (load-theme 'ef-maris-dark)
+   ;'(restore-desktop)
+   ))
+
+;(load-theme 'modus-vivendi-tinted)
+(ef-themes-select 'ef-maris-dark)

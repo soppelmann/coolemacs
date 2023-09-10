@@ -1,15 +1,23 @@
 ;; Popup completion-at-point
 (use-package corfu
   :ensure t
+  :custom
+  (corfu-preview-current t)
+  (corfu-cycle t)
   :init
   (global-corfu-mode)
-  :bind
-  (:map corfu-map
- ;;       ("<tab>" . tab-indent-or-complete)
- ;;       ("TAB" . tab-indent-or-complete)
-        ("SPC" . corfu-insert-separator)
-        ("C-n" . corfu-next)
-        ("C-p" . corfu-previous)))
+
+  ;; Optionally use TAB for cycling, default is `corfu-complete'.
+  :bind (:map corfu-map
+              ("M-SPC"      . corfu-insert-separator)
+              ("SPC"        . corfu-insert-separator)
+              ("M-TAB"      . corfu-next)
+              ("TAB"        . corfu-next)
+              ([tab]        . corfu-next)
+              ("S-TAB"      . corfu-previous)
+              ([backtab]    . corfu-previous)
+              ("S-<return>" . corfu-insert)
+              ("RET"        . corfu-insert)))
 
 ;; Part of corfu
 (use-package corfu-popupinfo
@@ -21,8 +29,6 @@
   (corfu-auto-delay 2.1)
   (corfu-auto-prefix 0)
   (corfu-min-width 60)
-
-  ;:custom
   ;(corfu-popupinfo-delay '(0.25 . 0.1))
   ;(corfu-popupinfo-hide nil)
   :config
@@ -43,33 +49,27 @@
   :config
   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
-;; Enable Corfu completion UI
-;; See the Corfu README for more configuration tips.
-(use-package corfu
-  :init
-  (global-corfu-mode))
-
 ;; Add extensions
 (use-package cape
   :ensure t
   ;; Bind dedicated completion commands
   ;; Alternative prefix keys: C-c p, M-p, M-+, ...
-  :bind (("C-c p p" . completion-at-point) ;; capf
-         ("C-c p t" . complete-tag)        ;; etags
-         ("C-c p d" . cape-dabbrev)        ;; or dabbrev-completion
-         ("C-c p h" . cape-history)
-         ("C-c p f" . cape-file)
-         ("C-c p k" . cape-keyword)
-         ("C-c p s" . cape-elisp-symbol)
-         ("C-c p e" . cape-elisp-block)
-         ("C-c p a" . cape-abbrev)
-         ("C-c p l" . cape-line)
-         ("C-c p w" . cape-dict)
-         ("C-c p \\" . cape-tex)
-         ("C-c p _" . cape-tex)
-         ("C-c p ^" . cape-tex)
-         ("C-c p &" . cape-sgml)
-         ("C-c p r" . cape-rfc1345))
+;;  :bind (("C-c p p" . completion-at-point) ;; capf
+;;         ("C-c p t" . complete-tag)        ;; etags
+;;         ("C-c p d" . cape-dabbrev)        ;; or dabbrev-completion
+;;         ("C-c p h" . cape-history)
+;;         ("C-c p f" . cape-file)
+;;         ("C-c p k" . cape-keyword)
+;;         ("C-c p s" . cape-elisp-symbol)
+;;         ("C-c p e" . cape-elisp-block)
+;;         ("C-c p a" . cape-abbrev)
+;;         ("C-c p l" . cape-line)
+;;         ("C-c p w" . cape-dict)
+;;         ("C-c p \\" . cape-tex)
+;;         ("C-c p _" . cape-tex)
+;;         ("C-c p ^" . cape-tex)
+;;         ("C-c p &" . cape-sgml)
+;;         ("C-c p r" . cape-rfc1345))
   :init
   ;; Add to the global default value of `completion-at-point-functions' which is
   ;; used by `completion-at-point'.  The order of the functions matters, the
