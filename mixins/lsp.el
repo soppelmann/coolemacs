@@ -82,3 +82,19 @@
 ;  :ensure t
 ;  :mode (("\\.vhdl?\\'" . vhdl-ts-mode))
 ;                                        )
+
+
+;; LSP RUST
+(use-package rust-mode :ensure t)
+(add-hook 'rust-mode-hook 'eglot-ensure)
+(add-hook 'rust-mode-hook (lambda () (setq indent-tabs-mode nil)))
+
+(setq lsp-rust-analyzer-server-display-inlay-hints t)
+
+;; (unless (package-installed-p 'eglot)
+;;   (package-install 'eglot))
+;; (setq eldoc-echo-area-use-multiline-p nil)
+;;
+;; (setq lsp-eldoc-enable-hover nil)
+;; (setq eldoc-echo-area-prefer-doc-buffer t)
+;; (setq lsp-signature-auto-activate nil)

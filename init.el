@@ -306,7 +306,9 @@
 (load-file (expand-file-name "mixins/dashboard.el" user-emacs-directory))
 
 ;; Nice fonts for emacs
+(when (or (daemonp) (display-graphic-p))
 (load-file (expand-file-name "mixins/fontaine.el" user-emacs-directory))
+)
 
 ;; Nice fonts for emacs
 (load-file (expand-file-name "mixins/themes.el" user-emacs-directory))
