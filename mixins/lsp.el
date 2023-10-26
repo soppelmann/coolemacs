@@ -2,8 +2,8 @@
   ;(company-mode)
   (yas-minor-mode 1)
   (eglot-ensure)
-  ;(add-to-list 'eglot-server-programs '(verilog-mode . ("svls"))))
-  (add-to-list 'eglot-server-programs '(verilog-mode . ("vls"))))
+  (add-to-list 'eglot-server-programs '(verilog-mode . ("svls"))))
+  ;(add-to-list 'eglot-server-programs '(verilog-mode . ("vls"))))
 (add-hook 'verilog-mode-hook 'verilog-eglot-hook)
 
 (use-package verilog-ext
@@ -20,7 +20,7 @@
           capf
           hierarchy
           eglot
-          ;lsp
+          ;;lsp
           flycheck
           beautify
           navigation
@@ -38,9 +38,10 @@
   :config
   (verilog-ext-mode-setup))
 
-(use-package verilog-ts-mode
-  :ensure t
-  :mode (("\\.s?vh?\\'" . verilog-ts-mode)))
+;;(use-package verilog-ts-mode
+  ;;:ensure t
+  ;; :mode (("\\.s?vh?\\'" . verilog-ts-mode))
+;;  )
 
 (defun vhdl-eglot-hook ()
   (eglot-ensure)
@@ -93,8 +94,8 @@
 
 ;; (unless (package-installed-p 'eglot)
 ;;   (package-install 'eglot))
-;; (setq eldoc-echo-area-use-multiline-p nil)
+ (setq eldoc-echo-area-use-multiline-p nil)
 ;;
 ;; (setq lsp-eldoc-enable-hover nil)
-;; (setq eldoc-echo-area-prefer-doc-buffer t)
+(setq eldoc-echo-area-prefer-doc-buffer t)
 ;; (setq lsp-signature-auto-activate nil)

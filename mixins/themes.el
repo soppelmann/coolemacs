@@ -106,11 +106,17 @@
  'after-make-frame-functions
  (lambda (frame)
    ;(fontaine-set-preset 'large)
+(read-only-mode)
+
    (scroll-bar-mode 0)
-   (ef-themes-select 'ef-maris-dark)
+   ;;(ef-themes-select 'ef-maris-dark)
+   ;;(modus-themes-select 'modus-operandi)
+   (modus-themes-select 'modus-vivendi-tinted)
 ;   (load-theme 'ef-maris-dark)
    ;'(restore-desktop)
    ))
 
 ;(load-theme 'modus-vivendi-tinted)
-(ef-themes-select 'ef-maris-dark)
+;;(ef-themes-select 'ef-maris-dark)
+;;(modus-themes-select 'modus-operandi)
+(modus-themes-select 'modus-vivendi-tinted)

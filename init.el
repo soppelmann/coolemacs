@@ -26,7 +26,8 @@
 ;;
 ;;    https://melpa.org/#/getting-started
 ;;
-(setq package-check-signature nil)
+;;(setq package-check-signature nil)
+
 (with-eval-after-load 'package
   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t))
 

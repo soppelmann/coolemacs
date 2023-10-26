@@ -114,7 +114,7 @@
 (use-package dimmer
  :ensure t
  :config
- (setq dimmer-fraction 0.3)
+ (setq dimmer-fraction 0.22)
  (setq dimmer-adjustment-mode :foreground)
  (setq dimmer-use-colorspace :rgb)
  (dimmer-configure-which-key)

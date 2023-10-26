@@ -69,7 +69,6 @@
 (add-hook 'prog-mode-hook 'diff-hl-mode)
 
 
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;;   Common file types
@@ -119,5 +118,40 @@
   ; (add-to-list 'eglot-server-programs
   ;              '(haskell-mode . ("haskell-language-server-wrapper" "--lsp")))
   )
+
+
 ;; Enable LSP support by default in programming buffers
 (add-hook 'prog-mode-hook #'eglot-ensure)
+
+
+
+(use-package cmake-mode
+  :ensure t)
+
+(use-package cmake-project
+  :ensure t)
+
+(autoload 'cmake-project-mode "cmake-project" nil t)
+
+(defun maybe-cmake-project-mode ()
+  (if (or (file-exists-p "CMakeLists.txt")
+          (file-exists-p (expand-file-name "CMakeLists.txt" (car (project-roots (project-current))))))
+      (cmake-project-mode)))
+
+(add-hook 'c-mode-hook 'maybe-cmake-project-mode)
+(add-hook 'c++-mode-hook 'maybe-cmake-project-mode)
+
+(setq spice-simulator "Ngspice"
+      spice-waveform-viewer "ngplot")
+(load "~/.emacs.d/spice-mode.el")
+
+;; ngspice -b file.ng
+
+(use-package spice-mode
+  :ensure t
+  :config
+  (setq spice-simulator "Ngspice"
+      spice-waveform-viewer "ngplot"))
+
+;; :mode "\\.\\(js\\|jsx\\)\\'"
+(add-to-list 'auto-mode-alist '("\\.ng\\'" . spice-mode))

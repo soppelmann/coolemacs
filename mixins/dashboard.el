@@ -17,8 +17,11 @@
         (registers . "e")
         (commands . "c")))
 
+(if (< (length command-line-args) 2)
+  (setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*"))))
+;(setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
+(setq inhibit-startup-screen t)
 
-(setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
 (setq dashboard-center-content t)
 ;(split-window-config)
 (defun dashboard-insert-custom (list-size)
