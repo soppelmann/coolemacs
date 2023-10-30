@@ -20,7 +20,7 @@
   :init
   (setq evil-respect-visual-line-mode t)
   (setq evil-undo-system 'undo-redo)
-  ;(setq evil-want-keybinding nil)       ; prep to load evil-collection
+  (setq evil-want-keybinding nil)       ; prep to load evil-collection
   :config
   ;(evil-mode)
 
@@ -35,7 +35,7 @@
 (global-set-key (kbd "C-e") 'evil-local-mode)
 
 
-;(add-hook 'prog-mode-hook 'evil-local-mode)
+(add-hook 'prog-mode-hook 'evil-local-mode)
 
 (setq evil-insert-state-message nil)
 

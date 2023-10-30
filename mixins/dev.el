@@ -124,6 +124,41 @@
 (add-hook 'prog-mode-hook #'eglot-ensure)
 
 
+(use-package zig-mode
+  :ensure t)
+
+
+;; Posframe stuff, trying it out
+
+(use-package posframe
+  :ensure t)
+
+(use-package ivy-posframe
+  :ensure t
+  :config
+  (ivy-posframe-mode))
+
+(use-package which-key-posframe
+  :ensure t
+  :config
+  (which-key-posframe-mode))
+
+;;(use-package dired-posframe
+;;  :ensure t
+;;  :config
+;;  (dired-posframe-mode))
+
+;;(use-package vertico-posframe
+;;  :ensure t
+;;  :config
+;;  (vertico-posframe-mode))
+
+(use-package transient-posframe
+  :ensure t
+  :config
+  (transient-posframe-mode))
+
+(load "~/.emacs.d/consult-tramp.el")
 
 (use-package cmake-mode
   :ensure t)
