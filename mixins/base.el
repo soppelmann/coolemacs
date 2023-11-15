@@ -138,12 +138,12 @@
  (setq dired-sidebar-use-term-integration t)
  (setq dired-use-ls-dired nil))
 
-(use-package ibuffer-sidebar
-  :ensure t
-  :commands (ibuffer-sidebar-toggle-sidebar)
-  :config
-  (setq ibuffer-sidebar-use-custom-font t)
-  )
+;(use-package ibuffer-sidebar
+;  :ensure t
+;  :commands (ibuffer-sidebar-toggle-sidebar)
+;  :config
+;  (setq ibuffer-sidebar-use-custom-font t)
+;  )
 
 
 (defvar +sidebar-toggle-flag t
@@ -160,11 +160,9 @@
   (other-window 2)
   )
 
-;(global-set-key (kbd "C-c d") 'dired-sidebar-toggle-with-current-directory)
+(global-set-key (kbd "C-c d") 'dired-sidebar-toggle-with-current-directory)
 ;(global-set-key (kbd "C-c d") 'dired-sidebar-toggle-sidebar)
-(global-set-key (kbd "C-c d") '+sidebar-toggle)
-
-
+;(global-set-key (kbd "C-c d") '+sidebar-toggle)
 
 
 ;; Omit files in dired

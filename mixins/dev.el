@@ -75,8 +75,9 @@
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(use-package markdown-mode
-  :hook ((markdown-mode . visual-line-mode)))
+;;(use-package markdown-mode
+;;  :ensure t)
+;;  :hook ((markdown-mode . visual-line-mode)))
 
 (use-package yaml-mode
   :ensure t)
@@ -109,12 +110,32 @@
   ; :hook
   ; (((python-mode ruby-mode elixir-mode) . eglot))
 
+  :hook (
+         ;;(rust-mode . eglot-ensure)
+         (eglot-managed-mode . flycheck-mode))
+
   :custom
   (eglot-send-changes-idle-time 0.1)
 
   :config
   (fset #'jsonrpc--log-event #'ignore)  ; massive perf boost---don't log every event
   ;; Sometimes you need to tell Eglot where to find the language server
+  ;;(add-hook 'eglot-managed-mode-hook #'eldoc-box-hover-at-point-mode t)
+
+  ;; (add-hook 'eldoc-mode-hook
+  ;;        'eldoc-box-hover-at-point-mode)
+
+  ;;(add-hook 'eldoc-mode-hook
+  ;;          'eldoc-box-hover-mode)
+
+  (global-set-key (kbd "C-h ,") #'eldoc-box-help-at-point)
+
+  (add-to-list 'eglot-stay-out-of 'flymake)
+
+  (add-to-list 'eglot-server-programs '(nix-mode . ("rnix-lsp")))
+
+  (add-to-list 'eglot-server-programs '(php-mode "intelephense" "--stdio"))
+
   ; (add-to-list 'eglot-server-programs
   ;              '(haskell-mode . ("haskell-language-server-wrapper" "--lsp")))
   )
@@ -122,11 +143,32 @@
 
 ;; Enable LSP support by default in programming buffers
 (add-hook 'prog-mode-hook #'eglot-ensure)
+(add-to-list 'auto-mode-alist '("\\.upphtml\\'" . shell-script-mode))
+(add-to-list 'auto-mode-alist '("\\.uppcss\\'" . shell-script-mode))
 
+(use-package eldoc-box
+  :ensure t
+  )
+
+
+;;(use-package flymake-clippy
+;;  :hook (rust-mode . flymake-clippy-setup-backend))
+;;
+;;(defun manually-activate-flymake ()
+;;  (add-hook 'flymake-diagnostic-functions #'eglot-flymake-backend nil t)
+;;  (flymake-mode 1))
+
+
+(use-package php-mode
+  :ensure t
+  :mode "\\.php\\'")
+
+(use-package nix-mode
+  :ensure t
+  :mode "\\.nix\\'")
 
 (use-package zig-mode
   :ensure t)
-
 
 ;; Posframe stuff, trying it out
 

@@ -66,12 +66,13 @@
 (setq sentence-end-double-space nil)
 
 ;; Make right-click do something sensible
-(when (display-graphic-p)
-  (context-menu-mode))
+;;(when (display-graphic-p)
+;;  (context-menu-mode))
+  (context-menu-mode)
 
 ;; DELETE MOUSE 3
-;(global-unset-key (kbd "<mouse-3>"))
-;(global-unset-key (kbd "<down-mouse-3>"))
+(global-unset-key (kbd "<mouse-3>"))
+(global-unset-key (kbd "<down-mouse-3>"))
 
 
 ;; function to reload config
