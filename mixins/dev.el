@@ -103,6 +103,9 @@
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(add-hook 'c-mode-hook (lambda () (setq flycheck-clang-language-standard "c89")))
+(add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-language-standard "c++11")))
+
 (use-package eglot
   ;; no :ensure t here because it's built-in
 
