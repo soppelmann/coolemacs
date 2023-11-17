@@ -217,10 +217,6 @@
 (setq-default tab-width 2)
 (setq-default c-basic-indent 2)
 
-(fringe-mode '(1 . 1))
-;(fringe-mode '(4 . 0))
-
-
 ;; Misc. UI tweaks
 (blink-cursor-mode -1)                                ; Steady cursor
 (pixel-scroll-precision-mode)                         ; Smooth scrolling

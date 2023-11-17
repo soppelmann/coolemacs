@@ -65,9 +65,38 @@
 
 
 
-(use-package diff-hl :ensure t)
-(add-hook 'prog-mode-hook 'diff-hl-mode)
+;(use-package diff-hl :ensure t)
+;(add-hook 'prog-mode-hook 'diff-hl-mode)
+(setf (cdr (assq 'continuation fringe-indicator-alist))
+      '(nil nil) ;; no continuation indicators
+      ;; '(nil right-curly-arrow) ;; right indicator only
+      ;; '(left-curly-arrow nil) ;; left indicator only
+      ;; '(left-curly-arrow right-curly-arrow) ;; default
+      )
+;; https://ianyepan.github.io/posts/emacs-git-gutter/
 
+;(fringe-mode '(1 . 1))
+(fringe-mode '(3 . 0))
+
+(use-package git-gutter
+  :ensure t
+  :hook (prog-mode . git-gutter-mode)
+  :config
+  (setq git-gutter:update-interval 0.02)
+  )
+
+(use-package git-gutter-fringe
+  :ensure t
+  :config
+  (define-fringe-bitmap 'git-gutter-fr:added [0] nil nil '(center repeated))
+  (define-fringe-bitmap 'git-gutter-fr:modified [0] nil nil '(center repeated))
+  (define-fringe-bitmap 'git-gutter-fr:deleted [0] nil nil 'bottom)
+  )
+
+(custom-set-variables
+ '(git-gutter:modified-sign "  ") ;; two space
+ '(git-gutter:added-sign "++")    ;; multiple character is OK
+ '(git-gutter:deleted-sign "--"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
