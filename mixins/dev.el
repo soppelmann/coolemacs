@@ -98,6 +98,9 @@
  '(git-gutter:added-sign "++")    ;; multiple character is OK
  '(git-gutter:deleted-sign "--"))
 
+;; Get rid of flycheck in the gutter and margins
+(setq flycheck-indication-mode nil)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;;   Common file types
