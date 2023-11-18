@@ -215,10 +215,10 @@
   :config
   (ivy-posframe-mode))
 
-(use-package which-key-posframe
-  :ensure t
-  :config
-  (which-key-posframe-mode))
+;;(use-package which-key-posframe
+;;  :ensure t
+;;  :config
+;;  (which-key-posframe-mode))
 
 ;;(use-package dired-posframe
 ;;  :ensure t

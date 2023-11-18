@@ -1,11 +1,14 @@
 ;; Popup completion-at-point
 (use-package corfu
   :ensure t
+  :hook (lsp-completion-mode . kb/corfu-setup-lsp) ; Use corfu for lsp completion
   :custom
   (corfu-preview-current t)
   (corfu-cycle t)
   :init
   (global-corfu-mode)
+;  (corfu-prescient-mode)
+  (corfu-history-mode)
 
   ;; Optionally use TAB for cycling, default is `corfu-complete'.
   :bind (:map corfu-map
@@ -17,7 +20,16 @@
               ("S-TAB"      . corfu-previous)
               ([backtab]    . corfu-previous)
               ("S-<return>" . corfu-insert)
-              ("RET"        . corfu-insert)))
+              ("RET"        . corfu-insert))
+  :config
+  ;; Setup lsp to use corfu for lsp completion
+  (defun kb/corfu-setup-lsp ()
+    "Use orderless completion style with lsp-capf instead of the
+default lsp-passthrough."
+    (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
+          '(orderless)))
+
+  )
 
 ;; Part of corfu
 (use-package corfu-popupinfo
@@ -25,10 +37,12 @@
   :hook (corfu-mode . corfu-popupinfo-mode)
 
   :custom
-  (corfu-auto t)
+  (corfu-auto nil)
   (corfu-auto-delay 2.1)
   (corfu-auto-prefix 0)
-  (corfu-min-width 60)
+  (corfu-min-width 80)
+  (corfu-max-width corfu-min-width)
+  (corfu-preselect-first nil)        ; Preselect first candidate?
   ;(corfu-popupinfo-delay '(0.25 . 0.1))
   ;(corfu-popupinfo-hide nil)
   :config
@@ -54,8 +68,13 @@
   :ensure t
   ;; Bind dedicated completion commands
   ;; Alternative prefix keys: C-c p, M-p, M-+, ...
-;;  :bind (("C-c p p" . completion-at-point) ;; capf
+  :config
+  (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
+
+  :bind (
+         ;;("C-c p p" . completion-at-point) ;; capf
 ;;         ("C-c p t" . complete-tag)        ;; etags
+;;("M-TAB" . completion-at-point)
 ;;         ("C-c p d" . cape-dabbrev)        ;; or dabbrev-completion
 ;;         ("C-c p h" . cape-history)
 ;;         ("C-c p f" . cape-file)
@@ -69,13 +88,14 @@
 ;;         ("C-c p _" . cape-tex)
 ;;         ("C-c p ^" . cape-tex)
 ;;         ("C-c p &" . cape-sgml)
-;;         ("C-c p r" . cape-rfc1345))
+;;         ("C-c p r" . cape-rfc1345)
+)
   :init
   ;; Add to the global default value of `completion-at-point-functions' which is
   ;; used by `completion-at-point'.  The order of the functions matters, the
   ;; first function returning a result wins.  Note that the list of buffer-local
   ;; completion functions takes precedence over the global list.
-  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+  ;;(add-to-list 'completion-at-point-functions #'cape-dabbrev)
   (add-to-list 'completion-at-point-functions #'cape-file)
   (add-to-list 'completion-at-point-functions #'cape-elisp-block)
   ;;(add-to-list 'completion-at-point-functions #'cape-history)
@@ -111,3 +131,32 @@
 ;;            ;(company-complete-common)
 ;;            (completion-at-point)
 ;;          (indent-for-tab-command)))))
+
+(use-package yasnippet
+  :ensure t
+  :hook
+  (prog-mode . yas-minor-mode)
+  :config
+  (yas-reload-all))
+
+(use-package yasnippet-snippets
+  :ensure t
+  )
+(use-package yasnippet-classic-snippets
+  :ensure t
+  )
+(use-package consult-yasnippet
+  :ensure t
+  )
+
+(defun my/eglot-capf ()
+  (setq-local completion-at-point-functions
+              (list (cape-super-capf
+                     #'eglot-completion-at-point
+                     (cape-company-to-capf #'company-yasnippet)))))
+
+(add-hook 'eglot-managed-mode-hook #'my/eglot-capf)
+
+;(use-package corfu-prescient
+;  :ensure t
+;  )
