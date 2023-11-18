@@ -82,6 +82,12 @@
   :bind (:map vertico-map
               ("M-DEL" . vertico-directory-delete-word)))
 
+;; Persist history over Emacs restarts. Vertico sorts by history position.
+(use-package savehist
+  :ensure t
+  :init
+  (savehist-mode))
+
 ;; Marginalia: annotations for minibuffer
 (use-package marginalia
   :ensure t

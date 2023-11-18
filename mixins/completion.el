@@ -7,7 +7,7 @@
   (corfu-cycle t)
   :init
   (global-corfu-mode)
-;  (corfu-prescient-mode)
+  (corfu-prescient-mode 1)
   (corfu-history-mode)
 
   ;; Optionally use TAB for cycling, default is `corfu-complete'.
@@ -30,6 +30,25 @@ default lsp-passthrough."
           '(orderless)))
 
   )
+
+;; Option 1: Specify explicitly to use Orderless for Eglot
+(setq completion-category-overrides '((eglot (styles orderless))))
+
+;; Option 2: Undo the Eglot modification of completion-category-defaults
+;(with-eval-after-load 'eglot
+;   (setq completion-category-defaults nil))
+
+;; Optionally use the `orderless' completion style.
+(use-package orderless
+  :ensure t
+  :init
+  ;; Configure a custom style dispatcher (see the Consult wiki)
+  ;; (setq orderless-style-dispatchers '(+orderless-consult-dispatch orderless-affix-dispatch)
+  ;;       orderless-component-separator #'orderless-escapable-split-on-space)
+  (setq completion-styles '(orderless basic)
+        completion-category-defaults nil
+        completion-category-overrides '((file (styles partial-completion)))))
+
 
 ;; Part of corfu
 (use-package corfu-popupinfo
@@ -132,6 +151,14 @@ default lsp-passthrough."
 ;;            (completion-at-point)
 ;;          (indent-for-tab-command)))))
 
+(defun local/clang-capf-init ()
+  "Add `clang-capf' to `completion-at-point-functions'."
+  (add-hook 'completion-at-point-functions #'clang-capf nil t))
+
+(add-hook 'c-mode-hook #'local/clang-capf-init)
+
+(add-hook 'eshell-mode-hook #'capf-autosuggest-mode)
+
 (use-package yasnippet
   :ensure t
   :hook
@@ -157,6 +184,6 @@ default lsp-passthrough."
 
 (add-hook 'eglot-managed-mode-hook #'my/eglot-capf)
 
-;(use-package corfu-prescient
-;  :ensure t
-;  )
+(use-package corfu-prescient
+  :ensure t
+  )
