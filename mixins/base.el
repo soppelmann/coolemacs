@@ -156,8 +156,8 @@
 ;; always execute dired-k when dired buffer is opened
 (add-hook 'dired-initial-position-hook 'dired-k)
 
+;; Dont open hundreds of dired buffers
 (add-hook 'dired-after-readin-hook #'dired-k-no-revert)
-
 (setf dired-kill-when-opening-new-dired-buffer t)
 
 (use-package dired-k
