@@ -144,6 +144,41 @@
  (setq dired-sidebar-use-term-integration t)
  (setq dired-use-ls-dired nil))
 
+
+(defun local/dired-mode-hook ()
+  (local-set-key (kbd "<tab>") nil) ; Unbind Tab first
+  (local-set-key (kbd "<tab>") 'dired-subtree-toggle))
+
+(add-hook 'dired-mode-hook 'local/dired-mode-hook)
+
+(global-set-key (kbd "C-x C-d") 'dired)
+
+;; always execute dired-k when dired buffer is opened
+(add-hook 'dired-initial-position-hook 'dired-k)
+
+(add-hook 'dired-after-readin-hook #'dired-k-no-revert)
+
+(setf dired-kill-when-opening-new-dired-buffer t)
+
+(use-package dired-k
+  :ensure t)
+
+(use-package dired-subtree
+  :ensure t)
+
+(use-package dired-hacks-utils
+  :ensure t)
+
+;;(use-package direx
+;;  :ensure t)
+;;
+;;(use-package popwin
+;;  :ensure t)
+;;
+;;(push '(direx:direx-mode :position left :width 25 :dedicated t)
+;;      popwin:special-display-config)
+;;(global-set-key (kbd "C-x C-j") 'direx:jump-to-directory-other-window)
+
 ;(use-package ibuffer-sidebar
 ;  :ensure t
 ;  :commands (ibuffer-sidebar-toggle-sidebar)
