@@ -25,7 +25,9 @@
   ;(evil-mode)
 
   ;; Configuring initial major mode for some modes
-  (evil-set-initial-state 'vterm-mode 'emacs))
+  (evil-set-initial-state 'vterm-mode 'emacs)
+
+  )
 
 (global-set-key [remap evil-quit] 'kill-buffer-and-window)
 (evil-set-undo-system 'undo-redo)
@@ -33,6 +35,36 @@
 
 (define-key evil-normal-state-map (kbd "C-e") 'evil-local-mode)
 (global-set-key (kbd "C-e") 'evil-local-mode)
+
+;;enter visual mode by holding shift in normal mode in evil?
+
+;;(define-key evil-insert-state-map (kbd "S-<left>")
+;;  (lambda ()
+;;    (interactive)
+;;    (evil-visual-char)
+;;    (backward-char)))
+;;(define-key evil-insert-state-map (kbd "S-<right>")
+;;  (lambda ()
+;;    (interactive)
+;;    (evil-visual-char)
+;;    (forward-char)))
+;;
+;;
+;;(define-key evil-normal-state-map (kbd "S-<left>")
+;;  (lambda ()
+;;    (interactive)
+;;    (evil-visual-char)
+;;    (backward-char)))
+;;(define-key evil-normal-state-map (kbd "S-<right>")
+;;  (lambda ()
+;;    (interactive)
+;;    (evil-visual-char)
+;;    (forward-char)))
+;;
+;;(define-key evil-visual-state-map (kbd "S-<left>")
+;;  #'backward-char)
+;;(define-key evil-visual-state-map (kbd "S-<right>")
+;;  #'forward-char)
 
 
 (add-hook 'prog-mode-hook 'evil-local-mode)

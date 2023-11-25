@@ -46,10 +46,19 @@
           (json-mode . json-ts-mode)
           (css-mode . css-ts-mode)
           (python-mode . python-ts-mode)))
-  ;:hook
-  ;; Auto parenthesis matching
-  ;((prog-mode . electric-pair-mode))
+;;  :hook
+;;  ;; Auto parenthesis matching
+;;  (
+;;   ;(prog-mode . electric-pair-mode)
+;;   )
   )
+
+(use-package fancy-narrow
+  :ensure t
+  :hook ((prog-mode . fancy-narrow-mode))
+)
+;;(add-hook 'prog-mode-hook 'fancy-narrow-mode)
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
@@ -78,25 +87,25 @@
 ;(fringe-mode '(1 . 1))
 (fringe-mode '(3 . 0))
 
-(use-package git-gutter
-  :ensure t
-  :hook (prog-mode . git-gutter-mode)
-  :config
-  (setq git-gutter:update-interval 0.02)
-  )
-
-(use-package git-gutter-fringe
-  :ensure t
-  :config
-  (define-fringe-bitmap 'git-gutter-fr:added [0] nil nil '(center repeated))
-  (define-fringe-bitmap 'git-gutter-fr:modified [0] nil nil '(center repeated))
-  (define-fringe-bitmap 'git-gutter-fr:deleted [0] nil nil 'bottom)
-  )
-
-(custom-set-variables
- '(git-gutter:modified-sign "  ") ;; two space
- '(git-gutter:added-sign "++")    ;; multiple character is OK
- '(git-gutter:deleted-sign "--"))
+;;(use-package git-gutter
+;;  :ensure t
+;;  :hook (prog-mode . git-gutter-mode)
+;;  :config
+;;  (setq git-gutter:update-interval 0.02)
+;;  )
+;;
+;;(use-package git-gutter-fringe
+;;  :ensure t
+;;  :config
+;;  (define-fringe-bitmap 'git-gutter-fr:added [0] nil nil '(center repeated))
+;;  (define-fringe-bitmap 'git-gutter-fr:modified [0] nil nil '(center repeated))
+;;  (define-fringe-bitmap 'git-gutter-fr:deleted [0] nil nil 'bottom)
+;;  )
+;;
+;;(custom-set-variables
+;; '(git-gutter:modified-sign "  ") ;; two space
+;; '(git-gutter:added-sign "++")    ;; multiple character is OK
+;; '(git-gutter:deleted-sign "--"))
 
 ;; Get rid of flycheck in the gutter and margins
 (setq flycheck-indication-mode nil)
@@ -134,6 +143,9 @@
 ;;;   Eglot, the built-in LSP client for Emacs
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(use-package consult-flycheck
+  :ensure t)
 
 (add-hook 'c-mode-hook (lambda () (setq flycheck-clang-language-standard "c89")))
 (add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-language-standard "c++11")))

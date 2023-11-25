@@ -120,7 +120,7 @@
 (use-package dimmer
  :ensure t
  :config
- (setq dimmer-fraction 0.22)
+ (setq dimmer-fraction 0.1)
  (setq dimmer-adjustment-mode :foreground)
  (setq dimmer-use-colorspace :rgb)
  (dimmer-configure-which-key)
@@ -154,10 +154,10 @@
 (global-set-key (kbd "C-x C-d") 'dired)
 
 ;; always execute dired-k when dired buffer is opened
-(add-hook 'dired-initial-position-hook 'dired-k)
+;; (add-hook 'dired-initial-position-hook 'dired-k)
 
 ;; Dont open hundreds of dired buffers
-(add-hook 'dired-after-readin-hook #'dired-k-no-revert)
+;;(add-hook 'dired-after-readin-hook #'dired-k-no-revert)
 (setf dired-kill-when-opening-new-dired-buffer t)
 
 (use-package dired-k
@@ -168,6 +168,18 @@
 
 (use-package dired-hacks-utils
   :ensure t)
+
+(use-package eat
+  :ensure t
+)
+;; For `eat-eshell-mode'.
+(add-hook 'eshell-load-hook #'eat-eshell-mode)
+
+(defun eshell/clear ()
+  "Clear the eshell buffer."
+  (let ((inhibit-read-only t))
+    (erase-buffer)
+    (eshell-send-input)))
 
 ;;(use-package direx
 ;;  :ensure t)

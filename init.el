@@ -318,7 +318,7 @@
 ;; Org-mode configuration
 ;; WARNING: need to customize things inside the mixin file before use! See
 ;; the file mixins/org-intro.txt for help.
-(load-file (expand-file-name "mixins/org.el" user-emacs-directory))
+;(load-file (expand-file-name "mixins/org.el" user-emacs-directory))
 
 ;; Email configuration in Emacs
 ;; WARNING: needs the `mu' program installed; see the mixin file for more
