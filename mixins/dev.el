@@ -147,7 +147,9 @@
 (use-package consult-flycheck
   :ensure t)
 
-(add-hook 'c-mode-hook (lambda () (setq flycheck-clang-language-standard "c89")))
+(add-to-list 'load-path "~/.emacs.d/localpkgs/")
+
+(add-hook 'c-mode-hook (lambda () (setq flycheck-clang-language-standard "c99")))
 (add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-language-standard "c++11")))
 
 (use-package eglot
@@ -159,7 +161,7 @@
 
   :hook (
          ;;(rust-mode . eglot-ensure)
-         (eglot-managed-mode . flycheck-mode))
+         (eglot-managed-mode . flycheck-eglot-mode))
 
   :custom
   (eglot-send-changes-idle-time 0.1)
