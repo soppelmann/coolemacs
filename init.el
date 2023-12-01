@@ -297,9 +297,6 @@
 ;; Vim-bindings in Emacs (evil-mode configuration)
 (load-file (expand-file-name "mixins/vim-like.el" user-emacs-directory))
 
-;; Completion settings
-(load-file (expand-file-name "mixins/completion.el" user-emacs-directory))
-
 ;; Dashboard for emacs
 (load-file (expand-file-name "mixins/dashboard.el" user-emacs-directory))
 
@@ -314,6 +311,11 @@
 ;; Set up language servers etc
 (load-file (expand-file-name "mixins/lsp.el" user-emacs-directory))
 
+;; Completion settings
+(load-file (expand-file-name "mixins/completion.el" user-emacs-directory))
+
+;; Set up AI assistant
+;(load-file (expand-file-name "mixins/ai.el" user-emacs-directory))
 
 ;; Org-mode configuration
 ;; WARNING: need to customize things inside the mixin file before use! See

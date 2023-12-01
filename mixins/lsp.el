@@ -84,6 +84,47 @@
 ;  :mode (("\\.vhdl?\\'" . vhdl-ts-mode))
 ;                                        )
 
+(use-package eglot
+  ;; no :ensure t here because it's built-in
+
+  ;; Configure hooks to automatically turn-on eglot for selected modes
+  ; :hook
+  ; (((python-mode ruby-mode elixir-mode) . eglot))
+
+  :hook (
+         ;;(rust-mode . eglot-ensure)
+         (eglot-managed-mode . flycheck-eglot-mode))
+
+  :custom
+  (eglot-send-changes-idle-time 0.1)
+
+  :config
+  (fset #'jsonrpc--log-event #'ignore)  ; massive perf boost---don't log every event
+  ;; Sometimes you need to tell Eglot where to find the language server
+  ;;(add-hook 'eglot-managed-mode-hook #'eldoc-box-hover-at-point-mode t)
+
+  ;; (add-hook 'eldoc-mode-hook
+  ;;        'eldoc-box-hover-at-point-mode)
+
+  ;;(add-hook 'eldoc-mode-hook
+  ;;          'eldoc-box-hover-mode)
+
+  (global-set-key (kbd "C-h ,") #'eldoc-box-help-at-point)
+
+  (add-to-list 'eglot-stay-out-of 'flymake)
+
+  (add-to-list 'eglot-server-programs '(nix-mode . ("rnix-lsp")))
+
+  (add-to-list 'eglot-server-programs '(php-mode "intelephense" "--stdio"))
+
+  ; (add-to-list 'eglot-server-programs
+  ;              '(haskell-mode . ("haskell-language-server-wrapper" "--lsp")))
+  )
+
+
+;; Enable LSP support by default in programming buffers
+(add-hook 'prog-mode-hook #'eglot-ensure)
+
 
 ;; LSP RUST
 (use-package rust-mode :ensure t)
