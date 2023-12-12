@@ -125,18 +125,33 @@
 ;; Enable LSP support by default in programming buffers
 (add-hook 'prog-mode-hook #'eglot-ensure)
 
+(defun my/eglot-capf ()
+  (setq-local completion-at-point-functions
+              (list (cape-super-capf
+                     #'eglot-completion-at-point
+                     (cape-company-to-capf #'company-yasnippet)))))
+
+(add-hook 'eglot-managed-mode-hook #'my/eglot-capf)
+
+;; Option 1: Specify explicitly to use Orderless for Eglot
+(setq completion-category-overrides '((eglot (styles orderless))))
+
+;; Option 2: Undo the Eglot modification of completion-category-defaults
+;(with-eval-after-load 'eglot
+;   (setq completion-category-defaults nil))
+
 
 ;; LSP RUST
-(use-package rust-mode :ensure t)
-(add-hook 'rust-mode-hook 'eglot-ensure)
-(add-hook 'rust-mode-hook (lambda () (setq indent-tabs-mode nil)))
-
-(setq lsp-rust-analyzer-server-display-inlay-hints t)
+;(use-package rust-mode :ensure t)
+;(add-hook 'rust-mode-hook 'eglot-ensure)
+;(add-hook 'rust-mode-hook (lambda () (setq indent-tabs-mode nil)))
+;
+;(setq lsp-rust-analyzer-server-display-inlay-hints t)
 
 ;; (unless (package-installed-p 'eglot)
 ;;   (package-install 'eglot))
- (setq eldoc-echo-area-use-multiline-p nil)
+; (setq eldoc-echo-area-use-multiline-p nil)
 ;;
 ;; (setq lsp-eldoc-enable-hover nil)
-(setq eldoc-echo-area-prefer-doc-buffer t)
+;(setq eldoc-echo-area-prefer-doc-buffer t)
 ;; (setq lsp-signature-auto-activate nil)

@@ -1,3 +1,20 @@
+(add-to-list 'load-path "~/.emacs.d/lisp/")
+
+;; Needs to patch
+;;(use-package corfu-candidate-overlay
+;;  :after corfu
+;;  :config
+;;  ;; enable corfu-candidate-overlay mode globally
+;;  ;; this relies on having corfu-auto set to nil
+;;  (corfu-candidate-overlay-mode +1)
+;;  ;; bind Ctrl + TAB to trigger the completion popup of corfu
+;;  (global-set-key (kbd "C-<tab>") 'completion-at-point)
+;;  ;; bind Ctrl + Shift + Tab to trigger completion of the first candidate
+;;  ;; (keybing <iso-lefttab> may not work for your keyboard model)
+;;  (global-set-key (kbd "S-<tab>") 'corfu-candidate-overlay-complete-at-point)
+;;  )
+
+
 ;; Popup completion-at-point
 (use-package corfu
   :ensure t
@@ -31,12 +48,6 @@ default lsp-passthrough."
 
   )
 
-;; Option 1: Specify explicitly to use Orderless for Eglot
-(setq completion-category-overrides '((eglot (styles orderless))))
-
-;; Option 2: Undo the Eglot modification of completion-category-defaults
-;(with-eval-after-load 'eglot
-;   (setq completion-category-defaults nil))
 
 ;; Optionally use the `orderless' completion style.
 (use-package orderless
@@ -176,13 +187,8 @@ default lsp-passthrough."
   :ensure t
   )
 
-(defun my/eglot-capf ()
-  (setq-local completion-at-point-functions
-              (list (cape-super-capf
-                     #'eglot-completion-at-point
-                     (cape-company-to-capf #'company-yasnippet)))))
-
-(add-hook 'eglot-managed-mode-hook #'my/eglot-capf)
+(define-key yas-minor-mode-map [(tab)] nil)
+(define-key yas-minor-mode-map (kbd "TAB") nil)
 
 (use-package corfu-prescient
   :ensure t

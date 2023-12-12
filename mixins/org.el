@@ -39,6 +39,12 @@
 ;;; Phase 1 variables
 
 ;;; Phase 2 variables
+(require 'org-excalidraw)
+
+(use-package org-excalidraw
+  :config
+  (setq org-excalidraw-directory "~/Nextcloud/Notebooks/Excalidraw/")
+)
 
 ;; Agenda variables
 (setq org-directory "~/Nextcloud/Notebooks/") ; Non-absolute paths for agenda and

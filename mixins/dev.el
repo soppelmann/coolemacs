@@ -134,6 +134,13 @@
   :hook ((c-mode c++-mode) . google-set-c-style)
          (c-mode-common . google-make-newline-indent))
 
+;; use // instead of /* */ for comments
+(add-hook 'c-mode-hook (lambda () (c-toggle-comment-style -1)))
+(add-hook 'c++-mode-hook (lambda () (c-toggle-comment-style -1)))
+
+;; C-c C-C is a worthless binding for comments, so unbind it
+;; Use C-x C-; instead or M-; for line comments
+(define-key c-mode-base-map (kbd "C-c C-c") nil)
 
 ;; Emacs ships with a lot of popular programming language modes. If it's not
 ;; built in, you're almost certain to find a mode for the language you're
@@ -141,9 +148,21 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
-;;;   Eglot, the built-in LSP client for Emacs
+;;;   Lsp stuff
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(use-package format-all
+  :ensure t
+  )
+(defvar-local my/format-buffer-function 'format-all-buffer
+  "Function to call in order to format the current buffer.")
+(defun my/format-buffer ()
+  "Run `my/format-buffer-function' to format the current buffer."
+  (interactive)
+  (funcall my/format-buffer-function))
+(bind-key "C-c f f" 'my/format-buffer)
+
 
 (use-package consult-flycheck
   :ensure t)
@@ -159,6 +178,19 @@
 (use-package eldoc-box
   :ensure t
   )
+
+ (setq eldoc-echo-area-use-multiline-p nil)
+;;
+;; (setq lsp-eldoc-enable-hover nil)
+(setq eldoc-echo-area-prefer-doc-buffer t)
+
+;; LSP RUST
+(use-package rust-mode :ensure t)
+(add-hook 'rust-mode-hook 'eglot-ensure)
+(add-hook 'rust-mode-hook (lambda () (setq indent-tabs-mode nil)))
+
+(setq lsp-rust-analyzer-server-display-inlay-hints t)
+
 
 
 ;;(use-package flymake-clippy

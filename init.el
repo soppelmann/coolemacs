@@ -219,7 +219,12 @@
 
 ;; Misc. UI tweaks
 (blink-cursor-mode -1)                                ; Steady cursor
-(pixel-scroll-precision-mode)                         ; Smooth scrolling
+;(pixel-scroll-precision-mode)                         ; Smooth scrolling
+
+(use-package smooth-scrolling
+  :ensure t
+  :config
+  (smooth-scrolling-mode 1))
 
 ;; Use common keystrokes by default
 ;(cua-mode)
@@ -278,6 +283,29 @@
       (set-register register nil)
       (message "Cleared register %c." register))))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;;   Straight
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name
+        "straight/repos/straight.el/bootstrap.el"
+        (or (bound-and-true-p straight-base-dir)
+            user-emacs-directory)))
+      (bootstrap-version 7))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+
+(straight-use-package 'el-patch)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
@@ -291,7 +319,7 @@
 ;; These ones are *strongly* recommended!
 (load-file (expand-file-name "mixins/base.el" user-emacs-directory))
 
-;; Packages for software development, eglot here
+;; Packages for software development here
 (load-file (expand-file-name "mixins/dev.el" user-emacs-directory))
 
 ;; Vim-bindings in Emacs (evil-mode configuration)
@@ -308,19 +336,28 @@
 ;; Nice fonts for emacs
 (load-file (expand-file-name "mixins/themes.el" user-emacs-directory))
 
-;; Set up language servers etc
-(load-file (expand-file-name "mixins/lsp.el" user-emacs-directory))
-
-;; Completion settings
+;; Completion settings (corfu capf cape)
 (load-file (expand-file-name "mixins/completion.el" user-emacs-directory))
 
-;; Set up AI assistant
-;(load-file (expand-file-name "mixins/ai.el" user-emacs-directory))
+;; Eglot config
+;(load-file (expand-file-name "mixins/eglot.el" user-emacs-directory))
+
+;; lspmode config
+(load-file (expand-file-name "mixins/lspmode.el" user-emacs-directory))
+
+;; Company config
+;(load-file (expand-file-name "mixins/company.el" user-emacs-directory))
+
+;; Set up codeium AI assistant
+;(load-file (expand-file-name "mixins/codeium.el" user-emacs-directory))
+
+;; Set up copilot AI assistant
+(load-file (expand-file-name "mixins/copilot.el" user-emacs-directory))
 
 ;; Org-mode configuration
 ;; WARNING: need to customize things inside the mixin file before use! See
 ;; the file mixins/org-intro.txt for help.
-;(load-file (expand-file-name "mixins/org.el" user-emacs-directory))
+;;(load-file (expand-file-name "mixins/org.el" user-emacs-directory))
 
 ;; Email configuration in Emacs
 ;; WARNING: needs the `mu' program installed; see the mixin file for more

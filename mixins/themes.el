@@ -1,8 +1,16 @@
-(use-package modus-themes
-  :ensure t)
+
+(use-package
+ modus-themes
+ :ensure t
+ :config (define-key global-map (kbd "<f5>") #'modus-themes-toggle))
 
 (use-package ef-themes
   :ensure t)
+
+(use-package
+ ef-themes
+ :ensure t
+ :config (define-key global-map (kbd "<f5>") #'ef-themes-toggle))
 
 ;;(setq
 ;; ef-themes-custom-auto-reload nil
@@ -17,6 +25,10 @@
 ;; '((agenda-structure . (variable-pitch light 2.2))
 ;;   (agenda-date . (variable-pitch regular 1.3))
 ;;   (t . (regular 1.15))))
+
+(setq
+ ef-themes-to-toggle '(ef-maris-dark ef-duo-light)
+)
 
 (setq
  modus-themes-custom-auto-reload nil
