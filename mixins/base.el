@@ -23,64 +23,6 @@
   :bind (("C-c j" . avy-goto-line)
          ("s-j"   . avy-goto-char-timer)))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;
-;;;   Power-ups: Embark and Consult
-;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; Consult: Misc. enhanced commands
-(use-package consult
-  :ensure t
-  ;; Other good things to bind: consult-ripgrep, consult-line-multi,
-  ;; consult-history, consult-outline
-  :bind (("C-x b" . consult-buffer) ; orig. switch-to-buffer
-         ("M-y" . consult-yank-pop) ; orig. yank-pop
-         ("C-s" . consult-line))    ; orig. isearch
-  :config
-  ;; Narrowing lets you restrict results to certain groups of candidates
-  (setq consult-narrow-key "<"))
-
-(use-package embark
-  :ensure t
-  :demand t
-  :after avy
-  :bind (("C-c a" . embark-act))        ; bind this to an easy key to hit
-  :init
-  ;; Add the option to run embark when using avy
-  (defun bedrock/avy-action-embark (pt)
-    (unwind-protect
-        (save-excursion
-          (goto-char pt)
-          (embark-act))
-      (select-window
-       (cdr (ring-ref avy-ring 0))))
-    t)
-
-  ;; After invoking avy-goto-char-timer, hit "." to run embark at the next
-  ;; candidate you select
-  (setf (alist-get ?. avy-dispatch-alist) 'bedrock/avy-action-embark))
-
-(use-package embark-consult
-  :ensure t)
-
-;; Upload to envs.net
-(use-package 0x0
-  :ensure t
-  ;:config
-  ;(setq 0x0-default-server "envs.sh")
-  )
-
-;; Add action to embark keymap
-(define-key embark-file-map (kbd "U") '0x0-upload-file)
-(define-key embark-region-map (kbd "U") '0x0-dwim)
-
-(use-package ace-window
-  :ensure t
-  :init
-  (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
-  :bind (("C-x o" . ace-window)))
-
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -257,3 +199,107 @@
 
 (global-set-key (kbd "C-x C-z") 'winner-undo)
 (global-set-key (kbd "C-x C-r") 'winner-redo)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;;   Power-ups: Embark and Consult
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Consult: Misc. enhanced commands
+(use-package consult
+  :ensure t
+  ;; Other good things to bind: consult-ripgrep, consult-line-multi,
+  ;; consult-history, consult-outline
+  :bind (("C-x b" . consult-buffer) ; orig. switch-to-buffer
+         ("M-y" . consult-yank-pop) ; orig. yank-pop
+         ("C-s" . consult-line))    ; orig. isearch
+  :config
+  ;; Narrowing lets you restrict results to certain groups of candidates
+  (setq consult-narrow-key "<"))
+
+(use-package embark
+  :ensure t
+  :demand t
+  :after avy
+  :bind (("C-c a" . embark-act)
+         ("C-c ." . embark-act-with-completing-read)
+         )        ; bind this to an easy key to hit
+  :init
+  ;; Add the option to run embark when using avy
+  (defun bedrock/avy-action-embark (pt)
+    (unwind-protect
+        (save-excursion
+          (goto-char pt)
+          (embark-act))
+      (select-window
+       (cdr (ring-ref avy-ring 0))))
+    t)
+
+  ;; After invoking avy-goto-char-timer, hit "." to run embark at the next
+  ;; candidate you select
+  (setf (alist-get ?. avy-dispatch-alist) 'bedrock/avy-action-embark))
+
+(use-package embark-consult
+  :ensure t)
+
+;; Upload to envs.net
+(use-package 0x0
+  :ensure t
+  ;:config
+  ;(setq 0x0-default-server "envs.sh")
+  )
+
+;; Add action to embark keymap
+(define-key embark-file-map (kbd "U") '0x0-upload-file)
+(define-key embark-region-map (kbd "U") '0x0-dwim)
+
+
+;; Use which key for embark
+
+(defun embark-which-key-indicator ()
+  "An embark indicator that displays keymaps using which-key.
+The which-key help message will show the type and value of the
+current target followed by an ellipsis if there are further
+targets."
+  (lambda (&optional keymap targets prefix)
+    (if (null keymap)
+        (which-key--hide-popup-ignore-command)
+      (which-key--show-keymap
+       (if (eq (plist-get (car targets) :type) 'embark-become)
+           "Become"
+         (format "Act on %s '%s'%s"
+                 (plist-get (car targets) :type)
+                 (embark--truncate-target (plist-get (car targets) :target))
+                 (if (cdr targets) "…" "")))
+       (if prefix
+           (pcase (lookup-key keymap prefix 'accept-default)
+             ((and (pred keymapp) km) km)
+             (_ (key-binding prefix 'accept-default)))
+         keymap)
+       nil nil t (lambda (binding)
+                   (not (string-suffix-p "-argument" (cdr binding))))))))
+
+(setq embark-indicators
+  '(embark-which-key-indicator
+    embark-highlight-indicator
+    embark-isearch-highlight-indicator))
+
+(defun embark-hide-which-key-indicator (fn &rest args)
+  "Hide the which-key indicator immediately when using the completing-read prompter."
+  (which-key--hide-popup-ignore-command)
+  (let ((embark-indicators
+         (remq #'embark-which-key-indicator embark-indicators)))
+      (apply fn args)))
+
+(advice-add #'embark-completing-read-prompter
+            :around #'embark-hide-which-key-indicator)
+
+;; End of which key for embark
+
+(use-package ace-window
+  :ensure t
+  :init
+  (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
+  :bind (("C-x o" . ace-window)))

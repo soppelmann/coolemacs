@@ -1,4 +1,8 @@
 ;; Config
+
+;; To save frameset to register run
+;; C-x r f <register>
+
 (use-package dashboard
   :ensure t)
 
