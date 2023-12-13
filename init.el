@@ -38,6 +38,8 @@
 (setq display-time-default-load-average nil) ; this information is useless for most
 
 ;; Automatically reread from disk if the underlying file changes
+
+(setopt auto-revert-avoid-polling t)
 (setq auto-revert-interval 1)
 (setq auto-revert-check-vc-info t)
 (setq global-auto-revert-mode t)
@@ -57,6 +59,7 @@
 
 ;; Move through windows with Ctrl-<arrow keys>
 ;(windmove-default-keybindings 'C-c) ; You can use other modifiers here
+;(windmove-default-keybindings 'control) ; You can use other modifiers here
 (global-set-key (kbd "C-c <left>") 'windmove-left)
 (global-set-key (kbd "C-c <right>") 'windmove-right)
 (global-set-key (kbd "C-c <up>") 'windmove-up)
@@ -84,6 +87,7 @@
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file t)
 
+;; Currently tramp is messed up
 ;; Backup and Autosave Directories
 (setq temporary-file-directory "~/.emacs.d/tmp")
 (setq backup-directory-alist `((".*" . ,temporary-file-directory)))
@@ -282,6 +286,8 @@
     (when register
       (set-register register nil)
       (message "Cleared register %c." register))))
+
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;

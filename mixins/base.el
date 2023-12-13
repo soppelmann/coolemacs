@@ -64,6 +64,25 @@
 (use-package embark-consult
   :ensure t)
 
+;; Upload to envs.net
+(use-package 0x0
+  :ensure t
+  ;:config
+  ;(setq 0x0-default-server "envs.sh")
+  )
+
+;; Add action to embark keymap
+(define-key embark-file-map (kbd "U") '0x0-upload-file)
+(define-key embark-region-map (kbd "U") '0x0-dwim)
+
+(use-package ace-window
+  :ensure t
+  :init
+  (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
+  :bind (("C-x o" . ace-window)))
+
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;;   Minibuffer and completion
