@@ -36,6 +36,10 @@
 (define-key evil-normal-state-map (kbd "C-e") 'evil-local-mode)
 (global-set-key (kbd "C-e") 'evil-local-mode)
 
+(define-key evil-normal-state-map (kbd "C-.") nil)
+(define-key evil-insert-state-map (kbd "C-.") nil)
+
+
 ;;enter visual mode by holding shift in normal mode in evil?
 
 ;;(define-key evil-insert-state-map (kbd "S-<left>")

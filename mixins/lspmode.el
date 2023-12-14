@@ -19,7 +19,7 @@
   ;header
   (setq lsp-headerline-breadcrumb-enable nil)
 
-  ; show function signature in echo bar
+  ; dont show function signature in echo bar
   ;(setq lsp-eldoc-enable-hover nil)
 
   ;completion
@@ -36,9 +36,6 @@
          (lsp-mode . lsp-enable-which-key-integration))
   :commands lsp)
 
-
-
-
 ;; optionally
 (use-package lsp-ui
   :ensure t
@@ -48,9 +45,9 @@
 
   :commands lsp-ui-mode)
 ;; if you are ivy user
-(use-package lsp-ivy
-  :ensure t
-  :commands lsp-ivy-workspace-symbol)
+;; (use-package lsp-ivy
+;;   :ensure t
+;;   :commands lsp-ivy-workspace-symbol)
 ;(use-package lsp-treemacs :commands lsp-treemacs-errors-list)
 
 (setq lsp-warn-no-matched-clients nil)
@@ -64,10 +61,10 @@
       company-minimum-prefix-length 1
       lsp-idle-delay 0.1)  ;; clangd is fast
 
-(use-package dap-mode
-  :ensure t)
+;; (use-package dap-mode
+;;   :ensure t)
 
-(with-eval-after-load 'lsp-mode
-  (require 'dap-cpptools)
-  (require 'dap-gdb-lldb)
-  (yas-global-mode))
+;; (with-eval-after-load 'lsp-mode
+;;   (require 'dap-cpptools)
+;;   (require 'dap-gdb-lldb)
+;;   (yas-global-mode))

@@ -57,6 +57,14 @@
 ;; Save history of minibuffer
 (savehist-mode)
 
+;; Dont warn on opening BIG files
+(setq large-file-warning-threshold nil)
+;(setq large-file-warning-threshold 200000000)
+
+;; Have dired stop complaining about ls
+(when (string= system-type "darwin")
+  (setq dired-use-ls-dired nil))
+
 ;; Move through windows with Ctrl-<arrow keys>
 ;(windmove-default-keybindings 'C-c) ; You can use other modifiers here
 ;(windmove-default-keybindings 'control) ; You can use other modifiers here
@@ -223,12 +231,15 @@
 
 ;; Misc. UI tweaks
 (blink-cursor-mode -1)                                ; Steady cursor
-;(pixel-scroll-precision-mode)                         ; Smooth scrolling
+(pixel-scroll-precision-mode)                         ; Smooth scrolling
+(pixel-scroll-mode)                                   ; Smooth scrolling
+(setq scroll-preserve-screen-position 'always)        ; Scroll commands keep cursor position
 
-(use-package smooth-scrolling
-  :ensure t
-  :config
-  (smooth-scrolling-mode 1))
+
+;; (use-package smooth-scrolling
+;;   :ensure t
+;;   :config
+;;   (smooth-scrolling-mode 1))
 
 ;; Use common keystrokes by default
 ;(cua-mode)

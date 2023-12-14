@@ -87,11 +87,14 @@ default lsp-passthrough."
 
 ;; Pretty icons for corfu
 (use-package kind-icon
-  :if (display-graphic-p)
   :ensure t
+;  :if (display-graphic-p)
   :after corfu
+  :custom
+  (kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly
   :config
   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+
 
 ;; Add extensions
 (use-package cape

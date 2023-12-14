@@ -73,6 +73,24 @@
   :bind (("s-g" . magit-status)
          ("C-c g" . magit-status)))
 
+;; Use git-timemachine to browse historic versions of files
+;; Bind it to C-c t
+;; Make sure git timemachine toggles evil-local-mode and
+;; display-line-numbers-mode
+(use-package git-timemachine
+  :ensure t
+  :bind (("C-c t" . git-timemachine-toggle))
+  :hook
+  (git-timemachine-mode . evil-local-mode)
+  (git-timemachine-mode . display-line-numbers-mode)
+  )
+
+;; @see https://bitbucket.org/lyro/evil/issue/511/let-certain-minor-modes-key-bindings
+;; http://blog.binchen.org/posts/use-git-timemachine-with-evil.html
+(with-eval-after-load 'git-timemachine
+  (evil-make-overriding-map git-timemachine-mode-map 'normal)
+  ;; force update evil keymaps after git-timemachine-mode loaded
+  (add-hook 'git-timemachine-mode-hook #'evil-normalize-keymaps))
 
 
 ;(use-package diff-hl :ensure t)
@@ -110,6 +128,126 @@
 
 ;; Get rid of flycheck in the gutter and margins
 (setq flycheck-indication-mode nil)
+
+
+;; I only really use git, stamp on vc-mode....
+(with-eval-after-load 'vc
+  (remove-hook 'find-file-hook 'vc-find-file-hook)
+  (remove-hook 'find-file-hook 'vc-refresh-state)
+  (setq vc-handled-backends nil))
+
+;; As the built-in project.el support expects to use vc-mode hooks to
+;; find the root of projects we need to provide something equivalent
+;; for it.
+(defun my-git-project-finder (dir)
+  "Integrate .git project roots."
+  (let ((dotgit (and (setq dir (locate-dominating-file dir ".git"))
+                     (expand-file-name dir))))
+    (and dotgit
+         (cons 'transient (file-name-directory dotgit)))))
+
+(add-hook 'project-find-functions 'my-git-project-finder)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;;   Projectile
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Projectile: project management
+(use-package projectile
+  :ensure t
+  :config
+  (projectile-mode +1)
+  ;(setq projectile-project-search-path '("~/projects/"))
+  ;(setq projectile-completion-system 'consult)
+  (setq projectile-enable-caching t)
+  (setq projectile-indexing-method 'alien)
+  (setq projectile-sort-order 'recently-active)
+  (setq projectile-globally-ignored-directories
+        (append '(
+                  ".git"
+                  ".svn"
+                  ".hg"
+                  ".bzr"
+                  "node_modules"
+                  "build"
+                  "dist"
+                  "target"
+                  "bin"
+                  "obj"
+                  "out"
+                  "build"
+                  "buildroot"
+                  )))
+  )
+
+;; Bind key C-c p A to add a project on the global map
+(define-key global-map (kbd "C-c p A") 'projectile-add-known-project)
+
+;; Bind key C-c p B to remove a project
+(define-key global-map (kbd "C-c p B") 'projectile-remove-known-project)
+
+;; Add these commands to embark directory map at some point
+;; Also figure out how to use embark to add bookmarks to files
+
+
+;; consult-project-extra is also an alternative
+(use-package consult-projectile
+  :ensure t
+  )
+
+(use-package consult-ag
+  :ensure t
+  )
+
+(defun my-consult-projectile-ag ()
+  "Run a consult-ag search in the project."
+  (interactive)
+  (require 'projectile)
+  (let* ((ignores (unless (eq (projectile-project-vcs) 'git)
+                    ;; ag supports git ignore files
+                    (append
+                     (projectile-ignored-files-rel) (projectile-ignored-directories-rel)
+                     (projectile--globally-ignored-file-suffixes-glob)
+                     grep-find-ignored-files grep-find-ignored-directories)))
+         (ignores-args (apply #'append
+                              (mapcar (lambda (item) (list "--ignore" item)) ignores))))
+    (funcall-interactively #'consult-ag
+                           (if-let ((s (symbol-at-point)))
+                               (symbol-name s)
+                             "")
+                           (projectile-project-root)
+                           ignores-args)))
+
+(let ((projectile-switch-project-action #'my-consult-projectile-ag)
+  (call-interactively #'projectile-switch-project)))
+
+
+;; Why is this a thing
+;; (use-package projectile-ripgrep
+;;   :ensure t
+;;   )
+
+
+;; Recommended keymap prefix on macOS
+;(define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+;; Recommended keymap prefix on Windows/Linux
+(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+
+;(define-key projectile-mode-map (kbd "C-x p") 'projectile-command-map)
+
+;; (use-package consult-project-extra
+;;   :ensure t
+;; )
+
+;; use consult and ivy for projectile, i dont use this
+;; (use-package counsel-projectile
+;;   :ensure t
+;;   :config
+;;   (counsel-projectile-mode))
+
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
@@ -214,13 +352,13 @@
 
 ;; Posframe stuff, trying it out
 
-(use-package posframe
-  :ensure t)
+; (use-package posframe
+;   :ensure t)
 
-(use-package ivy-posframe
-  :ensure t
-  :config
-  (ivy-posframe-mode))
+;; (use-package ivy-posframe
+;;   :ensure t
+;;   :config
+;;   (ivy-posframe-mode))
 
 ;;(use-package which-key-posframe
 ;;  :ensure t
@@ -237,10 +375,10 @@
 ;;  :config
 ;;  (vertico-posframe-mode))
 
-(use-package transient-posframe
-  :ensure t
-  :config
-  (transient-posframe-mode))
+;; (use-package transient-posframe
+;;   :ensure t
+;;   :config
+;;   (transient-posframe-mode))
 
 ;(add-to-list 'tramp-remote-path 'tramp-own-remote-path)
 (setq vterm-tramp-shells '(("docker" "sh")

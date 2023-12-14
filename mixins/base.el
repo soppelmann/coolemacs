@@ -21,9 +21,15 @@
   :ensure t
   :demand t
   :bind (("C-c j" . avy-goto-line)
+         ("C-c l j" . avy-goto-line)
          ("s-j"   . avy-goto-char-timer)))
 
-
+(use-package link-hint
+  :ensure t
+  :bind
+  ("C-c l o" . link-hint-open-link)
+  ("C-c l c" . link-hint-copy-link))
+;(define-key evil-normal-state-map (kbd "SPC f") 'link-hint-open-link)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
@@ -222,10 +228,18 @@
 (use-package embark
   :ensure t
   :demand t
+  :config
+  ;; Hide the mode line of the Embark live/completions buffers
+  (add-to-list 'display-buffer-alist
+	       '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+		 nil
+		 (window-parameters (mode-line-format . none))))
+  (setq embark-cycle-key "SPC")
+  (setq embark-keymap-prompter-key "'")
+  (setq embark-quit-after-action t)
   :after avy
   :bind (("C-c a" . embark-act)
-         ("C-c ." . embark-act-with-completing-read)
-         )        ; bind this to an easy key to hit
+         ("C-." . embark-act))        ; bind this to an easy key to hit
   :init
   ;; Add the option to run embark when using avy
   (defun bedrock/avy-action-embark (pt)
@@ -241,8 +255,21 @@
   ;; candidate you select
   (setf (alist-get ?. avy-dispatch-alist) 'bedrock/avy-action-embark))
 
+
 (use-package embark-consult
-  :ensure t)
+  :ensure t
+  :bind (:map embark-become-file+buffer-map
+              ("m" . consult-bookmark)
+              ("b" . consult-buffer)
+              ("j" . consult-find))
+  :bind (:map embark-file-map
+              ("x" . embark-open-externally))
+  :after (embark consult)
+  :demand t ; only necessary if you have the hook below
+  ;; if you want to have consult previews as you move around an
+  ;; auto-updating embark collect buffer
+  :hook
+  (embark-collect-mode . consult-preview-at-point-mode))
 
 ;; Upload to envs.net
 (use-package 0x0
@@ -254,6 +281,25 @@
 ;; Add action to embark keymap
 (define-key embark-file-map (kbd "U") '0x0-upload-file)
 (define-key embark-region-map (kbd "U") '0x0-dwim)
+
+;; Might aswell add it to the general map instead
+(define-key embark-heading-map (kbd "SPC") 'embark-cycle)
+(define-key embark-identifier-map (kbd "SPC") 'embark-cycle)
+
+(define-key embark-general-map (kbd "C-SPC") 'embark-select)
+
+;; (define-key embark-region-map (kbd "b") nil)
+;; (define-key embark-region-map (kbd "b") 'consult-bookmark)
+
+;; Add consult-bookmark as an action to embark bound to kb "b"
+
+(define-key embark-region-map (kbd "b") 'consult-bookmark)
+(define-key embark-defun-map (kbd "b") 'consult-bookmark)
+(define-key embark-symbol-map (kbd "b") 'consult-bookmark)
+;(define-key embark-file-map (kbd "b") 'consult-bookmark)
+;(define-key embark-general-map (kbd "b") 'consult-bookmark)
+
+
 
 
 ;; Use which key for embark

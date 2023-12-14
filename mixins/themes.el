@@ -1,4 +1,8 @@
 
+;; (use-package nerd-icons
+;;   :ensure t
+;;   )
+
 (use-package
  modus-themes
  :ensure t
