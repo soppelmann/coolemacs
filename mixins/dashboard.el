@@ -4,6 +4,7 @@
 ;; C-x r f <register>
 
 
+
 (use-package dashboard
   :ensure t)
 
@@ -109,3 +110,31 @@
 (global-unset-key (kbd "s-q"))
 (global-set-key (kbd "s-q") 'kill-current-buffer)
 (setq tab-line-separator "") ;; set it to empty
+
+
+;; Ugly hack
+
+(defvar dashboard-mode-map)
+
+(defconst evil-collection-dashboard-maps '(dashboard-mode-map))
+
+(defun evil-collection-dashboard-setup-jump-commands ()
+  "Set up bindings for jump commands in Dashboard."
+  (evil-collection-define-key 'normal 'dashboard-mode-map
+    "r" (symbol-function (lookup-key dashboard-mode-map "r")) ; recents
+    "m" (symbol-function (lookup-key dashboard-mode-map "m")) ; bookmarks
+    "p" (symbol-function (lookup-key dashboard-mode-map "p")) ; projects
+    "a" (symbol-function (lookup-key dashboard-mode-map "a")) ; agenda
+    "c" (symbol-function (lookup-key dashboard-mode-map "c")) ; agenda
+    ;; - Dashboard inserts shortcut hints in its buffer, so it's
+    ;; hard to differ from the default.
+    ;;
+    ;; - "registers" isn't shown in Dashboard by default; those who
+    ;; added it would have to choose between the widget and losing
+    ;; `evil-forward-word-end'. That's probably still better than
+    ;; having a shortcut hint that isn't correct.
+    "e" (symbol-function (lookup-key dashboard-mode-map "e")))) ; registers
+
+
+  (advice-add 'dashboard-insert-startupify-lists :after
+              'evil-collection-dashboard-setup-jump-commands)
