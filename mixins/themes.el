@@ -8,13 +8,10 @@
  :ensure t
  :config (define-key global-map (kbd "<f5>") #'modus-themes-toggle))
 
-(use-package ef-themes
-  :ensure t)
-
-(use-package
- ef-themes
- :ensure t
- :config (define-key global-map (kbd "<f5>") #'ef-themes-toggle))
+;(use-package
+; ef-themes
+; :ensure t
+; :config (define-key global-map (kbd "<f5>") #'ef-themes-toggle))
 
 ;;(setq
 ;; ef-themes-custom-auto-reload nil
@@ -30,13 +27,13 @@
 ;;   (agenda-date . (variable-pitch regular 1.3))
 ;;   (t . (regular 1.15))))
 
-(setq
- ef-themes-to-toggle '(ef-maris-dark ef-duo-light)
-)
+;(setq
+; ef-themes-to-toggle '(ef-maris-dark ef-duo-light)
+;)
 
 (setq
  modus-themes-custom-auto-reload nil
-; modus-themes-to-toggle '(modus-operandi-tinted modus-vivendi-tinted)
+modus-themes-to-toggle '(modus-operandi-tinted modus-vivendi-deuteranopia)
  modus-themes-mixed-fonts t
  modus-themes-variable-pitch-ui nil
  modus-themes-italic-constructs t
@@ -53,11 +50,16 @@
 (setq modus-themes-common-palette-overrides
       '((cursor magenta-cooler)
         ;; Make the fringe invisible.
-        ;(fringe unspecified)
+        (fringe unspecified)
+
+        ;; Line numbers same as BG
+        (bg-line-number-active unspecified)
+        (bg-line-number-inactive unspecified)
+
         ;; Make line numbers less intense and add a shade of cyan
         ;; for the current line number.
         ;(fg-line-number-inactive "gray50")
-        (fg-line-number-active cyan-cooler)
+        ;(fg-line-number-active cyan-cooler)
         ;(bg-line-number-inactive unspecified)
         ;(bg-line-number-active unspecified)
         ;; Make the current line of `hl-line-mode' a fine shade of
@@ -127,8 +129,8 @@
 
 ;; Make the active mode line have a pseudo 3D effect (this assumes
 ;; you are using the default mode line and not an extra package).
-(custom-set-faces
- '(mode-line ((t :box (:style released-button)))))
+;; (custom-set-faces
+;;  '(mode-line ((t :box (:style released-button)))))
 
 ;; All configs that need to apply for
 ;; each new emacsclient window
@@ -140,15 +142,15 @@
 (read-only-mode)
 
    (scroll-bar-mode 0)
-   (ef-themes-select 'ef-maris-dark)
+   ;;(ef-themes-select 'ef-maris-dark)
    ;;(modus-themes-select 'modus-operandi)
-   ;;(modus-themes-select 'modus-vivendi)
+   (modus-themes-select 'modus-vivendi-deuteranopia)
    ;(load-theme 'grb256)
    ;'(restore-desktop)
    ))
 
 ;;(load-theme 'modus-vivendi)
-(ef-themes-select 'ef-maris-dark)
+;;(ef-themes-select 'ef-maris-dark)
 ;;(modus-themes-select 'modus-operandi)
-;;(modus-themes-select 'modus-vivendi-tinted)
+(modus-themes-select 'modus-vivendi-deuteranopia)
 ;;(load-theme 'grb256)

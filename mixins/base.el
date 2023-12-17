@@ -213,6 +213,10 @@
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; Unbind C-c C-s keybinding from cc-mode
+(add-hook 'c-mode-hook
+          (lambda () (local-unset-key (kbd "C-c C-s"))))
+
 ;; Consult: Misc. enhanced commands
 (use-package consult
   :ensure t
@@ -220,10 +224,16 @@
   ;; consult-history, consult-outline
   :bind (("C-x b" . consult-buffer) ; orig. switch-to-buffer
          ("M-y" . consult-yank-pop) ; orig. yank-pop
-         ("C-s" . consult-line))    ; orig. isearch
+         ("C-s" . consult-line)     ; orig. isearch
+         ("C-c C-s" . consult-ripgrep)
+         )
   :config
   ;; Narrowing lets you restrict results to certain groups of candidates
   (setq consult-narrow-key "<"))
+
+(autoload 'projectile-project-root "projectile")
+(setq consult-project-function (lambda (_) (projectile-project-root)))
+
 
 (use-package embark
   :ensure t

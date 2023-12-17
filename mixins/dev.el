@@ -193,9 +193,9 @@
 
 
 ;; consult-project-extra is also an alternative
-(use-package consult-projectile
-  :ensure t
-  )
+;(use-package consult-projectile
+;  :ensure t
+;  )
 
 (use-package consult-ag
   :ensure t
@@ -234,6 +234,9 @@
 ;(define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
 ;; Recommended keymap prefix on Windows/Linux
 (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+
+;; Need to overwrite proctile ripgrep cause it sucks
+(define-key projectile-mode-map (kbd "C-c p s r") 'consult-ripgrep)
 
 ;(define-key projectile-mode-map (kbd "C-x p") 'projectile-command-map)
 
