@@ -132,6 +132,14 @@ modus-themes-to-toggle '(modus-operandi-tinted modus-vivendi-deuteranopia)
 ;; (custom-set-faces
 ;;  '(mode-line ((t :box (:style released-button)))))
 
+
+;(defun my-modus-themes-custom-faces ()
+;  (set-face-attribute 'fill-column-indicator nil :background (face-attribute 'default :background)))
+;
+;(add-hook 'modus-themes-after-load-theme-hook #'my-modus-themes-custom-faces)
+(add-hook 'prog-mode-hook 'display-fill-column-indicator-mode)
+
+
 ;; All configs that need to apply for
 ;; each new emacsclient window
 ;; need to be wrapped inside this hook!
@@ -139,7 +147,7 @@ modus-themes-to-toggle '(modus-operandi-tinted modus-vivendi-deuteranopia)
  'after-make-frame-functions
  (lambda (frame)
    ;(fontaine-set-preset 'large)
-(read-only-mode)
+   (read-only-mode)
 
    (scroll-bar-mode 0)
    ;;(ef-themes-select 'ef-maris-dark)

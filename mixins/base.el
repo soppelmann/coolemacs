@@ -358,4 +358,70 @@ targets."
   :ensure t
   :init
   (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
-  :bind (("C-x o" . ace-window)))
+  :bind (("C-x o" . ace-window)
+         ("C-o" . ace-window)))
+
+;; Nice tabs
+(use-package centaur-tabs
+  :demand
+  :ensure t
+  :hook ;; centaur-tabs-local-mode disables centaur-tabs-mode
+  (dashboard-mode . centaur-tabs-local-mode)
+  (helpful-mode . centaur-tabs-local-mode)
+  (ibuffer-mode . centaur-tabs-local-mode)
+  (magit-mode . centaur-tabs-local-mode)
+  (org-agenda-mode . centaur-tabs-local-mode)
+  (org-mode . centaur-tabs-local-mode)
+  (org-journal-mode . centaur-tabs-local-mode)
+  (org-roam-mode . centaur-tabs-local-mode)
+  (pdf-view-mode . centaur-tabs-local-mode)
+  (treemacs-mode . centaur-tabs-local-mode)
+  (vterm-mode . centaur-tabs-local-mode)
+  (web-mode . centaur-tabs-local-mode)
+  (xref--xref-buffer-mode . centaur-tabs-local-mode)
+  (dired-sidebar-mode . centaur-tabs-local-mode)
+  (dired-mode . centaur-tabs-local-mode)
+  (occur-mode . centaur-tabs-local-mode)
+  (compilation-mode . centaur-tabs-local-mode)
+  (eww-mode . centaur-tabs-local-mode)
+  (apropros-mode . centaur-tabs-local-mode)
+  :config
+  (centaur-tabs-mode t)
+  :bind
+  ("C-x <left>" . centaur-tabs-backward)
+  ("C-x <right>" . centaur-tabs-forward))
+
+;; When the currently selected tab(A) is at the right of the last visited
+;; tab(B), move A to the right of B. When the currently selected tab(A) is
+;; at the left of the last visited tab(B), move A to the left of B
+(setq centaur-tabs-adjust-buffer-order t)
+
+;; Move the currently selected tab to the left of the the last visited tab.
+(setq centaur-tabs-adjust-buffer-order 'left)
+
+;; Move the currently selected tab to the right of the the last visited tab.
+(setq centaur-tabs-adjust-buffer-order 'right)
+
+;; Cycle through visible tabs (that is, the tabs in the current group)
+(setq centaur-tabs-cycle-scope 'tabs)
+
+;; No close button
+(setq centaur-tabs-set-close-button nil)
+
+
+;; Icons
+(setq centaur-tabs-set-icons t)
+;(setq centaur-tabs-plain-icons t)
+(setq centaur-tabs-gray-out-icons 'buffer)
+
+;; Change defvar centaur-tabs-icon-scale-factor 1.0 to 0.8
+(setq centaur-tabs-icon-scale-factor 0.8)
+
+
+
+
+;; (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp"))
+
+;; (require 'awesome-tab)
+
+;; (awesome-tab-mode t)

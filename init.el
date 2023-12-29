@@ -235,6 +235,25 @@
 (pixel-scroll-mode)                                   ; Smooth scrolling
 (setq scroll-preserve-screen-position 'always)        ; Scroll commands keep cursor position
 
+;; Set line width to 80 characters and display a vertical line at that column
+(setq-default fill-column 80)
+(setq-default display-fill-column-indicator-column 80)
+(add-hook 'prog-mode-hook 'display-fill-column-indicator-mode)
+
+;(set-face-attribute 'fill-column-indicator nil :foreground "purple4")
+;(set-face-attribute 'fill-column-indicator nil :background "grey80")
+
+;; Use fill-column-indicator to highlight lines that exceed the fill column
+;; have the background color be the same as the background color of the buffer
+;(set-face-attribute 'fill-column-indicator nil :background (face-attribute 'default :background))
+
+;;; https://emacs.stackexchange.com/questions/147/how-can-i-get-a-ruler-at-column-80
+;(setq-default fill-column 80)
+;(add-hook 'prog-mode-hook 'highlight-beyond-fill-column)
+;(custom-set-faces '(highlight-beyond-fill-column-face
+;                    ((t (:foreground "red" )))))
+
+;(add-hook 'prog-mode-hook '(lambda () (highlight-lines-matching-regexp ".\\{81\\}" 'hi-yellow)))
 
 ;; (use-package smooth-scrolling
 ;;   :ensure t
@@ -250,7 +269,7 @@
 
 ;; tabs for prog and term buffers
 (add-hook 'prog-mode-hook 'tab-line-mode)
-(add-hook 'term-mode-hook 'tab-line-mode)
+;(add-hook 'term-mode-hook 'tab-line-mode)
 
 
 ;; Nice line wrapping when working with text
@@ -259,6 +278,13 @@
 ;; Modes to highlight the current line with
 (let ((hl-line-hooks '(text-mode-hook prog-mode-hook)))
   (mapc (lambda (hook) (add-hook hook 'hl-line-mode)) hl-line-hooks))
+
+;;;; colorize output in compile buffer
+(require 'ansi-color)
+(defun colorize-compilation-buffer ()
+  (ansi-color-apply-on-region compilation-filter-start (point)))
+(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;

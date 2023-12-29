@@ -61,10 +61,11 @@
       company-minimum-prefix-length 1
       lsp-idle-delay 0.1)  ;; clangd is fast
 
-;; (use-package dap-mode
-;;   :ensure t)
+(use-package dap-mode
+  :ensure t)
 
-;; (with-eval-after-load 'lsp-mode
-;;   (require 'dap-cpptools)
-;;   (require 'dap-gdb-lldb)
-;;   (yas-global-mode))
+(with-eval-after-load 'lsp-mode
+  (require 'dap-cpptools)
+  (require 'dap-gdb-lldb)
+  (yas-global-mode)
+  )

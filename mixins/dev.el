@@ -332,16 +332,6 @@
 
 (setq lsp-rust-analyzer-server-display-inlay-hints t)
 
-
-
-;;(use-package flymake-clippy
-;;  :hook (rust-mode . flymake-clippy-setup-backend))
-;;
-;;(defun manually-activate-flymake ()
-;;  (add-hook 'flymake-diagnostic-functions #'eglot-flymake-backend nil t)
-;;  (flymake-mode 1))
-
-
 (use-package php-mode
   :ensure t
   :mode "\\.php\\'")
@@ -353,35 +343,6 @@
 (use-package zig-mode
   :ensure t)
 
-;; Posframe stuff, trying it out
-
-; (use-package posframe
-;   :ensure t)
-
-;; (use-package ivy-posframe
-;;   :ensure t
-;;   :config
-;;   (ivy-posframe-mode))
-
-;;(use-package which-key-posframe
-;;  :ensure t
-;;  :config
-;;  (which-key-posframe-mode))
-
-;;(use-package dired-posframe
-;;  :ensure t
-;;  :config
-;;  (dired-posframe-mode))
-
-;;(use-package vertico-posframe
-;;  :ensure t
-;;  :config
-;;  (vertico-posframe-mode))
-
-;; (use-package transient-posframe
-;;   :ensure t
-;;   :config
-;;   (transient-posframe-mode))
 
 ;(add-to-list 'tramp-remote-path 'tramp-own-remote-path)
 (setq vterm-tramp-shells '(("docker" "sh")
@@ -405,17 +366,27 @@
 (add-hook 'c-mode-hook 'maybe-cmake-project-mode)
 (add-hook 'c++-mode-hook 'maybe-cmake-project-mode)
 
-(setq spice-simulator "Ngspice"
-      spice-waveform-viewer "ngplot")
-(load "~/.emacs.d/spice-mode.el")
+;; (setq spice-simulator "Ngspice"
+;;       spice-waveform-viewer "ngplot")
+;; (load "~/.emacs.d/spice-mode.el")
 
-;; ngspice -b file.ng
+;; ;; ngspice -b file.ng
 
-(use-package spice-mode
-  :ensure t
-  :config
-  (setq spice-simulator "Ngspice"
-      spice-waveform-viewer "ngplot"))
+;; (use-package spice-mode
+;;   :ensure t
+;;   :config
+;;   (setq spice-simulator "Ngspice"
+;;       spice-waveform-viewer "ngplot"))
 
-;; :mode "\\.\\(js\\|jsx\\)\\'"
-(add-to-list 'auto-mode-alist '("\\.ng\\'" . spice-mode))
+;; ;; :mode "\\.\\(js\\|jsx\\)\\'"
+;; (add-to-list 'auto-mode-alist '("\\.ng\\'" . spice-mode))
+
+
+;;;;;;;;;;;
+;; EDIFF ;;
+;;;;;;;;;;;
+
+(setq ediff-window-setup-function 'ediff-setup-windows-plain)
+(setq ediff-split-window-function 'split-window-horizontally)
+(setq ediff-diff-options "-w")
+(add-hook 'ediff-after-quit-hook-internal 'winner-undo)
