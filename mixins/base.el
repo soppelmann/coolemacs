@@ -359,7 +359,8 @@ targets."
   :init
   (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
   :bind (("C-x o" . ace-window)
-         ("C-o" . ace-window)))
+         ;("C-o" . ace-window)
+         ))
 
 ;; Nice tabs
 (use-package centaur-tabs
@@ -425,3 +426,11 @@ targets."
 ;; (require 'awesome-tab)
 
 ;; (awesome-tab-mode t)
+
+
+
+;; Undo system
+;; https://codeberg.org/ideasman42/emacs-undo-fu
+;; (use-package undo-fu
+;;   :ensure t
+;; )
