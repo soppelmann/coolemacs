@@ -58,6 +58,9 @@
 
 (straight-use-package 'el-patch)
 
+;; Enable defer and ensure by default for use-package
+;(setq use-package-always-defer t
+;      use-package-always-ensure t)
 
 (setq initial-major-mode 'fundamental-mode)  ; default mode for the *scratch* buffer
 (setq display-time-default-load-average nil) ; this information is useless for most
@@ -424,14 +427,14 @@
 ;; org
 
 ;; https://old.reddit.com/r/emacs/comments/tbj09/using_shift_selection_in_orgmode_buffers_without/
-(setq org-support-shift-select t)
-
-(eval-after-load "org"
-    '(progn
-       (eval-after-load "cua-base"
-         '(progn
-            (define-advice org-call-for-shift-select (before org-call-for-shift-select-cua activate)
-              (if (and cua-mode
-                       org-support-shift-select
-                       (not (use-region-p)))
-                  (cua-set-mark)))))))
+;(setq org-support-shift-select t)
+;
+;(eval-after-load "org"
+;    '(progn
+;       (eval-after-load "cua-base"
+;         '(progn
+;            (define-advice org-call-for-shift-select (before org-call-for-shift-select-cua activate)
+;              (if (and cua-mode
+;                       org-support-shift-select
+;                       (not (use-region-p)))
+;                  (cua-set-mark)))))))

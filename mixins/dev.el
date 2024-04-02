@@ -131,7 +131,13 @@
 ;(setq flycheck-indication-mode nil)
 
 ;; Left fringe flycheck-indication-mode
-(setq flycheck-indication-mode 'left-fringe)
+(setq-default flycheck-indication-mode 'left-fringe)
+(add-hook 'flycheck-mode-hook #'flycheck-set-indication-mode)
+
+(use-package flycheck-checkbashisms
+  :ensure t
+  :config
+  (flycheck-checkbashisms-setup))
 
 ;; I only really use git, stamp on vc-mode....
 (with-eval-after-load 'vc
