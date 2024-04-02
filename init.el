@@ -26,13 +26,38 @@
 ;;
 ;;    https://melpa.org/#/getting-started
 ;;
-;;(setq package-check-signature nil)
+(setq package-check-signature nil)
 
 (with-eval-after-load 'package
   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t))
 
 ;; If you want to turn off the welcome screen, uncomment this
 ;(setq inhibit-splash-screen t)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;;   Straight
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name
+        "straight/repos/straight.el/bootstrap.el"
+        (or (bound-and-true-p straight-base-dir)
+            user-emacs-directory)))
+      (bootstrap-version 7))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+
+(straight-use-package 'el-patch)
+
 
 (setq initial-major-mode 'fundamental-mode)  ; default mode for the *scratch* buffer
 (setq display-time-default-load-average nil) ; this information is useless for most
@@ -269,6 +294,8 @@
 
 ;; tabs for prog and term buffers
 (add-hook 'prog-mode-hook 'tab-line-mode)
+(add-hook 'org-mode-hook 'tab-line-mode)
+(add-hook 'text-mode-hook 'tab-line-mode)
 ;(add-hook 'term-mode-hook 'tab-line-mode)
 
 
@@ -328,30 +355,6 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
-;;;   Straight
-;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(defvar bootstrap-version)
-(let ((bootstrap-file
-       (expand-file-name
-        "straight/repos/straight.el/bootstrap.el"
-        (or (bound-and-true-p straight-base-dir)
-            user-emacs-directory)))
-      (bootstrap-version 7))
-  (unless (file-exists-p bootstrap-file)
-    (with-current-buffer
-        (url-retrieve-synchronously
-         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
-         'silent 'inhibit-cookies)
-      (goto-char (point-max))
-      (eval-print-last-sexp)))
-  (load bootstrap-file nil 'nomessage))
-
-(straight-use-package 'el-patch)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;
 ;;;   Optional mixins
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -383,10 +386,17 @@
 (load-file (expand-file-name "mixins/completion.el" user-emacs-directory))
 
 ;; Eglot config
-;(load-file (expand-file-name "mixins/eglot.el" user-emacs-directory))
+(load-file (expand-file-name "mixins/eglot.el" user-emacs-directory))
 
 ;; lspmode config
-(load-file (expand-file-name "mixins/lspmode.el" user-emacs-directory))
+;(load-file (expand-file-name "mixins/lspmode.el" user-emacs-directory))
+
+;; Rust config
+;(load-file (expand-file-name "mixins/rust.el" user-emacs-directory))
+
+;; Cargo config
+;(load-file (expand-file-name "mixins/cargo.el" user-emacs-directory))
+(add-to-list 'load-path "~/.emacs.d/elisp/cargo-transient.el")
 
 ;; Company config
 ;(load-file (expand-file-name "mixins/company.el" user-emacs-directory))
@@ -409,3 +419,19 @@
 
 ;; Tools for academic researchers
 ;(load-file (expand-file-name "mixins/researcher.el" user-emacs-directory))
+
+
+;; org
+
+;; https://old.reddit.com/r/emacs/comments/tbj09/using_shift_selection_in_orgmode_buffers_without/
+(setq org-support-shift-select t)
+
+(eval-after-load "org"
+    '(progn
+       (eval-after-load "cua-base"
+         '(progn
+            (define-advice org-call-for-shift-select (before org-call-for-shift-select-cua activate)
+              (if (and cua-mode
+                       org-support-shift-select
+                       (not (use-region-p)))
+                  (cua-set-mark)))))))

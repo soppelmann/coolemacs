@@ -22,7 +22,7 @@
   :demand t
   :bind (("C-c j" . avy-goto-line)
          ("C-c l j" . avy-goto-line)
-         ("s-j"   . avy-goto-char-timer)))
+         ("C-c l c"   . avy-goto-char-timer)))
 
 (use-package link-hint
   :ensure t
@@ -77,6 +77,8 @@
 (add-hook 'ielm-mode-hook 'rainbow-delimiters-mode)
 (add-hook 'lisp-interaction-mode-hook 'rainbow-delimiters-mode)
 (add-hook 'lisp-mode-hook 'rainbow-delimiters-mode)
+
+(add-hook 'text-mode-hook 'turn-on-auto-fill)
 
 (use-package ranger
   :ensure t)

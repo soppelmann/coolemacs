@@ -61,11 +61,42 @@
       company-minimum-prefix-length 1
       lsp-idle-delay 0.1)  ;; clangd is fast
 
-(use-package dap-mode
-  :ensure t)
+;(use-package dap-mode
+;  :ensure t)
 
-(with-eval-after-load 'lsp-mode
-  (require 'dap-cpptools)
-  (require 'dap-gdb-lldb)
-  (yas-global-mode)
-  )
+;(with-eval-after-load 'lsp-mode
+;  (require 'dap-cpptools)
+;  (require 'dap-gdb-lldb)
+;  (yas-global-mode)
+;  )
+
+;; remote rust-analyzer
+(with-eval-after-load "lsp-rust"
+ (lsp-register-client
+  (make-lsp-client
+   :new-connection (lsp-stdio-connection
+                    (lambda ()
+                      `(,(or (executable-find
+                              (cl-first lsp-rust-analyzer-server-command))
+                             (lsp-package-path 'rust-analyzer)
+                             "rust-analyzer")
+                        ,@(cl-rest lsp-rust-analyzer-server-args))))
+   :remote? t
+   :major-modes '(rust-mode rustic-mode)
+   :initialization-options 'lsp-rust-analyzer--make-init-options
+   :notification-handlers (ht<-alist lsp-rust-notification-handlers)
+   :action-handlers (ht ("rust-analyzer.runSingle" #'lsp-rust--analyzer-run-single))
+   :library-folders-fn (lambda (_workspace) lsp-rust-library-directories)
+   :after-open-fn (lambda ()
+                    (when lsp-rust-analyzer-server-display-inlay-hints
+                      (lsp-rust-analyzer-inlay-hints-mode)))
+   :ignore-messages nil
+   :server-id 'rust-analyzer-remote)))
+
+(defun start-file-process-shell-command@around (start-file-process-shell-command name buffer &rest args)
+  "Start a program in a subprocess.  Return the process object for it. Similar to `start-process-shell-command', but calls `start-file-process'."
+  ;; On remote hosts, the local `shell-file-name' might be useless.
+  (let ((command (mapconcat 'identity args " ")))
+    (funcall start-file-process-shell-command name buffer command)))
+
+(advice-add 'start-file-process-shell-command :around #'start-file-process-shell-command@around)

@@ -1,4 +1,4 @@
-(add-to-list 'load-path "~/.emacs.d/lisp/")
+;(add-to-list 'load-path "~/.emacs.d/lisp/")
 
 ;; Needs to patch
 ;;(use-package corfu-candidate-overlay
@@ -101,8 +101,8 @@ default lsp-passthrough."
   :ensure t
   ;; Bind dedicated completion commands
   ;; Alternative prefix keys: C-c p, M-p, M-+, ...
-  :config
-  (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
+  ;:config
+  ;(advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
 
   :bind (
          ;;("C-c p p" . completion-at-point) ;; capf
@@ -165,11 +165,11 @@ default lsp-passthrough."
 ;;            (completion-at-point)
 ;;          (indent-for-tab-command)))))
 
-(defun local/clang-capf-init ()
-  "Add `clang-capf' to `completion-at-point-functions'."
-  (add-hook 'completion-at-point-functions #'clang-capf nil t))
-
-(add-hook 'c-mode-hook #'local/clang-capf-init)
+;(defun local/clang-capf-init ()
+;  "Add `clang-capf' to `completion-at-point-functions'."
+;  (add-hook 'completion-at-point-functions #'clang-capf nil t))
+;
+;(add-hook 'c-mode-hook #'local/clang-capf-init)
 
 (add-hook 'eshell-mode-hook #'capf-autosuggest-mode)
 

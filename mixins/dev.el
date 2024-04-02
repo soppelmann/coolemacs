@@ -104,7 +104,8 @@
 ;; https://ianyepan.github.io/posts/emacs-git-gutter/
 
 ;(fringe-mode '(1 . 1))
-(fringe-mode '(3 . 0))
+;(fringe-mode '(3 . 0))
+(fringe-mode '(0 . 0))
 
 ;;(use-package git-gutter
 ;;  :ensure t
@@ -127,8 +128,10 @@
 ;; '(git-gutter:deleted-sign "--"))
 
 ;; Get rid of flycheck in the gutter and margins
-(setq flycheck-indication-mode nil)
+;(setq flycheck-indication-mode nil)
 
+;; Left fringe flycheck-indication-mode
+(setq flycheck-indication-mode 'left-fringe)
 
 ;; I only really use git, stamp on vc-mode....
 (with-eval-after-load 'vc
@@ -327,7 +330,7 @@
 
 ;; LSP RUST
 (use-package rust-mode :ensure t)
-(add-hook 'rust-mode-hook 'eglot-ensure)
+;(add-hook 'rust-mode-hook 'eglot-ensure)
 (add-hook 'rust-mode-hook (lambda () (setq indent-tabs-mode nil)))
 
 (setq lsp-rust-analyzer-server-display-inlay-hints t)
@@ -343,12 +346,23 @@
 (use-package zig-mode
   :ensure t)
 
-
-;(add-to-list 'tramp-remote-path 'tramp-own-remote-path)
+(require 'tramp)
+(add-to-list 'tramp-remote-path 'tramp-own-remote-path)
 (setq vterm-tramp-shells '(("docker" "sh")
                            ("scpx" "'zsh'")
                            ("ssh" "'zsh'")))
 (load "~/.emacs.d/consult-tramp.el")
+
+;; Speedup tramp
+
+(setq vc-ignore-dir-regexp
+      (format "\\(%s\\)\\|\\(%s\\)"
+              vc-ignore-dir-regexp
+              tramp-file-name-regexp))
+
+(setq debug-ignored-errors
+      (cons 'remote-file-error debug-ignored-errors))
+
 
 (use-package cmake-mode
   :ensure t)
@@ -390,3 +404,29 @@
 (setq ediff-split-window-function 'split-window-horizontally)
 (setq ediff-diff-options "-w")
 (add-hook 'ediff-after-quit-hook-internal 'winner-undo)
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; MAGIT
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;(defun local/change-commit-author (arg)
+;  "Change the commit author during an interactive rebase in Magit.
+;With a prefix argument, insert a new change commit author command
+;even when there is already another rebase command on the current
+;line.  With empty input, remove the change commit author action
+;on the current line, if any."
+;  (interactive "P")
+;  (let ((author
+;         (magit-transient-read-person "Select a new author for this commit"
+;                               nil
+;                               nil)))
+;    (git-rebase-set-noncommit-action
+;     "exec"
+;     (lambda (_) (if author
+;                     (format "git commit --amend --author='%s'" author)
+;                   ""))
+;     arg)))
+;
+;(define-key git-rebase-mode-map (kbd "h") #'local/change-commit-author)
