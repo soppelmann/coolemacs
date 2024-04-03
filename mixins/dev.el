@@ -60,6 +60,9 @@
 )
 ;;(add-hook 'prog-mode-hook 'fancy-narrow-mode)
 
+(use-package blacken
+  :ensure t
+  :hook ((python-mode . blacken-mode)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
@@ -72,6 +75,28 @@
   :ensure t
   :bind (("s-g" . magit-status)
          ("C-c g" . magit-status)))
+
+;(use-package libgit
+;  :ensure t
+;  :after magit)
+;
+;(use-package magit-libgit
+;  :ensure t
+;  :after (magit libgit))
+
+;(use-package forge
+;  :ensure t
+;  :after magit)
+;
+;(use-package code-review
+;  :after magit
+;  :bind (:map forge-topic-mode-map ("C-c r" . #'code-review-forge-pr-at-point))
+;  :bind (:map code-review-mode-map (("C-c n" . #'code-review-comment-jump-next)
+;                                    ("C-c p" . #'code-review-comment-jump-previous))))
+
+;; hack to eliminate weirdness
+;(unless (boundp 'bug-reference-auto-setup-functions)
+;  (defvar bug-reference-auto-setup-functions '()))
 
 ;; Use git-timemachine to browse historic versions of files
 ;; Bind it to C-c t
