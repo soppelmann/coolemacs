@@ -28,7 +28,7 @@
    (t . (regular 1.15))))
 
 (setq
- ef-themes-to-toggle '(ef-maris-dark ef-arbutus)
+ ef-themes-to-toggle '(ef-tritanopia-dark ef-arbutus)
 )
 
 ;;(setq
@@ -150,7 +150,8 @@
    (read-only-mode)
 
    (scroll-bar-mode 0)
-   (ef-themes-select 'ef-maris-dark)
+   (ef-themes-select 'ef-tritanopia-dark)
+   ;(ef-themes-select 'ef-maris-dark)
    ;;(modus-themes-select 'modus-operandi)
    ;(modus-themes-select 'modus-vivendi-deuteranopia)
    ;(load-theme 'grb256)
@@ -158,7 +159,8 @@
    ))
 
 ;;(load-theme 'modus-vivendi)
-(ef-themes-select 'ef-maris-dark)
+(ef-themes-select 'ef-tritanopia-dark)
+;(ef-themes-select 'ef-maris-dark)
 ;;(modus-themes-select 'modus-operandi)
 ;(modus-themes-select 'modus-vivendi-deuteranopia)
 ;;(load-theme 'grb256)

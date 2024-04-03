@@ -339,7 +339,7 @@
 ;(add-hook 'rust-mode-hook 'eglot-ensure)
 (add-hook 'rust-mode-hook (lambda () (setq indent-tabs-mode nil)))
 
-(setq lsp-rust-analyzer-server-display-inlay-hints t)
+;(setq lsp-rust-analyzer-server-display-inlay-hints t)
 
 (use-package php-mode
   :ensure t
@@ -352,11 +352,41 @@
 (use-package zig-mode
   :ensure t)
 
-(require 'tramp)
+;(require 'tramp)
 (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
+
+
+(use-package vterm
+  :ensure t
+  :config
+  (setq vterm-max-scrollback 10000)
+  (setq vterm-shell "bash")
+  (setq vterm-kill-buffer-on-exit t)
+  (setq vterm-always-compile-module t)
+  (setq vterm-buffer-name-string "vterm %s")
+  )
+
+(use-package vterm-toggle
+  :ensure t
+;  :config (setq vterm-toggle-fullscreen-p t)
+  )
+
+(use-package multi-vterm
+  :ensure t
+)
+
+
 (setq vterm-tramp-shells '(("docker" "sh")
-                           ("scpx" "'zsh'")
-                           ("ssh" "'zsh'")))
+                           ("scpx" "zsh")
+                           ("ssh" "zsh")))
+
+(define-key global-map (kbd "<f4>") #'vterm-toggle)
+
+;(dddefine-key vterm)
+;(define-key vterm-mode-map [?\C-c] nil)
+(define-key vterm-mode-map (kbd "<f4>") 'vterm-toggle)
+(define-key vterm-mode-map (kbd "<f5>") 'ef-themes-toggle)
+
 (load "~/.emacs.d/consult-tramp.el")
 
 ;; Speedup tramp
