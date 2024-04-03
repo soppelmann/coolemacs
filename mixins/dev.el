@@ -391,9 +391,12 @@
   (setq vterm-buffer-name-string "vterm %s")
   )
 
+;; vterm
 (use-package vterm-toggle
   :ensure t
-;  :config (setq vterm-toggle-fullscreen-p t)
+  :config
+  (setq vterm-toggle-reset-window-configration-after-exit t)
+  (setq vterm-toggle-hide-method 'reset-window-configration)
   )
 
 (use-package multi-vterm
