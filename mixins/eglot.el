@@ -49,13 +49,13 @@
 ;; Enable LSP support by default in programming buffers
 (add-hook 'prog-mode-hook #'eglot-ensure)
 
-;(defun my/eglot-capf ()
-;  (setq-local completion-at-point-functions
-;              (list (cape-super-capf
-;                     #'eglot-completion-at-point
-;                     (cape-company-to-capf #'company-yasnippet)))))
-;
-;(add-hook 'eglot-managed-mode-hook #'my/eglot-capf)
+;; (defun my/eglot-capf ()
+;;   (setq-local completion-at-point-functions
+;;               (list (cape-super-capf
+;;                      #'eglot-completion-at-point
+;;                      (cape-company-to-capf #'company-yasnippet)))))
+
+;; (add-hook 'eglot-managed-mode-hook #'my/eglot-capf)
 
 ;; Option 1: Specify explicitly to use Orderless for Eglot
 (setq completion-category-overrides '((eglot (styles orderless))))

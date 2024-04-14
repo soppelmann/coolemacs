@@ -377,9 +377,8 @@
 (use-package zig-mode
   :ensure t)
 
-;(require 'tramp)
-(add-to-list 'tramp-remote-path 'tramp-own-remote-path)
 
+(load "~/.emacs.d/consult-tramp.el")
 
 (use-package vterm
   :ensure t
@@ -399,14 +398,19 @@
   (setq vterm-toggle-hide-method 'reset-window-configration)
   )
 
-(use-package multi-vterm
-  :ensure t
-)
+;(use-package multi-vterm
+;  :ensure t
+;)
 
 
-(setq vterm-tramp-shells '(("docker" "sh")
-                           ("scpx" "zsh")
-                           ("ssh" "zsh")))
+(require 'tramp)
+;; Required for eglot to find lsp servers on remote
+(add-to-list 'tramp-remote-path 'tramp-own-remote-path)
+
+;(setq tramp-default-method "ssh")
+(setq vterm-tramp-shells '(("docker" "/bin/sh")
+                           ("scpx" "/bin/sh")
+                           ("ssh" "/bin/sh")))
 
 (define-key global-map (kbd "<f4>") #'vterm-toggle)
 
@@ -415,7 +419,6 @@
 (define-key vterm-mode-map (kbd "<f4>") 'vterm-toggle)
 (define-key vterm-mode-map (kbd "<f5>") 'ef-themes-toggle)
 
-(load "~/.emacs.d/consult-tramp.el")
 
 ;; Speedup tramp
 

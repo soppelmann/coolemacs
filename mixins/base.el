@@ -22,7 +22,8 @@
   :demand t
   :bind (("C-c j" . avy-goto-line)
          ("C-c l j" . avy-goto-line)
-         ("C-c l c"   . avy-goto-char-timer)))
+         ("C-c l w" . avy-goto-symbol-1)
+         ("C-c l s"   . avy-goto-char-timer)))
 
 (use-package link-hint
   :ensure t
@@ -86,15 +87,15 @@
 (setq ranger-cleanup-on-disable t)
 
 ;; Dim windows
-(use-package dimmer
- :ensure t
- :config
- (setq dimmer-fraction 0.1)
- (setq dimmer-adjustment-mode :foreground)
- (setq dimmer-use-colorspace :rgb)
- (dimmer-configure-which-key)
- (dimmer-configure-helm)
- (dimmer-mode 1))
+;; (use-package dimmer
+;;  :ensure t
+;;  :config
+;;  (setq dimmer-fraction 0.1)
+;;  (setq dimmer-adjustment-mode :foreground)
+;;  (setq dimmer-use-colorspace :rgb)
+;;  (dimmer-configure-which-key)
+;;  (dimmer-configure-helm)
+;;  (dimmer-mode 1))
 
 (use-package dired-sidebar
  :ensure t

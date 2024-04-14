@@ -70,28 +70,18 @@
  inhibit-startup-screen t
  ;; No need to remind me what a scratch buffer is.
  initial-scratch-message nil
- ;; Double-spaces after periods is morally wrong.
- sentence-end-double-space nil
  ;; Never ding at me, ever.
  ring-bell-function 'ignore
- ;; Prompts should go in the minibuffer, not in a GUI.
- use-dialog-box nil
  ;; search should be case-sensitive by default
  case-fold-search nil
  ;; no need to prompt for the read command _every_ time
  compilation-read-command nil
  ;; scroll to first error
  compilation-scroll-output 'first-error
- ;; accept 'y' or 'n' instead of yes/no
- ;; the documentation advises against setting this variable
- ;; the documentation can get bent imo
- use-short-answers t
  ;; prefer newer elisp files
  load-prefer-newer t
  ;; when I say to quit, I mean quit
  confirm-kill-processes nil
- ;; if native-comp is having trouble, there's not very much I can do
- native-comp-async-report-warnings-errors 'silent
  )
 
 (setq

@@ -18,10 +18,11 @@
 ;; Popup completion-at-point
 (use-package corfu
   :ensure t
-  :hook (lsp-completion-mode . kb/corfu-setup-lsp) ; Use corfu for lsp completion
+  ;:hook (lsp-completion-mode . kb/corfu-setup-lsp) ; Use corfu for lsp completion
   :custom
   (corfu-preview-current t)
   (corfu-cycle t)
+  (corfu-on-exact-match 'show)
   :init
   (global-corfu-mode)
   (corfu-prescient-mode 1)
@@ -38,13 +39,13 @@
               ([backtab]    . corfu-previous)
               ("S-<return>" . corfu-insert)
               ("RET"        . corfu-insert))
-  :config
-  ;; Setup lsp to use corfu for lsp completion
-  (defun kb/corfu-setup-lsp ()
-    "Use orderless completion style with lsp-capf instead of the
-default lsp-passthrough."
-    (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
-          '(orderless)))
+;;  :config
+;;  ;; Setup lsp to use corfu for lsp completion
+;;  (defun kb/corfu-setup-lsp ()
+;;    "Use orderless completion style with lsp-capf instead of the
+;;default lsp-passthrough."
+;;    (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
+;;          '(orderless)))
 
   )
 
@@ -101,7 +102,7 @@ default lsp-passthrough."
   :ensure t
   ;; Bind dedicated completion commands
   ;; Alternative prefix keys: C-c p, M-p, M-+, ...
-  ;:config
+  :config
   ;(advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
 
   :bind (
@@ -183,12 +184,15 @@ default lsp-passthrough."
 (use-package yasnippet-snippets
   :ensure t
   )
-(use-package yasnippet-classic-snippets
-  :ensure t
-  )
-(use-package consult-yasnippet
-  :ensure t
-  )
+
+
+;; (use-package yasnippet-classic-snippets
+;;   :ensure t
+;;   )
+
+;; (use-package consult-yasnippet
+;;   :ensure t
+;;   )
 
 (define-key yas-minor-mode-map [(tab)] nil)
 (define-key yas-minor-mode-map (kbd "TAB") nil)
@@ -196,3 +200,21 @@ default lsp-passthrough."
 (use-package corfu-prescient
   :ensure t
   )
+
+(use-package yasnippet-capf
+  :ensure t
+  :after cape
+  :config
+  (add-to-list 'completion-at-point-functions #'yasnippet-capf))
+
+(setq yasnippet-capf-lookup-by 'name) ;; Prefer the name of the snippet instead
+
+(defun my/eglot-capf ()
+  (setq-local completion-at-point-functions
+              (list (cape-capf-super
+                     #'eglot-completion-at-point
+                     #'yasnippet-capf
+                     ;#'tempel-expand
+                     #'cape-file))))
+
+(add-hook 'eglot-managed-mode-hook #'my/eglot-capf)
