@@ -122,16 +122,18 @@
 (add-hook 'dired-mode-hook 'local/dired-mode-hook)
 
 (global-set-key (kbd "C-x C-d") 'dired)
+(global-set-key (kbd "C-x C-b") 'switch-to-buffer)
 
-;; always execute dired-k when dired buffer is opened
-;; (add-hook 'dired-initial-position-hook 'dired-k)
 
 ;; Dont open hundreds of dired buffers
-;;(add-hook 'dired-after-readin-hook #'dired-k-no-revert)
 (setf dired-kill-when-opening-new-dired-buffer t)
 
 (use-package dired-k
   :ensure t)
+
+;; always execute dired-k when dired buffer is opened
+(add-hook 'dired-after-readin-hook #'dired-k-no-revert)
+;; (add-hook 'dired-initial-position-hook 'dired-k)
 
 (use-package dired-subtree
   :ensure t)
@@ -268,7 +270,6 @@
   ;; candidate you select
   (setf (alist-get ?. avy-dispatch-alist) 'bedrock/avy-action-embark))
 
-
 (use-package embark-consult
   :ensure t
   :bind (:map embark-become-file+buffer-map
@@ -363,11 +364,11 @@ targets."
   (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
   :bind (("C-x o" . ace-window)
          ;("C-o" . ace-window)
+         ("C-p" . ace-window)
          ))
 
 ;; Nice tabs
 (use-package centaur-tabs
-  :demand
   :ensure t
   :hook ;; centaur-tabs-local-mode disables centaur-tabs-mode
   (dashboard-mode . centaur-tabs-local-mode)
@@ -395,6 +396,7 @@ targets."
   ("C-x <left>" . centaur-tabs-backward)
   ("C-x <right>" . centaur-tabs-forward))
 
+
 ;; When the currently selected tab(A) is at the right of the last visited
 ;; tab(B), move A to the right of B. When the currently selected tab(A) is
 ;; at the left of the last visited tab(B), move A to the left of B
@@ -412,28 +414,35 @@ targets."
 ;; No close button
 (setq centaur-tabs-set-close-button nil)
 
-
 ;; Icons
 (setq centaur-tabs-set-icons t)
 ;(setq centaur-tabs-plain-icons t)
-(setq centaur-tabs-gray-out-icons 'buffer)
+;(setq centaur-tabs-gray-out-icons 'buffer)
 
 ;; Change defvar centaur-tabs-icon-scale-factor 1.0 to 0.8
 (setq centaur-tabs-icon-scale-factor 0.8)
+;(setq centaur-tabs-icon-scale-factor 1.0)
 
+;; Style
+;(setq centaur-tabs-style "alternate")
 
-
-
+;;(centaur-tabs-group-by-projectile-project)
 ;; (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp"))
 
 ;; (require 'awesome-tab)
 
 ;; (awesome-tab-mode t)
 
-
-
 ;; Undo system
 ;; https://codeberg.org/ideasman42/emacs-undo-fu
 ;; (use-package undo-fu
 ;;   :ensure t
 ;; )
+
+(use-package vundo
+  :ensure t)
+
+;; bind C-c u to vundo
+(global-set-key (kbd "C-c u") 'vundo)
+
+(setq vundo-glyph-alist vundo-unicode-symbols)

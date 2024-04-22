@@ -51,6 +51,8 @@
 ;; Unbind C-o from evil normal map
 ;; (define-key evil-normal-state-map (kbd "C-o") nil)
 ;; (define-key evil-motion-state-map (kbd "C-o") nil)
+(define-key evil-normal-state-map (kbd "C-p") nil)
+(define-key evil-motion-state-map (kbd "C-p") nil)
 
 (setq evil-insert-state-message nil)
 

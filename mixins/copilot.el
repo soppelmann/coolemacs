@@ -76,3 +76,5 @@ cleared, make sure the overlay doesn't come back too soon."
     (error handler)))
 
 (advice-add 'keyboard-quit :before #'local/copilot-quit)
+
+(setq copilot-indent-offset-warning-disable t)

@@ -4,7 +4,7 @@
       '((small
          :default-family "Hack"
          :default-weight normal
-         :default-height 75
+         :default-height 160
          :fixed-pitch-family nil ; falls back to :default-family
          :fixed-pitch-weight nil ; falls back to :default-weight
          :fixed-pitch-height 1.0
@@ -19,7 +19,7 @@
         (regular
          :default-family "Iosevka Comfy"
          :default-weight normal
-         :default-height 100
+         :default-height 160
          :fixed-pitch-family nil ; falls back to :default-family
          :fixed-pitch-weight nil ; falls back to :default-weight
          :fixed-pitch-height 1.0
@@ -34,7 +34,7 @@
         (medium
          :default-family "Source Code Pro"
          :default-weight normal
-         :default-height 110
+         :default-height 160
          :fixed-pitch-family nil ; falls back to :default-family
          :fixed-pitch-weight nil ; falls back to :default-weight
          :fixed-pitch-height 1.0
@@ -54,6 +54,111 @@
          :fixed-pitch-weight nil ; falls back to :default-weight
          :fixed-pitch-height 1.0
          :variable-pitch-family "FiraGO"
+         :variable-pitch-weight normal
+         :variable-pitch-height 1.05
+         :bold-family nil ; use whatever the underlying face has
+         :bold-weight bold
+         :italic-family nil
+         :italic-slant italic
+         :line-spacing nil)
+        (IBM
+         :default-family "Ac437 IBM MDA"
+         :default-weight normal
+         :default-height 220
+         :fixed-pitch-family nil ; falls back to :default-family
+         :fixed-pitch-weight nil ; falls back to :default-weight
+         :fixed-pitch-height 1.0
+         :variable-pitch-family "Ac427 IBM MDA"
+         :variable-pitch-weight normal
+         :variable-pitch-height 1.05
+         :bold-family nil ; use whatever the underlying face has
+         :bold-weight bold
+         :italic-family nil
+         :italic-slant italic
+         :line-spacing nil)
+        (Gallant
+         :default-family "gallant12x22"
+         :default-weight bold
+         :default-height 200
+         :fixed-pitch-family nil ; falls back to :default-family
+         :fixed-pitch-weight normal ; falls back to :default-weight
+         :fixed-pitch-height 1.0
+         :variable-pitch-family "gallant12x22"
+         :variable-pitch-weight normal
+         :variable-pitch-height 1.05
+         :bold-family nil ; use whatever the underlying face has
+         :bold-weight bold
+         :italic-family nil
+         :italic-slant italic
+         :line-spacing nil)
+        (Julia
+         :default-family "JuliaMono"
+         :default-weight normal
+         :default-height 160
+         :fixed-pitch-family nil ; falls back to :default-family
+         :fixed-pitch-weight normal ; falls back to :default-weight
+         :fixed-pitch-height 1.0
+         :variable-pitch-family "JuliaMono"
+         :variable-pitch-weight normal
+         :variable-pitch-height 1.05
+         :bold-family nil ; use whatever the underlying face has
+         :bold-weight bold
+         :italic-family nil
+         :italic-slant italic
+         :line-spacing nil)
+        (Plex
+         :default-family "IBM Plex Mono"
+         :default-weight normal
+         :default-height 160
+         :fixed-pitch-family nil ; falls back to :default-family
+         :fixed-pitch-weight normal ; falls back to :default-weight
+         :fixed-pitch-height 1.0
+         :variable-pitch-family "IBM Plex Mono"
+         :variable-pitch-weight normal
+         :variable-pitch-height 1.05
+         :bold-family nil ; use whatever the underlying face has
+         :bold-weight bold
+         :italic-family nil
+         :italic-slant italic
+         :line-spacing nil)
+        (Comfy
+         :default-family "Px437 IBM PS/55 re." ;Mx437 DOS/V re. JPN30 Is also nice
+         :default-weight normal
+         :default-height 200
+         :fixed-pitch-family nil ; falls back to :default-family
+         :fixed-pitch-weight nil ; falls back to :default-weight
+         :fixed-pitch-height 1.0
+         :variable-pitch-family "Px437 IBM PS/55 re."
+         :variable-pitch-weight normal
+         :variable-pitch-height 1.05
+         :bold-family nil ; use whatever the underlying face has
+         :bold-weight bold
+         :italic-family nil
+         :italic-slant italic
+         :line-spacing nil)
+        (OpenBSD
+         :default-family "Spleen 32x64"
+         :default-weight bold
+         :default-height 200
+         :fixed-pitch-family nil ; falls back to :default-family
+         :fixed-pitch-weight nil ; falls back to :default-weight
+         :fixed-pitch-height 1.0
+         :variable-pitch-family "Spleen 32x64"
+         :variable-pitch-weight normal
+         :variable-pitch-height 1.05
+         :bold-family nil ; use whatever the underlying face has
+         :bold-weight bold
+         :italic-family nil
+         :italic-slant italic
+         :line-spacing nil)
+        (Comic
+         :default-family "Comic Code Ligatures"
+         :default-weight normal
+         :default-height 160
+         :fixed-pitch-family nil ; falls back to :default-family
+         :fixed-pitch-weight nil ; falls back to :default-weight
+         :fixed-pitch-height 1.0
+         :variable-pitch-family "Comic Code Ligatures"
          :variable-pitch-weight normal
          :variable-pitch-height 1.05
          :bold-family nil ; use whatever the underlying face has

@@ -54,11 +54,11 @@
   )
   )
 
-(use-package fancy-narrow
-  :ensure t
-  :hook ((prog-mode . fancy-narrow-mode))
-)
-;;(add-hook 'prog-mode-hook 'fancy-narrow-mode)
+;; (use-package fancy-narrow
+;;   :ensure t
+;;   :hook ((prog-mode . fancy-narrow-mode))
+;; )
+;; ;;(add-hook 'prog-mode-hook 'fancy-narrow-mode)
 
 (use-package blacken
   :ensure t
@@ -352,9 +352,14 @@
 
 (use-package eldoc-box
   :ensure t
-  )
+  :config
+  (set-face-attribute 'eldoc-box-border nil
+                      :background "darkgray")
+  (set-face-attribute 'eldoc-box-markdown-separator nil
+                      :foreground "darkgray")
+)
 
- (setq eldoc-echo-area-use-multiline-p nil)
+(setq eldoc-echo-area-use-multiline-p nil)
 ;;
 ;; (setq lsp-eldoc-enable-hover nil)
 (setq eldoc-echo-area-prefer-doc-buffer t)

@@ -16,6 +16,15 @@
 
   :custom
   (eglot-send-changes-idle-time 0.1)
+   (eglot-ignored-server-capabilities
+    '(:hoverProvider
+      :documentHighlightProvider
+      ;:documentFormattingProvider
+      ;:documentRangeFormattingProvider
+      ;:documentOnTypeFormattingProvider
+      :colorProvider
+      :inlayHintProvider
+      :foldingRangeProvider))
 
   :config
   (fset #'jsonrpc--log-event #'ignore)  ; massive perf boost---don't log every event
@@ -39,6 +48,8 @@
   ; (add-to-list 'eglot-server-programs
   ;              '(haskell-mode . ("haskell-language-server-wrapper" "--lsp")))
   )
+
+(setq eglot-sync-connect nil)
 
 (use-package flycheck-eglot
   :ensure t

@@ -10,7 +10,7 @@
 ;;;  - Theme
 ;;;  - Optional mixins
 ;;;  - Built-in customization framework
-
+(setq warning-minimum-level :emergency)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;;   Basic settings
@@ -74,8 +74,8 @@
  ring-bell-function 'ignore
  ;; search should be case-sensitive by default
  case-fold-search nil
- ;; no need to prompt for the read command _every_ time
- compilation-read-command nil
+ ;; prompt for the read command _every_ time
+ compilation-read-command t
  ;; scroll to first error
  compilation-scroll-output 'first-error
  ;; prefer newer elisp files
@@ -169,6 +169,7 @@
 
 ;; Tmux
 (global-unset-key (kbd "C-o"))
+(global-unset-key (kbd "C-p"))
 
 ;; Highlight trailing whitespace
 ;(set-default 'show-trailing-whitespace t)
