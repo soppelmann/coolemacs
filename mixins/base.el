@@ -23,8 +23,8 @@
   :bind (("C-c j" . avy-goto-line)
          ("C-c l j" . avy-goto-line)
          ("C-c l w" . avy-goto-symbol-1)
+         ("C-<tab>" . centaur-tabs-ace-jump)
          ("C-c l s"   . avy-goto-char-timer)))
-
 (use-package link-hint
   :ensure t
   :bind

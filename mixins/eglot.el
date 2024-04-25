@@ -17,7 +17,7 @@
   :custom
   (eglot-send-changes-idle-time 0.1)
    (eglot-ignored-server-capabilities
-    '(:hoverProvider
+    '(;:hoverProvider
       :documentHighlightProvider
       ;:documentFormattingProvider
       ;:documentRangeFormattingProvider

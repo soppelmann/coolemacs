@@ -39,12 +39,12 @@
 ;;; Phase 1 variables
 
 ;;; Phase 2 variables
-(require 'org-excalidraw)
+;; (require 'org-excalidraw)
 
-(use-package org-excalidraw
-  :config
-  (setq org-excalidraw-directory "~/Nextcloud/Notebooks/Excalidraw/")
-)
+;; (use-package org-excalidraw
+;;   :config
+;;   (setq org-excalidraw-directory "~/Nextcloud/Notebooks/Excalidraw/")
+;; )
 
 ;; Agenda variables
 (setq org-directory "~/Nextcloud/Notebooks/") ; Non-absolute paths for agenda and
@@ -233,4 +233,17 @@
  org-agenda-current-time-string
  "⭠ now ─────────────────────────────────────────────────")
 
-;(global-org-modern-mode)
+(global-org-modern-mode)
+
+(use-package org-html-themify
+  :straight
+  (:type git
+   :host github
+   :repo "DogLooksGood/org-html-themify"
+   :files ("*.el" "*.js" "*.css"))
+  :hook (org-mode . org-html-themify-mode)
+  :ensure t
+  :custom
+  (org-html-themify-themes
+   '((dark . modus-vivendi)
+     (light . modus-operandi))))
