@@ -161,7 +161,7 @@
 (show-paren-mode)
 
 ;; Insane
-(defalias 'yes-or-no-p 'y-or-n-p)
+;(defalias 'yes-or-no-p 'y-or-n-p)
 
 ;; Path for daemon
 (when (daemonp)

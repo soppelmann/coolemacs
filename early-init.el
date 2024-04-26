@@ -4,6 +4,8 @@
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;(setq load-prefer-newer t)
+
 ;(add-to-list 'default-frame-alist '(undecorated . t))
 ;(add-to-list 'default-frame-alist '(undecorated-round . t))
 
@@ -20,13 +22,14 @@
 
 (tool-bar-mode -1)                      ; All these tools are in the menu-bar anyway
 
+
 (setq default-frame-alist '(
     ;(fullscreen . maximized)
 
     ;; You can turn off scroll bars by uncommenting these lines:
     (vertical-scroll-bars . nil)
     (horizontal-scroll-bars . nil)
-    (undecorated-round . t)
+    ;(undecorated-round . t)
     ;; Setting the face in here prevents flashes of
     ;; color as the theme gets activated
     (background-color . "#000000")

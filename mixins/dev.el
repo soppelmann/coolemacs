@@ -156,8 +156,9 @@
 ;(setq flycheck-indication-mode nil)
 
 ;; Left fringe flycheck-indication-mode
-(setq-default flycheck-indication-mode 'left-fringe)
-(add-hook 'flycheck-mode-hook #'flycheck-set-indication-mode)
+
+;; (setq-default flycheck-indication-mode 'left-fringe)
+;; (add-hook 'flycheck-mode-hook #'flycheck-set-indication-mode)
 
 (use-package flycheck-checkbashisms
   :ensure t
