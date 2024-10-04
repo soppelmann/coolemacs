@@ -4,9 +4,9 @@
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;(setq load-prefer-newer t)
+(setq load-prefer-newer t)
 
-;(add-to-list 'default-frame-alist '(undecorated . t))
+(add-to-list 'default-frame-alist '(undecorated . t))
 ;(add-to-list 'default-frame-alist '(undecorated-round . t))
 
 ;; Startup speed, annoyance suppression

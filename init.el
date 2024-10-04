@@ -11,6 +11,17 @@
 ;;;  - Optional mixins
 ;;;  - Built-in customization framework
 (setq warning-minimum-level :emergency)
+
+;;; TODO:
+;;
+;; keybinds for consult-tramp
+;; tramp in general
+;; eglot functions
+;; burly bookmarks
+;; ranger
+;; copilot mode
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;;   Basic settings
@@ -97,8 +108,8 @@
 (setq global-auto-revert-mode t)
 
 ;; Delete trailing whitespace on save
-(add-hook 'before-save-hook
-          'delete-trailing-whitespace)
+;(add-hook 'before-save-hook
+;          'delete-trailing-whitespace)
 
 ;; Disable bell sound
 (setq ring-bell-function 'ignore)
@@ -127,6 +138,10 @@
 
 ;; Fix archaic defaults
 (setq sentence-end-double-space nil)
+
+;; Spellcheck with C-c l f
+(global-set-key (kbd "C-c l f") 'ispell-word)
+
 
 ;; Make right-click do something sensible
 ;;(when (display-graphic-p)
@@ -161,7 +176,7 @@
 (show-paren-mode)
 
 ;; Insane
-;(defalias 'yes-or-no-p 'y-or-n-p)
+(defalias 'yes-or-no-p 'y-or-n-p)
 
 ;; Path for daemon
 (when (daemonp)
@@ -173,6 +188,13 @@
 
 ;; Highlight trailing whitespace
 ;(set-default 'show-trailing-whitespace t)
+
+;(setq whitespace-style '(face tabs tab-mark trailing))
+;(custom-set-faces
+; '(whitespace-tab ((t (:foreground "#636363")))))
+;(setq whitespace-display-mappings
+;  '((tab-mark 9 [124 9] [92 9]))) ; 124 is the ascii ID for '\|'
+;(global-whitespace-mode)
 
 ;; Fix something with symlinks
 (setq find-file-visit-truename t)
@@ -261,8 +283,21 @@
 (setq x-underline-at-descent-line nil)           ; Prettier underlines
 (setq switch-to-buffer-obey-display-actions t)   ; Make switching buffers more consistent
 
-(setq-default show-trailing-whitespace nil)      ; By default, don't underline trailing spaces
+;(setq-default show-trailing-whitespace nil)      ; By default, don't underline trailing spaces
 ;(setq-default indicate-buffer-boundaries 'left)  ; Show buffer top and bottom in the margin
+
+;; use the k&r c style for c mode
+;;(setq c-default-style "k&r")
+;; use tabs instead of spaces
+(setq-default indent-tabs-mode nil)
+;; set the tab width to 4
+(setq-default tab-width 4)
+
+(add-hook 'makefile-mode-hook
+  '(lambda()
+     (setq indent-tabs-mode t)
+   )
+)
 
 ;; We won't set these, but they're good to know about
 ;;
@@ -270,23 +305,25 @@
 ;; (setq-default tab-width 4)
 
 ;; Use spaces, not tabs, for indentation.
-(setq-default indent-tabs-mode nil)
+;(setq-default indent-tabs-mode nil)
+;
+;;; Never use tabs, use spaces instead.
+;(setq tab-width 2)
+;(setq js-indent-level 2)
+;(setq css-indent-offset 2)
+;(setq c-basic-offset 2)
+;(setq-default indent-tabs-mode nil)
+;(setq-default c-basic-offset 2)
+;(setq-default tab-width 2)
+;(setq-default c-basic-indent 2)
 
-;; Never use tabs, use spaces instead.
-(setq tab-width 2)
-(setq js-indent-level 2)
-(setq css-indent-offset 2)
-(setq c-basic-offset 2)
-(setq-default indent-tabs-mode nil)
-(setq-default c-basic-offset 2)
-(setq-default tab-width 2)
-(setq-default c-basic-indent 2)
+(setq backward-delete-char-untabify-method 'hungry)
 
 ;; Misc. UI tweaks
 (blink-cursor-mode -1)                                ; Steady cursor
-(pixel-scroll-precision-mode)                         ; Smooth scrolling
-(pixel-scroll-mode)                                   ; Smooth scrolling
-(setq scroll-preserve-screen-position 'always)        ; Scroll commands keep cursor position
+;(pixel-scroll-precision-mode)                         ; Smooth scrolling
+;(pixel-scroll-mode)                                   ; Smooth scrolling
+;(setq scroll-preserve-screen-position 'always)        ; Scroll commands keep cursor position
 
 ;; Set line width to 80 characters and display a vertical line at that column
 (setq-default fill-column 80)
@@ -353,6 +390,10 @@
 ;; Add the time to the tab-bar, if visible
 (add-to-list 'tab-bar-format 'tab-bar-format-align-right 'append)
 (add-to-list 'tab-bar-format 'tab-bar-format-global 'append)
+(set-face-attribute 'tab-bar nil ;; background behind all tabs on the tab bar
+:height 1.15)
+
+
 (setq display-time-format "%a %F %T")
 (setq display-time-interval 1)
 (display-time-mode)
@@ -407,7 +448,8 @@
 (load-file (expand-file-name "mixins/fontaine.el" user-emacs-directory))
 )
 
-;; Nice fonts for emacs
+;; Themes, doom-gruvbox
+;(load-theme 'doom-gruvbox t)
 (load-file (expand-file-name "mixins/themes.el" user-emacs-directory))
 
 ;; Completion settings (corfu capf cape)
@@ -415,6 +457,9 @@
 
 ;; Eglot config
 (load-file (expand-file-name "mixins/eglot.el" user-emacs-directory))
+
+;; verilog config
+(load-file (expand-file-name "mixins/hlsmode.el" user-emacs-directory))
 
 ;; lspmode config
 ;(load-file (expand-file-name "mixins/lspmode.el" user-emacs-directory))
@@ -463,3 +508,4 @@
 ;                       org-support-shift-select
 ;                       (not (use-region-p)))
 ;                  (cua-set-mark)))))))
+

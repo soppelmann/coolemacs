@@ -28,7 +28,7 @@
    (t . (regular 1.15))))
 
 (setq
- ef-themes-to-toggle '(ef-day ef-maris-dark)
+ ef-themes-to-toggle '(ef-owl ef-eagle)
 )
 
 ;;(setq
@@ -150,7 +150,7 @@
    (read-only-mode)
 
    (scroll-bar-mode 0)
-   (ef-themes-select 'ef-maris-dark)
+   (ef-themes-select 'ef-owl)
    ;(ef-themes-select 'ef-maris-dark)
    ;;(modus-themes-select 'modus-operandi)
    ;(modus-themes-select 'modus-vivendi-deuteranopia)
@@ -159,8 +159,21 @@
    ))
 
 ;;(load-theme 'modus-vivendi)
-(ef-themes-select 'ef-maris-dark)
+(ef-themes-select 'ef-owl)
 ;(ef-themes-select 'ef-maris-dark)
 ;;(modus-themes-select 'modus-operandi)
 ;(modus-themes-select 'modus-vivendi-deuteranopia)
 ;;(load-theme 'grb256)
+
+;;(use-package heaven-and-hell
+;;  :ensure t
+;;  :config
+;;  (setq heaven-and-hell-theme-type 'dark) ;; Omit to use light by default
+;;  (setq heaven-and-hell-themes
+;;        '((light . doom-plain)
+;;          (dark . (doom-plain-dark grb256)))) ;; Themes can be the list: (dark . (tsdh-dark wombat))
+;;  ;; Optionall, load themes without asking for confirmation.
+;;  (setq heaven-and-hell-load-theme-no-confirm t)
+;;  :hook (after-init . heaven-and-hell-init-hook)
+;;  :bind (("C-c <f6>" . heaven-and-hell-load-default-theme)
+;;         ("<f6>" . heaven-and-hell-toggle-theme)))

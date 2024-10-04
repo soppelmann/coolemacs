@@ -58,7 +58,18 @@
   (global-flycheck-eglot-mode 1))
 
 ;; Enable LSP support by default in programming buffers
-(add-hook 'prog-mode-hook #'eglot-ensure)
+;(add-hook 'prog-mode-hook #'eglot-ensure)
+
+;; bind key C-c l e to eglot enable
+(global-set-key (kbd "C-c l e") 'eglot)
+
+;; bind key C-c l r to eglot rename
+(global-set-key (kbd "C-c l r") 'eglot-rename)
+
+;; bind key C-c l r to eglot fix
+(global-set-key (kbd "C-c l l") 'eglot-code-actions)
+
+
 
 ;; (defun my/eglot-capf ()
 ;;   (setq-local completion-at-point-functions

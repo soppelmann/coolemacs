@@ -78,7 +78,7 @@
          :line-spacing nil)
         (Gallant
          :default-family "gallant12x22"
-         :default-weight bold
+         :default-weight normal
          :default-height 200
          :fixed-pitch-family nil ; falls back to :default-family
          :fixed-pitch-weight normal ; falls back to :default-weight
@@ -123,8 +123,8 @@
          :line-spacing nil)
         (Comfy
          :default-family "Px437 IBM PS/55 re." ;Mx437 DOS/V re. JPN30 Is also nice
-         :default-weight normal
-         :default-height 200
+         :default-weight semilight
+         :default-height 175
          :fixed-pitch-family nil ; falls back to :default-family
          :fixed-pitch-weight nil ; falls back to :default-weight
          :fixed-pitch-height 1.0
@@ -138,7 +138,7 @@
          :line-spacing nil)
         (OpenBSD
          :default-family "Spleen 32x64"
-         :default-weight bold
+         :default-weight normal
          :default-height 200
          :fixed-pitch-family nil ; falls back to :default-family
          :fixed-pitch-weight nil ; falls back to :default-weight
@@ -148,6 +148,51 @@
          :variable-pitch-height 1.05
          :bold-family nil ; use whatever the underlying face has
          :bold-weight bold
+         :italic-family nil
+         :italic-slant italic
+         :line-spacing nil)
+        (Cozette
+         :default-family "CozetteVector"
+         :default-weight medium
+         :default-height 150
+         :fixed-pitch-family nil ; falls back to :default-family
+         :fixed-pitch-weight nil ; falls back to :default-weight
+         :fixed-pitch-height 1.0
+         :variable-pitch-family "CozetteVector"
+         :variable-pitch-weight medium
+         :variable-pitch-height 1.05
+         :bold-family nil ; use whatever the underlying face has
+         :bold-weight normal
+         :italic-family nil
+         :italic-slant italic
+         :line-spacing nil)
+        (Fantasque
+         :default-family "FantasqueSansM Nerd Font Mono"
+         :default-weight medium
+         :default-height 150
+         :fixed-pitch-family nil ; falls back to :default-family
+         :fixed-pitch-weight nil ; falls back to :default-weight
+         :fixed-pitch-height 1.0
+         :variable-pitch-family "FantasqueSansM Nerd Font Mono"
+         :variable-pitch-weight medium
+         :variable-pitch-height 1.05
+         :bold-family nil ; use whatever the underlying face has
+         :bold-weight normal
+         :italic-family nil
+         :italic-slant italic
+         :line-spacing nil)
+        (Berkeley
+         :default-family "Berkeley Mono"
+         :default-weight normal
+         :default-height 150
+         :fixed-pitch-family nil ; falls back to :default-family
+         :fixed-pitch-weight nil ; falls back to :default-weight
+         :fixed-pitch-height 1.0
+         :variable-pitch-family "Berkeley Mono"
+         :variable-pitch-weight normal
+         :variable-pitch-height 1.05
+         :bold-family nil ; use whatever the underlying face has
+         :bold-weight normal
          :italic-family nil
          :italic-slant italic
          :line-spacing nil)
@@ -182,6 +227,7 @@
          :italic-slant italic
          :line-spacing nil)))
 
+
 ;; Set last preset or fall back to desired style from `fontaine-presets'.
 (fontaine-set-preset (or (fontaine-restore-latest-preset) 'regular))
 
@@ -192,3 +238,23 @@
 ;; my `modus-themes' and `ef-themes' via the hooks they provide).
 (dolist (hook '(modus-themes-after-load-theme-hook ef-themes-post-load-hook))
   (add-hook hook #'fontaine-apply-current-preset))
+
+;;;; Show Font (preview fonts)
+;; Read the manual: <https://protesilaos.com/emacs/show-font>
+(use-package show-font
+  :ensure t
+  :commands (show-font-select-preview show-font-list)
+  :config
+  ;; These are the defaults, but I keep them here for easier access.
+  (setq show-font-pangram 'prot)
+  (setq show-font-character-sample
+        "
+ABCDEFGHIJKLMNOPQRSTUVWXYZ
+abcdefghijklmnopqrstuvwxyz
+0123456789   !@#$¢%^&*~|
+`'\"‘’“”.,;:  ()[]{}—-_+=<>
+
+()[]{}<>«»‹› 6bB8&0ODdoa 1tiIlL|\/
+!ij c¢ 5$Ss 7Z2z 9gqp nmMNNMW uvvwWuuw
+x×X .,·°;:¡!¿?`'‘’   ÄAÃÀ TODO
+"))

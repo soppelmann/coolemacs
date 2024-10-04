@@ -11,8 +11,8 @@
          xref
          capf
          hierarchy
-         ;;eglot
-         lsp
+         eglot
+        ; lsp
          flycheck
          beautify
          navigation
@@ -30,21 +30,30 @@
  :config
  (verilog-ext-mode-setup))
 
+;; we use M-TAB for completion
+(define-key verilog-ext-mode-map (kbd "M-TAB") nil) 
+
+;(setq verilog-ext-tags-backend 'tree-sitter)
 (setq verilog-ext-tags-backend 'builtin)
 
 (setq verilog-ext-project-alist
-      `(("ucontroller" ; Project name
-         :root "~/Documents/Courses/ICP/MatrixMult/matrix_multiplication" ; Root directory of project
-         :dirs ("-r simulation" ; -r to add directories recursively
-                "-r sources")
+      `(("icp2" ; Project name
+         :root "~/Documents/Courses/ICP2/Labs/" ; Root directory of project
+         :dirs ("-r Lab3_4") ; -r to add directories recursively
+         :files ("*.sv"
+                 "**/*.sv"
+                 "**/*.svh"
+                 "**/**/*.sv"
+                 "**/**/*.svh"
+                 )
          ;:ignore-dirs ("src/ignored_ip")
-         :ignore-files ("sources/SPHD110420.v")
+         ;:ignore-files ("sources/SPHD110420.v")
          ;:compile-cmd "make tb_top" ; command used to compile current project
          ;; `vhier' related properties
          ;:command-file "commands.f" ; vhier command file
          :lib-search-path nil)))    ; list of dirs to look for include directories or libraries
 
-;; (use-package verilog-ts-mode
-;;  :ensure t
-;;   :mode (("\\.s?vh?\\'" . verilog-ts-mode))
-;;  )
+; (use-package verilog-ts-mode
+;  :ensure t
+;   :mode (("\\.s?vh?\\'" . verilog-ts-mode))
+;  )

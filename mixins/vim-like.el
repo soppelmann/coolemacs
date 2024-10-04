@@ -42,8 +42,8 @@
 (evil-set-undo-system 'undo-redo)
 
 
-(define-key evil-normal-state-map (kbd "C-e") 'evil-local-mode)
-(global-set-key (kbd "C-e") 'evil-local-mode)
+;; (define-key evil-normal-state-map (kbd "C-e") 'evil-local-mode)
+;; (global-set-key (kbd "C-e") 'evil-local-mode)
 
 (define-key evil-normal-state-map (kbd "C-.") nil)
 (define-key evil-insert-state-map (kbd "C-.") nil)
