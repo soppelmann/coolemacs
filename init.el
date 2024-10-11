@@ -358,11 +358,21 @@
 (setq-default display-line-numbers-width 3)           ; Set a minimum width
 
 ;; tabs for prog and term buffers
-(add-hook 'prog-mode-hook 'tab-line-mode)
-(add-hook 'org-mode-hook 'tab-line-mode)
-(add-hook 'text-mode-hook 'tab-line-mode)
+;; now handled by centaur-tabs
+;(add-hook 'prog-mode-hook 'tab-line-mode)
+;(add-hook 'org-mode-hook 'tab-line-mode)
+;(add-hook 'text-mode-hook 'tab-line-mode)
 ;(add-hook 'term-mode-hook 'tab-line-mode)
 
+;; lets make emacs pretty
+;; we want to hide the modeline sometimes, for example when interacting with terminals
+
+(use-package hide-mode-line
+  :ensure t)
+;; hide it for vterm
+(add-hook 'vterm-mode-hook 'hide-mode-line-mode)
+(add-hook 'which-key-mode-hook 'hide-mode-line-mode)
+;(add-hook 'which-key-init-buffer-hook 'hide-mode-line-mode)
 
 ;; Nice line wrapping when working with text
 (add-hook 'text-mode-hook 'visual-line-mode)

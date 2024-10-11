@@ -29,8 +29,11 @@
 
 ;; exec-path-from-shell
 (use-package exec-path-from-shell
-  :ensure t)
+  :ensure
+  :init (exec-path-from-shell-initialize))
 
+(if (string-equal system-type "darwin")
+    (setq dired-use-ls-dired nil))
 
 (use-package emacs
   :config
@@ -381,6 +384,11 @@
 ;; C-c C-C is a worthless binding for comments, so unbind it
 ;; Use C-x C-; instead or M-; for line comments
 (define-key c-mode-base-map (kbd "C-c C-c") nil)
+(use-package smart-compile
+  :ensure t)
+(define-key c-mode-base-map (kbd "C-c C-c") 'smart-compile)
+;(add-hook 'c-mode-common-hook 
+;          (lambda () (define-key c-mode-base-map (kbd "C-c C-c") 'compile)))
 
 ;; Emacs ships with a lot of popular programming language modes. If it's not
 ;; built in, you're almost certain to find a mode for the language you're

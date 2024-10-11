@@ -371,6 +371,7 @@ targets."
 (use-package centaur-tabs
   :ensure t
   :hook ;; centaur-tabs-local-mode disables centaur-tabs-mode
+  ;; we have it globally enabled but locally disable it
   (dashboard-mode . centaur-tabs-local-mode)
   (helpful-mode . centaur-tabs-local-mode)
   (ibuffer-mode . centaur-tabs-local-mode)
