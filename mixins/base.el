@@ -313,9 +313,6 @@
 ;(define-key embark-file-map (kbd "b") 'consult-bookmark)
 ;(define-key embark-general-map (kbd "b") 'consult-bookmark)
 
-
-
-
 ;; Use which key for embark
 
 (defun embark-which-key-indicator ()
@@ -398,6 +395,32 @@ targets."
   ("C-x <right>" . centaur-tabs-forward))
 
 
+(defun tdr/fix-centaur-tabs ()
+  "Reset Centaur Tabs."
+  (centaur-tabs-mode -1) ; Disable Centaur Tabs
+  (centaur-tabs-mode 1)  ; Re-enable Centaur Tabs
+  (centaur-tabs-headline-match)) ; Update tabs
+
+(add-hook 'focus-in-hook 'tdr/fix-centaur-tabs)
+;; ;; Nice tabs
+;; (use-package centaur-tabs
+;;   :ensure t
+;;   :config
+;;   (centaur-tabs-mode t)
+;;   :bind
+;;   ("C-x <left>" . centaur-tabs-backward)
+;;   ("C-x <right>" . centaur-tabs-forward)
+;;   :custom
+;;   (centaur-tabs-style "bar")
+;;   (centaur-tabs-set-bar 'under)
+;;   (x-underline-at-descent-line t) ;; for 'under
+;;   :init
+;;   (if (daemonp)
+;;       (add-hook 'server-after-make-frame-hook 'centaur-tabs-mode)
+;;     (add-hook 'after-init-hook 'centaur-tabs-mode))
+;;   )
+
+
 ;; When the currently selected tab(A) is at the right of the last visited
 ;; tab(B), move A to the right of B. When the currently selected tab(A) is
 ;; at the left of the last visited tab(B), move A to the left of B
@@ -419,6 +442,12 @@ targets."
 (setq centaur-tabs-set-icons t)
 ;(setq centaur-tabs-plain-icons t)
 ;(setq centaur-tabs-gray-out-icons 'buffer)
+
+(setq centaur-tabs-set-bar 'under)
+;(setq centaur-tabs-set-bar 'left)
+;; Note: If you're not using Spacmeacs, in order for the underline to display
+;; correctly you must add the following line:
+(setq x-underline-at-descent-line t)
 
 ;; Change defvar centaur-tabs-icon-scale-factor 1.0 to 0.8
 (setq centaur-tabs-icon-scale-factor 0.8)
