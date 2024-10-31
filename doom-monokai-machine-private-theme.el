@@ -288,7 +288,11 @@ Can be an integer to determine the exact padding."
    (rainbow-delimiters-depth-6-face              :foreground orange)
    (rainbow-delimiters-depth-7-face              :foreground green)
    ;;;; show-paren-mode
-   (show-paren-match                             :weight 'bold :foreground green)
+   ;; (show-paren-match                             :weight 'bold :foreground green :box `(:line-width 1 :color ,cyan))
+   (show-paren-match                             :weight 'bold :foreground green :underline t)
+   ;(evil-snipe-matches-face                      :foreground green :underline t)
+   ;(show-paren-match                             :weight 'bold :foreground green)
+   ;(isearch                                      :inherit 'match :box `(:line-width 1 :color ,yellow))
    (show-paren-mismatch                          :weight 'bold :foreground red)
    ;;;; swiper
    (swiper-background-match-face-1               :inherit 'match :weight 'bold)
