@@ -387,7 +387,6 @@
   (ansi-color-apply-on-region compilation-filter-start (point)))
 (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;;   Tab-bar configuration
@@ -490,6 +489,7 @@
 ;; Set up copilot AI assistant
 (load-file (expand-file-name "mixins/copilot.el" user-emacs-directory))
 
+
 ;; Org-mode configuration
 ;; WARNING: need to customize things inside the mixin file before use! See
 ;; the file mixins/org-intro.txt for help.
@@ -518,4 +518,5 @@
 ;                       org-support-shift-select
 ;                       (not (use-region-p)))
 ;                  (cua-set-mark)))))))
+
 

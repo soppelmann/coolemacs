@@ -127,6 +127,9 @@ Can be an integer to determine the exact padding."
 
    (tab-bar :background bg :foreground fg)
    (tab-bar-tab :background bg :foreground fg)
+
+   ;;;; magit
+   (magit-header-line :background base2 :foreground fg)
    
    ;;;; centaur-tabs
    (centaur-tabs-selected-modified               :inherit 'centaur-tabs-selected :foreground yellow)
