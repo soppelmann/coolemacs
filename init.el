@@ -71,6 +71,18 @@
 ;(setq use-package-always-defer t
 ;      use-package-always-ensure t)
 
+;; exec-path-from-shell
+(use-package exec-path-from-shell
+  :ensure
+  :init (exec-path-from-shell-initialize))
+
+;; Path for daemon
+(when (daemonp)
+  (exec-path-from-shell-initialize))
+
+(when (memq window-system '(mac ns x))
+  (exec-path-from-shell-initialize))
+
 (setq initial-major-mode 'fundamental-mode)  ; default mode for the *scratch* buffer
 (setq display-time-default-load-average nil) ; this information is useless for most
 
@@ -131,17 +143,16 @@
 ;; Move through windows with Ctrl-<arrow keys>
 ;(windmove-default-keybindings 'C-c) ; You can use other modifiers here
 ;(windmove-default-keybindings 'control) ; You can use other modifiers here
-(global-set-key (kbd "C-c <left>") 'windmove-left)
-(global-set-key (kbd "C-c <right>") 'windmove-right)
-(global-set-key (kbd "C-c <up>") 'windmove-up)
-(global-set-key (kbd "C-c <down>") 'windmove-down)
+;(global-set-key (kbd "C-c <left>") 'windmove-left)
+;(global-set-key (kbd "C-c <right>") 'windmove-right)
+;(global-set-key (kbd "C-c <up>") 'windmove-up)
+;(global-set-key (kbd "C-c <down>") 'windmove-down)
 
 ;; Fix archaic defaults
 (setq sentence-end-double-space nil)
 
 ;; Spellcheck with C-c l f
 (global-set-key (kbd "C-c l f") 'ispell-word)
-
 
 ;; Make right-click do something sensible
 ;;(when (display-graphic-p)
@@ -151,7 +162,6 @@
 ;; DELETE MOUSE 3
 (global-unset-key (kbd "<mouse-3>"))
 (global-unset-key (kbd "<down-mouse-3>"))
-
 
 ;; function to reload config
 (defun reload-config ()
@@ -178,14 +188,6 @@
 ;; Insane
 (defalias 'yes-or-no-p 'y-or-n-p)
 
-;; Path for daemon
-(when (daemonp)
-  (exec-path-from-shell-initialize))
-
-;; Tmux
-(global-unset-key (kbd "C-o"))
-(global-unset-key (kbd "C-p"))
-
 ;; Highlight trailing whitespace
 ;(set-default 'show-trailing-whitespace t)
 
@@ -200,34 +202,6 @@
 (setq find-file-visit-truename t)
 
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;
-;;;   Discovery aids
-;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; Show the help buffer after startup
-;(add-hook 'after-init-hook 'help-quick)
-
-;; which-key: shows a popup of available keybindings when typing a long key
-;; sequence (e.g. C-x ...)
-(use-package which-key
-  :ensure t
-  :config
-  (which-key-mode))
-
-(use-package nerd-icons
-  :ensure t
-  ;; :custom
-  ;; The Nerd Font you want to use in GUI
-  ;; "Symbols Nerd Font Mono" is the default and is recommended
-  ;; but you can use any other Nerd Font if you want
-  ;; (nerd-icons-font-family "Symbols Nerd Font Mono")
-  )
-
-
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;;   Minibuffer/completion settings
@@ -236,18 +210,18 @@
 
 ;; For help, see: https://www.masteringemacs.org/article/understanding-minibuffer-completion
 
-(setq enable-recursive-minibuffers t)                ; Use the minibuffer whilst in the minibuffer
-(setq completion-cycle-threshold 1)                  ; TAB cycles candidates
-(setq completions-detailed t)                        ; Show annotations
+;(setq enable-recursive-minibuffers t)                ; Use the minibuffer whilst in the minibuffer
+;(setq completion-cycle-threshold 1)                  ; TAB cycles candidates
+;(setq completions-detailed t)                        ; Show annotations
 ;(setq tab-always-indent 'complete)                   ; When I hit TAB, try to complete, otherwise, indent
 ;(setq completion-styles '(basic initials substring)) ; Different styles to match input to candidates
 
-(setq completion-auto-help 'always)                  ; Open completion always; `lazy' another option
-(setq completions-max-height 20)                     ; This is arbitrary
+;(setq completion-auto-help 'always)                  ; Open completion always; `lazy' another option
+;(setq completions-max-height 20)                     ; This is arbitrary
 ;(setq completions-detailed t)
-(setq completions-format 'one-column)
-(setq completions-group t)
-(setq completion-auto-select 'second-tab)            ; Much more eager
+;(setq completions-format 'one-column)
+;(setq completions-group t)
+;(setq completion-auto-select 'second-tab)            ; Much more eager
 ;(setq completion-auto-select t)                     ; See `C-h v completion-auto-select' for more possible values
 
 ;(keymap-set minibuffer-mode-map "TAB" 'minibuffer-complete) ; TAB acts more like how it does in the shell
@@ -270,6 +244,7 @@
 
 ;(setq doom-modeline-icon t)
 ;(setq doom-modeline-support-imenu t)
+
 (use-package doom-modeline
   :ensure t
   :hook (after-init . doom-modeline-mode))
@@ -367,11 +342,11 @@
 ;; lets make emacs pretty
 ;; we want to hide the modeline sometimes, for example when interacting with terminals
 
-(use-package hide-mode-line
-  :ensure t)
-;; hide it for vterm
-(add-hook 'vterm-mode-hook 'hide-mode-line-mode)
-(add-hook 'which-key-mode-hook 'hide-mode-line-mode)
+;; (use-package hide-mode-line
+;;   :ensure t)
+;; ;; hide it for vterm
+;; (add-hook 'vterm-mode-hook 'hide-mode-line-mode)
+;; (add-hook 'which-key-mode-hook 'hide-mode-line-mode)
 ;(add-hook 'which-key-init-buffer-hook 'hide-mode-line-mode)
 
 ;; Nice line wrapping when working with text
@@ -447,7 +422,10 @@
 (load-file (expand-file-name "mixins/dev.el" user-emacs-directory))
 
 ;; Vim-bindings in Emacs (evil-mode configuration)
-(load-file (expand-file-name "mixins/vim-like.el" user-emacs-directory))
+;(load-file (expand-file-name "mixins/vim-like.el" user-emacs-directory))
+
+;; meow setup for emacs
+(load-file (expand-file-name "mixins/meow.el" user-emacs-directory))
 
 ;; Dashboard for emacs
 (load-file (expand-file-name "mixins/dashboard.el" user-emacs-directory))
@@ -465,20 +443,20 @@
 (load-file (expand-file-name "mixins/completion.el" user-emacs-directory))
 
 ;; Eglot config
-(load-file (expand-file-name "mixins/eglot.el" user-emacs-directory))
+;(load-file (expand-file-name "mixins/eglot.el" user-emacs-directory))
 
-;; verilog config
-(load-file (expand-file-name "mixins/hlsmode.el" user-emacs-directory))
-
-;; lspmode config
-;(load-file (expand-file-name "mixins/lspmode.el" user-emacs-directory))
+;; lsp-bridge config
+;(load-file (expand-file-name "mixins/lsp-bridge.el" user-emacs-directory))
 
 ;; Rust config
 ;(load-file (expand-file-name "mixins/rust.el" user-emacs-directory))
 
+;; verilog config
+(load-file (expand-file-name "mixins/hlsmode.el" user-emacs-directory))
+
 ;; Cargo config
 ;(load-file (expand-file-name "mixins/cargo.el" user-emacs-directory))
-(add-to-list 'load-path "~/.emacs.d/elisp/cargo-transient.el")
+;(add-to-list 'load-path "~/.emacs.d/elisp/cargo-transient.el")
 
 ;; Company config
 ;(load-file (expand-file-name "mixins/company.el" user-emacs-directory))
@@ -488,6 +466,9 @@
 
 ;; Set up copilot AI assistant
 (load-file (expand-file-name "mixins/copilot.el" user-emacs-directory))
+
+;; lspmode config
+(load-file (expand-file-name "mixins/lspmode.el" user-emacs-directory))
 
 
 ;; Org-mode configuration

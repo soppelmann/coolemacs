@@ -27,10 +27,6 @@
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; exec-path-from-shell
-(use-package exec-path-from-shell
-  :ensure
-  :init (exec-path-from-shell-initialize))
 
 (if (string-equal system-type "darwin")
     (setq dired-use-ls-dired nil))
@@ -72,46 +68,46 @@
 ;;;
 
 
-(use-package dape
-  :preface
-  ;; By default dape shares the same keybinding prefix as `gud'
-  ;; If you do not want to use any prefix, set it to nil.
-  ;; (setq dape-key-prefix "\C-x\C-a")
+;; (use-package dape
+;;   :preface
+;;   ;; By default dape shares the same keybinding prefix as `gud'
+;;   ;; If you do not want to use any prefix, set it to nil.
+;;   ;; (setq dape-key-prefix "\C-x\C-a")
 
-  :hook
-  ;; Save breakpoints on quit
-  ;; ((kill-emacs . dape-breakpoint-save)
-  ;; Load breakpoints on startup
-  ;;  (after-init . dape-breakpoint-load))
+;;   :hook
+;;   ;; Save breakpoints on quit
+;;   ;; ((kill-emacs . dape-breakpoint-save)
+;;   ;; Load breakpoints on startup
+;;   ;;  (after-init . dape-breakpoint-load))
 
-  :init
-  ;; To use window configuration like gud (gdb-mi)
-  ;; (setq dape-buffer-window-arrangement 'gud)
+;;   :init
+;;   ;; To use window configuration like gud (gdb-mi)
+;;   ;; (setq dape-buffer-window-arrangement 'gud)
 
-  :config
-  ;; Info buffers to the right
-  (setq dape-buffer-window-arrangement 'right)
-  (setq dape-request-timeout 30)
-  ;; Global bindings for setting breakpoints with mouse
-  (dape-breakpoint-global-mode)
+;;   :config
+;;   ;; Info buffers to the right
+;;   (setq dape-buffer-window-arrangement 'right)
+;;   (setq dape-request-timeout 30)
+;;   ;; Global bindings for setting breakpoints with mouse
+;;   (dape-breakpoint-global-mode)
 
-  ;; To not display info and/or buffers on startup
-  ;; (remove-hook 'dape-on-start-hooks 'dape-info)
-  ;; (remove-hook 'dape-on-start-hooks 'dape-repl)
+;;   ;; To not display info and/or buffers on startup
+;;   ;; (remove-hook 'dape-on-start-hooks 'dape-info)
+;;   ;; (remove-hook 'dape-on-start-hooks 'dape-repl)
 
-  ;; To display info and/or repl buffers on stopped
-  ;; (add-hook 'dape-on-stopped-hooks 'dape-info)
-  ;; (add-hook 'dape-on-stopped-hooks 'dape-repl)
+;;   ;; To display info and/or repl buffers on stopped
+;;   ;; (add-hook 'dape-on-stopped-hooks 'dape-info)
+;;   ;; (add-hook 'dape-on-stopped-hooks 'dape-repl)
 
-  ;; Kill compile buffer on build success
-  (add-hook 'dape-compile-compile-hooks 'kill-buffer)
+;;   ;; Kill compile buffer on build success
+;;   (add-hook 'dape-compile-compile-hooks 'kill-buffer)
 
-  ;; Save buffers on startup, useful for interpreted languages
-  ;; (add-hook 'dape-on-start-hooks (lambda () (save-some-buffers t t)))
+;;   ;; Save buffers on startup, useful for interpreted languages
+;;   ;; (add-hook 'dape-on-start-hooks (lambda () (save-some-buffers t t)))
 
-  ;; Projectile users
-  (setq dape-cwd-fn 'projectile-project-root)
-  )
+;;   ;; Projectile users
+;;   (setq dape-cwd-fn 'projectile-project-root)
+;;   )
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -374,19 +370,92 @@
 ;; https://old.reddit.com/r/emacs/comments/audffp/tip_how_to_use_a_stable_and_fast_environment_to/
 (use-package google-c-style
   :ensure t
-  :hook ((c-mode c++-mode) . google-set-c-style)
+  :hook ((c-mode c++-mode c-ts-mode c++-ts-mode) . google-set-c-style)
          (c-mode-common . google-make-newline-indent))
 
 ;; use // instead of /* */ for comments
-(add-hook 'c-mode-hook (lambda () (c-toggle-comment-style -1)))
-(add-hook 'c++-mode-hook (lambda () (c-toggle-comment-style -1)))
+(add-hook 'c-ts-mode-hook (lambda () (c-ts-mode-toggle-comment-style -1)))
+(add-hook 'c++-ts-mode-hook (lambda () (c-ts-mode-toggle-comment-style -1)))
+(add-hook 'c-mode-hook (lambda () (c-mode-toggle-comment-style -1)))
+(add-hook 'c++-mode-hook (lambda () (c-mode-toggle-comment-style -1)))
+
+;; Torvalds Linux-style from Documentation/CodingStyle
+(defun c-lineup-arglist-tabs-only (ignored)
+  "Line up argument lists by tabs, not spaces"
+  (let* ((anchor (c-langelem-pos c-syntactic-element))
+	 (column (c-langelem-2nd-pos c-syntactic-element))
+	 (offset (- (1+ column) anchor))
+	 (steps (floor offset c-basic-offset)))
+    (* (max steps 1)
+       c-basic-offset)))
+
+(add-hook 'c-mode-common-hook
+          (lambda ()
+            ;; Add kernel style
+            (c-add-style
+             "linux-tabs-only"
+             '("linux" (c-offsets-alist
+                        (arglist-cont-nonempty
+                         c-lineup-gcc-asm-reg
+                         c-lineup-arglist-tabs-only))))))
+
+;; (add-hook 'c-mode-hook
+;;           (lambda ()
+;;             (setq indent-tabs-mode t)
+;;             (c-set-style "linux-tabs-only")))
+
+;; (add-hook 'c-mode-hook
+;;           (lambda ()
+;;             (let ((filename (buffer-file-name)))
+;;               ;; Enable kernel mode for the appropriate files
+;;               (when (and filename
+;;                          (string-match (expand-file-name "~/src/linux-trees")
+;;                                        filename))
+;;                 (setq indent-tabs-mode t)
+;;                 (c-set-style "linux-tabs-only")))))
+
+;; (add-hook 'c-mode-hook
+;;           (lambda ()
+;;             (let ((filename (buffer-file-name)))
+;;               ;; Enable kernel mode for the appropriate files
+;;               (when (and filename
+;;                          (string-match (expand-file-name "/var/linus")
+;;                                        filename))
+;;                 (setq indent-tabs-mode t)
+;;                 (c-set-style "linux-tabs-only")))))
+
+
+;; (defun my/c-mode-common-hook ()
+;; ;  (c-set-style "Linux")
+;;   (c-set-style "linux-tabs-only")
+;;   (setq
+;;    indent-tabs-mode nil
+;;    ;indent-tabs-mode t
+;;    c-basic-offset 4))
+
+;; (defun my/c-ts-mode-common-hook ()
+;; ;  (c-set-style "Linux")
+;;   (c-ts-mode-set-style "linux-tabs-only")
+;;   (setq
+;;    indent-tabs-mode nil
+;;    ;indent-tabs-mode t
+;;    c-basic-offset 4))
+
+;(add-hook 'c-mode-common-hook 'my/c-mode-common-hook)
+;(add-hook 'c-ts-mode-hook 'my/c-ts-mode-common-hook)
+
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width 8)
 
 ;; C-c C-C is a worthless binding for comments, so unbind it
 ;; Use C-x C-; instead or M-; for line comments
 (define-key c-mode-base-map (kbd "C-c C-c") nil)
+(define-key prog-mode-map (kbd "C-c C-c") nil)
+
 (use-package smart-compile
   :ensure t)
 (define-key c-mode-base-map (kbd "C-c C-c") 'smart-compile)
+(define-key prog-mode-map (kbd "C-c C-c") 'smart-compile)
 ;(add-hook 'c-mode-common-hook 
 ;          (lambda () (define-key c-mode-base-map (kbd "C-c C-c") 'compile)))
 
@@ -479,6 +548,10 @@
 ;(use-package multi-vterm
 ;  :ensure t
 ;)
+
+;; add keybind C-c e for eshell and C-c s for vterm
+(global-set-key (kbd "C-c s") 'vterm)
+(global-set-key (kbd "C-c e") 'eshell)
 
 
 (require 'tramp)
@@ -575,3 +648,18 @@
 ;     arg)))
 ;
 ;(define-key git-rebase-mode-map (kbd "h") #'local/change-commit-author)
+
+
+;; install phi-search and phi-search-mc using use-package
+
+(use-package phi-search
+  :ensure t)
+
+(use-package phi-search-mc
+  :ensure t)
+
+;; install multiple-cursor
+
+(use-package multiple-cursors
+  :ensure t)
+

@@ -118,22 +118,23 @@ Can be an integer to determine the exact padding."
    ;((line-number &override)                      :foreground base4 :distant-foreground nil)
    ;((line-number-current-line &override)         :foreground base7 :distant-foreground nil)
    ;; mode-line
-   (mode-line                                    :background bg :foreground fg
+   (mode-line                                    :background base1 :foreground fg
                                                  :box (if -modeline-pad `(:line-width ,-modeline-pad :color red)))
    (mode-line-inactive                           :background bg :foreground base5
                                                  :box (if -modeline-pad `(:line-width ,-modeline-pad :color red)))
 
    (fill-column-indicator                        :background base1 :foreground base1)
 
-   (tab-bar :background bg :foreground fg)
+   (tab-bar :background base1 :foreground fg)
    (tab-bar-tab :background bg :foreground fg)
+   (tab-bar-tab-inactive :background base1 :foreground fg)
 
    ;;;; magit
    (magit-header-line :background base2 :foreground fg)
    
    ;;;; centaur-tabs
    (centaur-tabs-selected-modified               :inherit 'centaur-tabs-selected :foreground yellow)
-   (centaur-tabs-unselected :background bg :foreground fg)
+   (centaur-tabs-unselected                      :background bg :foreground fg)
    (centaur-tabs-unselected-modified             :inherit 'centaur-tabs-unselected :foreground yellow)
    (centaur-tabs-active-bar-face                 :background cyan :foreground cyan)
    (centaur-tabs-modified-marker-selected        :inherit 'centaur-tabs-selected :foreground fg)
