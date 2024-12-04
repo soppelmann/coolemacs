@@ -77,7 +77,7 @@
 ;(use-package lsp-treemacs :commands lsp-treemacs-errors-list)
 
 (setq lsp-warn-no-matched-clients nil)
-(add-hook 'prog-mode-hook 'lsp-deferred) ;; Less chatty for unsupported modes (setq lsp-warn-no-matched-clients nil)
+;(add-hook 'prog-mode-hook 'lsp-deferred) ;; Less chatty for unsupported modes (setq lsp-warn-no-matched-clients nil)
 
 ;; Only autostart lsp for local projects
 ;; (defun lsp/notramp ()

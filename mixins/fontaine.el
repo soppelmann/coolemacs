@@ -4,7 +4,7 @@
       '((small
          :default-family "Hack"
          :default-weight normal
-         :default-height 160
+         :default-height 140
          :fixed-pitch-family nil ; falls back to :default-family
          :fixed-pitch-weight nil ; falls back to :default-weight
          :fixed-pitch-height 1.0
@@ -16,10 +16,40 @@
          :italic-family nil
          :italic-slant italic
          :line-spacing nil)
+        (font3270
+         :default-family "3270 Nerd Font Mono"
+         :default-weight normal
+         :default-height 140
+         :fixed-pitch-family nil ; falls back to :default-family
+         :fixed-pitch-weight nil ; falls back to :default-weight
+         :fixed-pitch-height 1.0
+         :variable-pitch-family "FiraGO"
+         :variable-pitch-weight normal
+         :variable-pitch-height 1.05
+         :bold-family nil ; use whatever the underlying face has
+         :bold-weight bold
+         :italic-family nil
+         :italic-slant italic
+         :line-spacing nil)
+        (Iosevka
+         :default-family "Iosevka Nerd Font Mono"
+         :default-weight normal
+         :default-height 140
+         :fixed-pitch-family nil ; falls back to :default-family
+         :fixed-pitch-weight nil ; falls back to :default-weight
+         :fixed-pitch-height 1.0
+         :variable-pitch-family "FiraGO"
+         :variable-pitch-weight normal
+         :variable-pitch-height 1.05
+         :bold-family nil ; use whatever the underlying face has
+         :bold-weight bold
+         :italic-family nil
+         :italic-slant italic
+         :line-spacing nil)
         (regular
          :default-family "Iosevka Comfy"
          :default-weight normal
-         :default-height 160
+         :default-height 140
          :fixed-pitch-family nil ; falls back to :default-family
          :fixed-pitch-weight nil ; falls back to :default-weight
          :fixed-pitch-height 1.0
@@ -34,7 +64,7 @@
         (medium
          :default-family "Source Code Pro"
          :default-weight normal
-         :default-height 160
+         :default-height 140
          :fixed-pitch-family nil ; falls back to :default-family
          :fixed-pitch-weight nil ; falls back to :default-weight
          :fixed-pitch-height 1.0
@@ -49,7 +79,7 @@
         (large
          :default-family "Iosevka Comfy"
          :default-weight semilight
-         :default-height 160
+         :default-height 140
          :fixed-pitch-family nil ; falls back to :default-family
          :fixed-pitch-weight nil ; falls back to :default-weight
          :fixed-pitch-height 1.0
@@ -94,7 +124,7 @@
         (Julia
          :default-family "JuliaMono"
          :default-weight normal
-         :default-height 160
+         :default-height 140
          :fixed-pitch-family nil ; falls back to :default-family
          :fixed-pitch-weight normal ; falls back to :default-weight
          :fixed-pitch-height 1.0
@@ -109,7 +139,7 @@
         (Plex
          :default-family "IBM Plex Mono"
          :default-weight normal
-         :default-height 160
+         :default-height 144
          :fixed-pitch-family nil ; falls back to :default-family
          :fixed-pitch-weight normal ; falls back to :default-weight
          :fixed-pitch-height 1.0
@@ -117,7 +147,7 @@
          :variable-pitch-weight normal
          :variable-pitch-height 1.05
          :bold-family nil ; use whatever the underlying face has
-         :bold-weight bold
+         :bold-weight normal
          :italic-family nil
          :italic-slant italic
          :line-spacing nil)
@@ -154,7 +184,7 @@
         (Cozette
          :default-family "CozetteVector"
          :default-weight medium
-         :default-height 150
+         :default-height 140
          :fixed-pitch-family nil ; falls back to :default-family
          :fixed-pitch-weight nil ; falls back to :default-weight
          :fixed-pitch-height 1.0
@@ -169,7 +199,7 @@
         (Fantasque
          :default-family "FantasqueSansM Nerd Font Mono"
          :default-weight medium
-         :default-height 150
+         :default-height 145
          :fixed-pitch-family nil ; falls back to :default-family
          :fixed-pitch-weight nil ; falls back to :default-weight
          :fixed-pitch-height 1.0
@@ -184,7 +214,7 @@
         (Berkeley
          :default-family "Berkeley Mono"
          :default-weight normal
-         :default-height 150
+         :default-height 140
          :fixed-pitch-family nil ; falls back to :default-family
          :fixed-pitch-weight nil ; falls back to :default-weight
          :fixed-pitch-height 1.0
@@ -199,7 +229,7 @@
         (Comic
          :default-family "Comic Code Ligatures"
          :default-weight normal
-         :default-height 160
+         :default-height 140
          :fixed-pitch-family nil ; falls back to :default-family
          :fixed-pitch-weight nil ; falls back to :default-weight
          :fixed-pitch-height 1.0

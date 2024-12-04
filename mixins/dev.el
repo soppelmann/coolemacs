@@ -167,17 +167,44 @@
   :ensure t
   :bind (("C-c t" . git-timemachine-toggle))
   :hook
-  (git-timemachine-mode . evil-local-mode)
+;  (git-timemachine-mode . evil-local-mode)
+  (git-timemachine-mode . meow-normal-mode)
   (git-timemachine-mode . display-line-numbers-mode)
   )
 
 ;; @see https://bitbucket.org/lyro/evil/issue/511/let-certain-minor-modes-key-bindings
 ;; http://blog.binchen.org/posts/use-git-timemachine-with-evil.html
-(with-eval-after-load 'git-timemachine
-  (evil-make-overriding-map git-timemachine-mode-map 'normal)
+;(with-eval-after-load 'git-timemachine
+;  (evil-make-overriding-map git-timemachine-mode-map 'normal)
   ;; force update evil keymaps after git-timemachine-mode loaded
-  (add-hook 'git-timemachine-mode-hook #'evil-normalize-keymaps))
+;  (add-hook 'git-timemachine-mode-hook #'evil-normalize-keymaps))
+;; Define buffer-local variable
+(defvar-local my-meow-desired-state 'motion
+  "Buffer-local variable to specify the desired Meow state.")
 
+;; Function to set the buffer-local value of my-meow-desired-state
+(defun my-meow-set-desired-state (state)
+  "Set the buffer-local variable 'my-meow-desired-state' to the specified state."
+  (setq-local my-meow-desired-state state))
+
+;; Advice function to modify 'meow--mode-get-state' based on 'my-meow-desired-state'
+(defun my-meow-mode-get-state-advice (orig-func &rest args)
+  "Advice function to modify 'meow--mode-get-state' based on 'my-meow-desired-state'."
+  (if my-meow-desired-state
+      my-meow-desired-state
+    (apply orig-func args)))
+
+;; Apply advice to 'meow--mode-get-state'
+(advice-add 'meow--mode-get-state :around #'my-meow-mode-get-state-advice)
+
+;; Hook to set my-meow-desired-state to 'motion' when entering git-timemachine mode
+(defun my-meow-git-timemachine-hook ()
+  "Hook to set my-meow-desired-state to 'motion' when entering git-timemachine mode."
+  (my-meow-set-desired-state 'motion))
+
+;; Check if git-timemachine is loaded and add the hook
+(when (featurep 'git-timemachine)
+  (add-hook 'git-timemachine-mode-hook 'my-meow-git-timemachine-hook))
 
 ;(use-package diff-hl :ensure t)
 ;(add-hook 'prog-mode-hook 'diff-hl-mode)
@@ -450,12 +477,14 @@
 ;; C-c C-C is a worthless binding for comments, so unbind it
 ;; Use C-x C-; instead or M-; for line comments
 (define-key c-mode-base-map (kbd "C-c C-c") nil)
+;(define-key c-ts-mode-map (kbd "C-c C-c") nil)
 (define-key prog-mode-map (kbd "C-c C-c") nil)
 
 (use-package smart-compile
   :ensure t)
 (define-key c-mode-base-map (kbd "C-c C-c") 'smart-compile)
 (define-key prog-mode-map (kbd "C-c C-c") 'smart-compile)
+;(define-key c-ts-mode-map (kbd "C-c C-c") 'smart-compile)
 ;(add-hook 'c-mode-common-hook 
 ;          (lambda () (define-key c-mode-base-map (kbd "C-c C-c") 'compile)))
 
@@ -662,4 +691,34 @@
 
 (use-package multiple-cursors
   :ensure t)
+
+(use-package mc-extras
+  :ensure t)
+
+
+(define-key phi-search-default-map (kbd "C-, C-,") 'phi-search-mc/mark-here)
+
+
+(define-key phi-search-default-map (kbd "C-, M-C-f") 'mc/mark-next-sexps)
+(define-key phi-search-default-map (kbd "C-, M-C-b") 'mc/mark-previous-sexps)
+(define-key phi-search-default-map (kbd "C-, <") 'mc/mark-all-above)
+(define-key phi-search-default-map (kbd "C-, >") 'mc/mark-all-below)
+
+(define-key phi-search-default-map (kbd "C-, C-d") 'mc/remove-current-cursor)
+(define-key phi-search-default-map (kbd "C-, C-k") 'mc/remove-cursors-at-eol)
+(define-key phi-search-default-map (kbd "C-, d")   'mc/remove-duplicated-cursors)
+(define-key phi-search-default-map (kbd "C-, C-o") 'mc/remove-cursors-on-blank-lines)
+
+;(define-key phi-search-default-map (kbd "C-, C-,") 'mc/freeze-fake-cursors-dwim)
+
+(define-key phi-search-default-map (kbd "C-, .")   'mc/move-to-column)
+(define-key phi-search-default-map (kbd "C-, =")   'mc/compare-chars)
+
+;; Emacs 24.4+ comes with rectangle-mark-mode.
+;(define-key rectangle-mark-mode-map (kbd "C-, C-,") 'mc/rect-rectangle-to-multiple-cursors)
+
+;(define-key cua--rectangle-keymap   (kbd "C-, C-,") 'mc/cua-rectangle-to-multiple-cursors)
+
+(phi-search-mc/setup-keys)
+(add-hook 'isearch-mode-hook 'phi-search-from-isearch-mc/setup-keys)
 
