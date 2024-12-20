@@ -250,6 +250,8 @@
   :hook (after-init . doom-modeline-mode))
 
 
+
+
 ;; Mode line information
 (setq line-number-mode nil)                        ; Show current line in modeline
 (setq column-number-mode nil)                      ; Show column as well

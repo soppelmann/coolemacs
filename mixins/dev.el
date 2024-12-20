@@ -195,7 +195,7 @@
     (apply orig-func args)))
 
 ;; Apply advice to 'meow--mode-get-state'
-(advice-add 'meow--mode-get-state :around #'my-meow-mode-get-state-advice)
+;(advice-add 'meow--mode-get-state :around #'my-meow-mode-get-state-advice)
 
 ;; Hook to set my-meow-desired-state to 'motion' when entering git-timemachine mode
 (defun my-meow-git-timemachine-hook ()
@@ -203,8 +203,12 @@
   (my-meow-set-desired-state 'motion))
 
 ;; Check if git-timemachine is loaded and add the hook
-(when (featurep 'git-timemachine)
-  (add-hook 'git-timemachine-mode-hook 'my-meow-git-timemachine-hook))
+;(when (featurep 'git-timemachine)
+;  (add-hook 'git-timemachine-mode-hook 'my-meow-git-timemachine-hook))
+
+
+
+
 
 ;(use-package diff-hl :ensure t)
 ;(add-hook 'prog-mode-hook 'diff-hl-mode)
@@ -397,34 +401,32 @@
 ;; https://old.reddit.com/r/emacs/comments/audffp/tip_how_to_use_a_stable_and_fast_environment_to/
 (use-package google-c-style
   :ensure t
-  :hook ((c-mode c++-mode c-ts-mode c++-ts-mode) . google-set-c-style)
+  :hook ((c-mode c++-mode) . google-set-c-style)
          (c-mode-common . google-make-newline-indent))
 
 ;; use // instead of /* */ for comments
-(add-hook 'c-ts-mode-hook (lambda () (c-ts-mode-toggle-comment-style -1)))
-(add-hook 'c++-ts-mode-hook (lambda () (c-ts-mode-toggle-comment-style -1)))
 (add-hook 'c-mode-hook (lambda () (c-mode-toggle-comment-style -1)))
 (add-hook 'c++-mode-hook (lambda () (c-mode-toggle-comment-style -1)))
 
 ;; Torvalds Linux-style from Documentation/CodingStyle
-(defun c-lineup-arglist-tabs-only (ignored)
-  "Line up argument lists by tabs, not spaces"
-  (let* ((anchor (c-langelem-pos c-syntactic-element))
-	 (column (c-langelem-2nd-pos c-syntactic-element))
-	 (offset (- (1+ column) anchor))
-	 (steps (floor offset c-basic-offset)))
-    (* (max steps 1)
-       c-basic-offset)))
+;; (defun c-lineup-arglist-tabs-only (ignored)
+;;   "Line up argument lists by tabs, not spaces"
+;;   (let* ((anchor (c-langelem-pos c-syntactic-element))
+;; 	 (column (c-langelem-2nd-pos c-syntactic-element))
+;; 	 (offset (- (1+ column) anchor))
+;; 	 (steps (floor offset c-basic-offset)))
+;;     (* (max steps 1)
+;;        c-basic-offset)))
 
-(add-hook 'c-mode-common-hook
-          (lambda ()
-            ;; Add kernel style
-            (c-add-style
-             "linux-tabs-only"
-             '("linux" (c-offsets-alist
-                        (arglist-cont-nonempty
-                         c-lineup-gcc-asm-reg
-                         c-lineup-arglist-tabs-only))))))
+;; (add-hook 'c-mode-common-hook
+;;           (lambda ()
+;;             ;; Add kernel style
+;;             (c-add-style
+;;              "linux-tabs-only"
+;;              '("linux" (c-offsets-alist
+;;                         (arglist-cont-nonempty
+;;                          c-lineup-gcc-asm-reg
+;;                          c-lineup-arglist-tabs-only))))))
 
 ;; (add-hook 'c-mode-hook
 ;;           (lambda ()

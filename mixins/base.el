@@ -502,3 +502,10 @@ targets."
 (global-set-key (kbd "C-c u") 'vundo)
 
 (setq vundo-glyph-alist vundo-unicode-symbols)
+
+(defun eww-render-current-buffer ()
+  "Render HTML in the current buffer with EWW"
+  (interactive)
+  (beginning-of-buffer)
+  (eww-display-html 'utf-8 (buffer-name) nil (point-min) (current-buffer)))
+

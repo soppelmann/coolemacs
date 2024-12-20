@@ -1,11 +1,17 @@
 ;https://emacs-lsp.github.io/lsp-mode/tutorials/how-to-turn-off/
 
-(use-package treesit-auto
-  :custom
-  (treesit-auto-install 'prompt)
-  :config
-  (treesit-auto-add-to-auto-mode-alist 'all)
-  (global-treesit-auto-mode))
+;; (use-package treesit-auto
+;;   :custom
+;;   (treesit-auto-install 'prompt)
+;;   :config
+;;   (treesit-auto-add-to-auto-mode-alist 'all)
+;;   (global-treesit-auto-mode))
+
+    ;; (add-to-list 'major-mode-remap-alist '(c-mode . c-ts-mode))
+    ;; (add-to-list 'major-mode-remap-alist '(c++-mode . c++-ts-mode))
+    ;; (add-to-list 'major-mode-remap-alist
+    ;;              '(c-or-c++-mode . c-or-c++-ts-mode))
+
 
 (use-package lsp-mode
   :init
