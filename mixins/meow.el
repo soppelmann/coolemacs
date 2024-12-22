@@ -85,7 +85,8 @@
    '("Y" . meow-sync-grab)
    '("z" . meow-pop-selection)
    '("'" . repeat)
-   '(":" . phi-search)
+   '(":" . meow-goto-line)
+   '("/" . phi-search)
    '("<escape>" . ignore)))
 
 
