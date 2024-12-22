@@ -51,11 +51,11 @@
 
 (setq eglot-sync-connect nil)
 
-(use-package flycheck-eglot
-  :ensure t
-  :after (flycheck eglot)
-  :config
-  (global-flycheck-eglot-mode 1))
+;; (use-package flycheck-eglot
+  ;; :ensure t
+  ;; :after (flycheck eglot)
+  ;; :config
+  ;; (global-flycheck-eglot-mode 1))
 
 ;; Enable LSP support by default in programming buffers
 ;(add-hook 'prog-mode-hook #'eglot-ensure)
@@ -107,3 +107,4 @@
 ;(with-eval-after-load 'eglot
 ;  (require 'eglot-x)
 ;  (eglot-x-setup))
+

@@ -117,10 +117,10 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Hook burly-tabs-mode to tab-bar-mode
-(use-package burly
-  :ensure t
+;; (use-package burly
+  ;; :ensure t
 ;  :hook (tab-bar-mode . burly-tabs-mode)
-  )
+  ;; )
 
 ;; hook tab-bar-mode hook
 ;(add-hook 'tab-bar-mode-hook 'burly-tabs-mode)
@@ -163,14 +163,14 @@
 ;; Bind it to C-c t
 ;; Make sure git timemachine toggles evil-local-mode and
 ;; display-line-numbers-mode
-(use-package git-timemachine
-  :ensure t
-  :bind (("C-c t" . git-timemachine-toggle))
-  :hook
-;  (git-timemachine-mode . evil-local-mode)
-  (git-timemachine-mode . meow-normal-mode)
-  (git-timemachine-mode . display-line-numbers-mode)
-  )
+;; (use-package git-timemachine
+  ;; :ensure t
+  ;; :bind (("C-c t" . git-timemachine-toggle))
+  ;; :hook
+ ;; (git-timemachine-mode . evil-local-mode)
+  ;; (git-timemachine-mode . meow-normal-mode)
+  ;; (git-timemachine-mode . display-line-numbers-mode)
+  ;; )
 
 ;; @see https://bitbucket.org/lyro/evil/issue/511/let-certain-minor-modes-key-bindings
 ;; http://blog.binchen.org/posts/use-git-timemachine-with-evil.html
@@ -179,28 +179,28 @@
   ;; force update evil keymaps after git-timemachine-mode loaded
 ;  (add-hook 'git-timemachine-mode-hook #'evil-normalize-keymaps))
 ;; Define buffer-local variable
-(defvar-local my-meow-desired-state 'motion
-  "Buffer-local variable to specify the desired Meow state.")
+;; (defvar-local my-meow-desired-state 'motion
+  ;; "Buffer-local variable to specify the desired Meow state.")
 
 ;; Function to set the buffer-local value of my-meow-desired-state
-(defun my-meow-set-desired-state (state)
-  "Set the buffer-local variable 'my-meow-desired-state' to the specified state."
-  (setq-local my-meow-desired-state state))
+;; (defun my-meow-set-desired-state (state)
+  ;; "Set the buffer-local variable 'my-meow-desired-state' to the specified state."
+  ;; (setq-local my-meow-desired-state state))
 
 ;; Advice function to modify 'meow--mode-get-state' based on 'my-meow-desired-state'
-(defun my-meow-mode-get-state-advice (orig-func &rest args)
-  "Advice function to modify 'meow--mode-get-state' based on 'my-meow-desired-state'."
-  (if my-meow-desired-state
-      my-meow-desired-state
-    (apply orig-func args)))
+;; (defun my-meow-mode-get-state-advice (orig-func &rest args)
+  ;; "Advice function to modify 'meow--mode-get-state' based on 'my-meow-desired-state'."
+  ;; (if my-meow-desired-state
+      ;; my-meow-desired-state
+    ;; (apply orig-func args)))
 
 ;; Apply advice to 'meow--mode-get-state'
 ;(advice-add 'meow--mode-get-state :around #'my-meow-mode-get-state-advice)
 
 ;; Hook to set my-meow-desired-state to 'motion' when entering git-timemachine mode
-(defun my-meow-git-timemachine-hook ()
-  "Hook to set my-meow-desired-state to 'motion' when entering git-timemachine mode."
-  (my-meow-set-desired-state 'motion))
+;; (defun my-meow-git-timemachine-hook ()
+  ;; "Hook to set my-meow-desired-state to 'motion' when entering git-timemachine mode."
+  ;; (my-meow-set-desired-state 'motion))
 
 ;; Check if git-timemachine is loaded and add the hook
 ;(when (featurep 'git-timemachine)
@@ -212,12 +212,12 @@
 
 ;(use-package diff-hl :ensure t)
 ;(add-hook 'prog-mode-hook 'diff-hl-mode)
-(setf (cdr (assq 'continuation fringe-indicator-alist))
-      '(nil nil) ;; no continuation indicators
+;; (setf (cdr (assq 'continuation fringe-indicator-alist))
+      ;; '(nil nil) ;; no continuation indicators
       ;; '(nil right-curly-arrow) ;; right indicator only
       ;; '(left-curly-arrow nil) ;; left indicator only
       ;; '(left-curly-arrow right-curly-arrow) ;; default
-      )
+      ;; )
 ;; https://ianyepan.github.io/posts/emacs-git-gutter/
 
 ;(fringe-mode '(1 . 1))
@@ -257,128 +257,21 @@
   :config
   (flycheck-checkbashisms-setup))
 
-;; I only really use git, stamp on vc-mode....
-(with-eval-after-load 'vc
-  (remove-hook 'find-file-hook 'vc-find-file-hook)
-  (remove-hook 'find-file-hook 'vc-refresh-state)
-  (setq vc-handled-backends nil))
-
-;; As the built-in project.el support expects to use vc-mode hooks to
-;; find the root of projects we need to provide something equivalent
-;; for it.
-(defun my-git-project-finder (dir)
-  "Integrate .git project roots."
-  (let ((dotgit (and (setq dir (locate-dominating-file dir ".git"))
-                     (expand-file-name dir))))
-    (and dotgit
-         (cons 'transient (file-name-directory dotgit)))))
-
-(add-hook 'project-find-functions 'my-git-project-finder)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;
-;;;   Projectile
-;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; Projectile: project management
-(use-package projectile
-  :ensure t
-  :config
-  (projectile-mode +1)
-  ;(setq projectile-project-search-path '("~/projects/"))
-  ;(setq projectile-completion-system 'consult)
-  (setq projectile-enable-caching t)
-  (setq projectile-indexing-method 'alien)
-  (setq projectile-sort-order 'recently-active)
-  (setq projectile-globally-ignored-directories
-        (append '(
-                  ".git"
-                  ".svn"
-                  ".hg"
-                  ".bzr"
-                  "node_modules"
-                  "build"
-                  "dist"
-                  "target"
-                  "bin"
-                  "obj"
-                  "out"
-                  "build"
-                  "buildroot"
-                  )))
-  )
-
-;; Bind key C-c p A to add a project on the global map
-(define-key global-map (kbd "C-c p A") 'projectile-add-known-project)
-
-;; Bind key C-c p B to remove a project
-(define-key global-map (kbd "C-c p B") 'projectile-remove-known-project)
 
 ;; Add these commands to embark directory map at some point
 ;; Also figure out how to use embark to add bookmarks to files
 
-
-;; consult-project-extra is also an alternative
-;(use-package consult-projectile
-;  :ensure t
-;  )
-
 (use-package consult-ag
-  :ensure t
-  )
+  :straight (consult-ag
+             :type git
+             :host github
+             :repo "wigol/consult-ag"
+             :branch "file-handler-support")
+  :ensure t)
 
-(defun my-consult-projectile-ag ()
-  "Run a consult-ag search in the project."
-  (interactive)
-  (require 'projectile)
-  (let* ((ignores (unless (eq (projectile-project-vcs) 'git)
-                    ;; ag supports git ignore files
-                    (append
-                     (projectile-ignored-files-rel) (projectile-ignored-directories-rel)
-                     (projectile--globally-ignored-file-suffixes-glob)
-                     grep-find-ignored-files grep-find-ignored-directories)))
-         (ignores-args (apply #'append
-                              (mapcar (lambda (item) (list "--ignore" item)) ignores))))
-    (funcall-interactively #'consult-ag
-                           (if-let ((s (symbol-at-point)))
-                               (symbol-name s)
-                             "")
-                           (projectile-project-root)
-                           ignores-args)))
-
-(let ((projectile-switch-project-action #'my-consult-projectile-ag)
-  (call-interactively #'projectile-switch-project)))
 
 (use-package ag
   :ensure t)
-
-;; Why is this a thing
-;; (use-package projectile-ripgrep
-;;   :ensure t
-;;   )
-
-
-;; Recommended keymap prefix on macOS
-;(define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
-;; Recommended keymap prefix on Windows/Linux
-(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-
-;; Need to overwrite proctile ripgrep cause it sucks
-(define-key projectile-mode-map (kbd "C-c p s r") 'consult-ripgrep)
-
-;(define-key projectile-mode-map (kbd "C-x p") 'projectile-command-map)
-
-;; (use-package consult-project-extra
-;;   :ensure t
-;; )
-
-;; use consult and ivy for projectile, i dont use this
-;; (use-package counsel-projectile
-;;   :ensure t
-;;   :config
-;;   (counsel-projectile-mode))
-
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -405,8 +298,8 @@
          (c-mode-common . google-make-newline-indent))
 
 ;; use // instead of /* */ for comments
-(add-hook 'c-mode-hook (lambda () (c-mode-toggle-comment-style -1)))
-(add-hook 'c++-mode-hook (lambda () (c-mode-toggle-comment-style -1)))
+ (add-hook 'c-mode-hook (lambda () (c-toggle-comment-style -1)))
+ (add-hook 'c++-mode-hook (lambda () (c-toggle-comment-style -1)))
 
 ;; Torvalds Linux-style from Documentation/CodingStyle
 ;; (defun c-lineup-arglist-tabs-only (ignored)
@@ -517,20 +410,20 @@
 
 (add-to-list 'load-path "~/.emacs.d/localpkgs/")
 
-(add-hook 'c-mode-hook (lambda () (setq flycheck-clang-language-standard "c99")))
-(add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-language-standard "c++11")))
+;; (add-hook 'c-mode-hook (lambda () (setq flycheck-clang-language-standard "c99")))
+;; (add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-language-standard "c++11")))
 
 (add-to-list 'auto-mode-alist '("\\.upphtml\\'" . shell-script-mode))
 (add-to-list 'auto-mode-alist '("\\.uppcss\\'" . shell-script-mode))
 
-(use-package eldoc-box
-  :ensure t
-  :config
-  (set-face-attribute 'eldoc-box-border nil
-                      :background "darkgray")
-  (set-face-attribute 'eldoc-box-markdown-separator nil
-                      :foreground "darkgray")
-)
+;; (use-package eldoc-box
+  ;; :ensure t
+  ;; :config
+  ;; (set-face-attribute 'eldoc-box-border nil
+                      ;; :background "darkgray")
+  ;; (set-face-attribute 'eldoc-box-markdown-separator nil
+                      ;; :foreground "darkgray")
+;; )
 
 (setq eldoc-echo-area-use-multiline-p nil)
 ;;
@@ -538,9 +431,9 @@
 (setq eldoc-echo-area-prefer-doc-buffer t)
 
 ;; LSP RUST
-(use-package rust-mode :ensure t)
+;; (use-package rust-mode :ensure t)
 ;(add-hook 'rust-mode-hook 'eglot-ensure)
-(add-hook 'rust-mode-hook (lambda () (setq indent-tabs-mode nil)))
+;; (add-hook 'rust-mode-hook (lambda () (setq indent-tabs-mode nil)))
 
 ;(setq lsp-rust-analyzer-server-display-inlay-hints t)
 
@@ -554,9 +447,6 @@
 
 (use-package zig-mode
   :ensure t)
-
-
-(load "~/.emacs.d/consult-tramp.el")
 
 (use-package vterm
   :ensure t
@@ -584,7 +474,6 @@
 (global-set-key (kbd "C-c s") 'vterm)
 (global-set-key (kbd "C-c e") 'eshell)
 
-
 (require 'tramp)
 ;; Required for eglot to find lsp servers on remote
 (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
@@ -601,7 +490,6 @@
 (define-key vterm-mode-map (kbd "<f4>") 'vterm-toggle)
 (define-key vterm-mode-map (kbd "<f5>") 'ef-themes-toggle)
 
-
 ;; Speedup tramp
 
 (setq vc-ignore-dir-regexp
@@ -612,22 +500,21 @@
 (setq debug-ignored-errors
       (cons 'remote-file-error debug-ignored-errors))
 
+;; (use-package cmake-mode
+  ;; :ensure t)
 
-(use-package cmake-mode
-  :ensure t)
+;; (use-package cmake-project
+  ;; :ensure t)
 
-(use-package cmake-project
-  :ensure t)
+;; (autoload 'cmake-project-mode "cmake-project" nil t)
 
-(autoload 'cmake-project-mode "cmake-project" nil t)
+;; (defun maybe-cmake-project-mode ()
+  ;; (if (or (file-exists-p "CMakeLists.txt")
+          ;; (file-exists-p (expand-file-name "CMakeLists.txt" (car (project-roots (project-current))))))
+      ;; (cmake-project-mode)))
 
-(defun maybe-cmake-project-mode ()
-  (if (or (file-exists-p "CMakeLists.txt")
-          (file-exists-p (expand-file-name "CMakeLists.txt" (car (project-roots (project-current))))))
-      (cmake-project-mode)))
-
-(add-hook 'c-mode-hook 'maybe-cmake-project-mode)
-(add-hook 'c++-mode-hook 'maybe-cmake-project-mode)
+;; (add-hook 'c-mode-hook 'maybe-cmake-project-mode)
+;; (add-hook 'c++-mode-hook 'maybe-cmake-project-mode)
 
 ;; (setq spice-simulator "Ngspice"
 ;;       spice-waveform-viewer "ngplot")
@@ -724,3 +611,8 @@
 (phi-search-mc/setup-keys)
 (add-hook 'isearch-mode-hook 'phi-search-from-isearch-mc/setup-keys)
 
+
+(use-package find-file-in-project
+  :ensure t)
+
+(setq ffip-use-rust-fd t)

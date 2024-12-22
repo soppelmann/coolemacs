@@ -123,49 +123,49 @@
 ;;  (dimmer-configure-helm)
 ;;  (dimmer-mode 1))
 
-(use-package dired-sidebar
- :ensure t
- :commands (dired-sidebar-toggle-sidebar)
- :init
- (add-hook
-  'dired-sidebar-mode-hook
-  (lambda ()
-    (unless (file-remote-p default-directory)
-      (auto-revert-mode))))
- :config
- (push 'toggle-window-split dired-sidebar-toggle-hidden-commands)
- (push 'rotate-windows dired-sidebar-toggle-hidden-commands)
- (setq dired-sidebar-use-one-instance t)
- (setq dired-sidebar-subtree-line-prefix "__")
- (setq dired-sidebar-use-term-integration t)
- (setq dired-use-ls-dired nil))
+;; (use-package dired-sidebar
+;;  :ensure t
+;;  :commands (dired-sidebar-toggle-sidebar)
+;;  :init
+;;  (add-hook
+;;   'dired-sidebar-mode-hook
+;;   (lambda ()
+;;     (unless (file-remote-p default-directory)
+;;       (auto-revert-mode))))
+;;  :config
+;;  (push 'toggle-window-split dired-sidebar-toggle-hidden-commands)
+;;  (push 'rotate-windows dired-sidebar-toggle-hidden-commands)
+;;  (setq dired-sidebar-use-one-instance t)
+;;  (setq dired-sidebar-subtree-line-prefix "__")
+;;  (setq dired-sidebar-use-term-integration t)
+;;  (setq dired-use-ls-dired nil))
 
 
-(defun local/dired-mode-hook ()
-  (local-set-key (kbd "<tab>") nil) ; Unbind Tab first
-  (local-set-key (kbd "<tab>") 'dired-subtree-toggle))
+;; (defun local/dired-mode-hook ()
+;;   (local-set-key (kbd "<tab>") nil) ; Unbind Tab first
+;;   (local-set-key (kbd "<tab>") 'dired-subtree-toggle))
 
-(add-hook 'dired-mode-hook 'local/dired-mode-hook)
+;; (add-hook 'dired-mode-hook 'local/dired-mode-hook)
 
-(global-set-key (kbd "C-x C-d") 'dired)
-(global-set-key (kbd "C-x C-b") 'switch-to-buffer)
+;; (global-set-key (kbd "C-x C-d") 'dired)
+;; (global-set-key (kbd "C-x C-b") 'switch-to-buffer)
 
 
-;; Dont open hundreds of dired buffers
-(setf dired-kill-when-opening-new-dired-buffer t)
+;; ;; Dont open hundreds of dired buffers
+;; (setf dired-kill-when-opening-new-dired-buffer t)
 
-(use-package dired-k
-  :ensure t)
+;; (use-package dired-k
+;;   :ensure t)
 
-;; always execute dired-k when dired buffer is opened
-(add-hook 'dired-after-readin-hook #'dired-k-no-revert)
-;; (add-hook 'dired-initial-position-hook 'dired-k)
+;; ;; always execute dired-k when dired buffer is opened
+;; (add-hook 'dired-after-readin-hook #'dired-k-no-revert)
+;; ;; (add-hook 'dired-initial-position-hook 'dired-k)
 
-(use-package dired-subtree
-  :ensure t)
+;; (use-package dired-subtree
+;;   :ensure t)
 
-(use-package dired-hacks-utils
-  :ensure t)
+;; (use-package dired-hacks-utils
+;;   :ensure t)
 
 (use-package eat
   :ensure t
@@ -197,21 +197,21 @@
 ;  )
 
 
-(defvar +sidebar-toggle-flag t
-  "Flag to toggle whether to run `ibuffer-update'.")
+;; (defvar +sidebar-toggle-flag t
+;;   "Flag to toggle whether to run `ibuffer-update'.")
 
-(defun +sidebar-toggle ()
-  "Toggle both `dired-sidebar' and `ibuffer-sidebar'."
-  (interactive)
-  (dired-sidebar-toggle-with-current-directory)
-  (ibuffer-sidebar-toggle-sidebar)
-  (when +sidebar-toggle-flag
-    (ibuffer-update nil t))
-  (setq +sidebar-toggle-flag (not +sidebar-toggle-flag))
-  (other-window 2)
-  )
+;; (defun +sidebar-toggle ()
+;;   "Toggle both `dired-sidebar' and `ibuffer-sidebar'."
+;;   (interactive)
+;;   (dired-sidebar-toggle-with-current-directory)
+;;   (ibuffer-sidebar-toggle-sidebar)
+;;   (when +sidebar-toggle-flag
+;;     (ibuffer-update nil t))
+;;   (setq +sidebar-toggle-flag (not +sidebar-toggle-flag))
+;;   (other-window 2)
+;;   )
 
-(global-set-key (kbd "C-c d") 'dired-sidebar-toggle-with-current-directory)
+;; (global-set-key (kbd "C-c d") 'dired-sidebar-toggle-with-current-directory)
 ;(global-set-key (kbd "C-c d") 'dired-sidebar-toggle-sidebar)
 ;(global-set-key (kbd "C-c d") '+sidebar-toggle)
 
@@ -229,13 +229,13 @@
 ;(add-hook 'dired-mode-hook 'dired-omit-mode)
 
 
-(setq winner-dont-bind-my-keys t)
-;(setq winner-mode-map (make-sparse-keymap))
-(winner-mode 1)
-(setq winner-dont-bind-my-keys t)
+;; (setq winner-dont-bind-my-keys t)
+;; ;(setq winner-mode-map (make-sparse-keymap))
+;; (winner-mode 1)
+;; (setq winner-dont-bind-my-keys t)
 
-(global-set-key (kbd "C-x C-z") 'winner-undo)
-(global-set-key (kbd "C-x C-r") 'winner-redo)
+;; (global-set-key (kbd "C-x C-z") 'winner-undo)
+;; (global-set-key (kbd "C-x C-r") 'winner-redo)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -261,10 +261,6 @@
   :config
   ;; Narrowing lets you restrict results to certain groups of candidates
   (setq consult-narrow-key "<"))
-
-(autoload 'projectile-project-root "projectile")
-(setq consult-project-function (lambda (_) (projectile-project-root)))
-
 
 (use-package embark
   :ensure t
@@ -508,4 +504,5 @@ targets."
   (interactive)
   (beginning-of-buffer)
   (eww-display-html 'utf-8 (buffer-name) nil (point-min) (current-buffer)))
+
 

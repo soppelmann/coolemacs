@@ -364,6 +364,11 @@
   (ansi-color-apply-on-region compilation-filter-start (point)))
 (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
+
+(use-package eww
+  :config (setq eww-search-prefix "https://duckduckgo.com/html/?q="))
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;;   Tab-bar configuration
@@ -414,11 +419,22 @@
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; Uncomment the (load-file …) lines or copy from the mixin/ files as desired
-
 ;; UI/UX enhancements mostly focused on minibuffer and autocompletion interfaces
 ;; These ones are *strongly* recommended!
 (load-file (expand-file-name "mixins/base.el" user-emacs-directory))
+
+;; Load consult-tramp
+(load "~/.emacs.d/consult-tramp.el")
+(setq enable-remote-dir-locals t)
+(setq tramp-use-ssh-controlmaster-options nil)
+(remove-hook 'find-file-hook 'vc-find-file-hook)
+(setq tramp-default-method "scp")
+
+;; Use project.el for managing projects
+(load-file (expand-file-name "mixins/project.el" user-emacs-directory))
+
+;; Use projectile.el for managing projects
+;(load-file (expand-file-name "mixins/projectile.el" user-emacs-directory))
 
 ;; Packages for software development here
 (load-file (expand-file-name "mixins/dev.el" user-emacs-directory))
@@ -433,25 +449,26 @@
 (load-file (expand-file-name "mixins/dashboard.el" user-emacs-directory))
 
 ;; Nice fonts for emacs
-(when (or (daemonp) (display-graphic-p))
-(load-file (expand-file-name "mixins/fontaine.el" user-emacs-directory))
-)
+ (when (or (daemonp) (display-graphic-p))
+ (load-file (expand-file-name "mixins/fontaine.el" user-emacs-directory))
+ )
 
-;; Themes, doom-gruvbox
-;(load-theme 'doom-gruvbox t)
-(load-file (expand-file-name "mixins/themes.el" user-emacs-directory))
+;; Themes
+(load-theme 'doom-monokai-machine-private t)
+;; (load-file (expand-file-name "mixins/themes.el" user-emacs-directory))
 
 ;; Completion settings (corfu capf cape)
 (load-file (expand-file-name "mixins/completion.el" user-emacs-directory))
 
 ;; Eglot config
-;(load-file (expand-file-name "mixins/eglot.el" user-emacs-directory))
+(load-file (expand-file-name "mixins/eglot.el" user-emacs-directory))
 
 ;; lsp-bridge config
-;(load-file (expand-file-name "mixins/lsp-bridge.el" user-emacs-directory))
+;; (load-file (expand-file-name "mixins/lsp-bridge.el" user-emacs-directory))
 
 ;; Rust config
 ;(load-file (expand-file-name "mixins/rust.el" user-emacs-directory))
+
 
 ;; verilog config
 (load-file (expand-file-name "mixins/hlsmode.el" user-emacs-directory))
@@ -461,17 +478,16 @@
 ;(add-to-list 'load-path "~/.emacs.d/elisp/cargo-transient.el")
 
 ;; Company config
-;(load-file (expand-file-name "mixins/company.el" user-emacs-directory))
+;; (load-file (expand-file-name "mixins/company.el" user-emacs-directory))
 
 ;; Set up codeium AI assistant
-;(load-file (expand-file-name "mixins/codeium.el" user-emacs-directory))
+;; (load-file (expand-file-name "mixins/codeium.el" user-emacs-directory))
 
 ;; Set up copilot AI assistant
 (load-file (expand-file-name "mixins/copilot.el" user-emacs-directory))
 
 ;; lspmode config
-(load-file (expand-file-name "mixins/lspmode.el" user-emacs-directory))
-
+;; (load-file (expand-file-name "mixins/lspmode.el" user-emacs-directory))
 
 ;; Org-mode configuration
 ;; WARNING: need to customize things inside the mixin file before use! See
