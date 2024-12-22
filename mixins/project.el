@@ -19,6 +19,7 @@
   :ensure t
   :bind
   (("C-c p f" . consult-project-extra-find)
+   ("C-c p s" . consult-ag)
    ("C-c p o" . consult-project-extra-find-other-window)))
 
 
