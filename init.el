@@ -425,7 +425,7 @@
 (load-file (expand-file-name "mixins/tramp.el" user-emacs-directory))
 
 ;; Use project.el for managing projects
-;; (load-file (expand-file-name "mixins/project.el" user-emacs-directory))
+(load-file (expand-file-name "mixins/project.el" user-emacs-directory))
 
 ;; Use projectile.el for managing projects
 ;(load-file (expand-file-name "mixins/projectile.el" user-emacs-directory))
