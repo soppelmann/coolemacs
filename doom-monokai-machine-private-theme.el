@@ -161,6 +161,12 @@ Can be an integer to determine the exact padding."
    ;;;; evil-snipe
    (evil-snipe-first-match-face                  :foreground base0 :background green)
    (evil-snipe-matches-face                      :foreground green :underline t)
+   ;; corfu
+   (corfu-current				 :background base2 :foreground cyan)
+   ;; orderless
+;   (orderless-match-face-0			 :inherit 'corfu-current)
+   (orderless-match-face-0			 :background nil :foreground cyan)
+   
    ;;;; flycheck
    ((flycheck-error &override)                   :background base3)
    ((flycheck-warning &override)                 :background base3)
