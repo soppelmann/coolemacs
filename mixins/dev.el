@@ -163,21 +163,23 @@
 ;; Bind it to C-c t
 ;; Make sure git timemachine toggles evil-local-mode and
 ;; display-line-numbers-mode
-;; (use-package git-timemachine
-  ;; :ensure t
-  ;; :bind (("C-c t" . git-timemachine-toggle))
-  ;; :hook
- ;; (git-timemachine-mode . evil-local-mode)
+(use-package git-timemachine
+  :ensure t
+  :bind (("C-c t" . git-timemachine-toggle))
+  :hook
+ (git-timemachine-mode . evil-local-mode)
   ;; (git-timemachine-mode . meow-normal-mode)
-  ;; (git-timemachine-mode . display-line-numbers-mode)
-  ;; )
+  (git-timemachine-mode . display-line-numbers-mode)
+  )
 
 ;; @see https://bitbucket.org/lyro/evil/issue/511/let-certain-minor-modes-key-bindings
 ;; http://blog.binchen.org/posts/use-git-timemachine-with-evil.html
-;(with-eval-after-load 'git-timemachine
-;  (evil-make-overriding-map git-timemachine-mode-map 'normal)
-  ;; force update evil keymaps after git-timemachine-mode loaded
-;  (add-hook 'git-timemachine-mode-hook #'evil-normalize-keymaps))
+(with-eval-after-load 'git-timemachine
+ (evil-make-overriding-map git-timemachine-mode-map 'normal)
+  force update evil keymaps after git-timemachine-mode loaded
+ (add-hook 'git-timemachine-mode-hook #'evil-normalize-keymaps))
+
+
 ;; Define buffer-local variable
 ;; (defvar-local my-meow-desired-state 'motion
   ;; "Buffer-local variable to specify the desired Meow state.")
@@ -205,9 +207,6 @@
 ;; Check if git-timemachine is loaded and add the hook
 ;(when (featurep 'git-timemachine)
 ;  (add-hook 'git-timemachine-mode-hook 'my-meow-git-timemachine-hook))
-
-
-
 
 
 ;(use-package diff-hl :ensure t)

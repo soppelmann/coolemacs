@@ -411,8 +411,6 @@
       (set-register register nil)
       (message "Cleared register %c." register))))
 
-
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;;   Optional mixins
@@ -423,15 +421,11 @@
 ;; These ones are *strongly* recommended!
 (load-file (expand-file-name "mixins/base.el" user-emacs-directory))
 
-;; Load consult-tramp
-(load "~/.emacs.d/consult-tramp.el")
-(setq enable-remote-dir-locals t)
-(setq tramp-use-ssh-controlmaster-options nil)
-(remove-hook 'find-file-hook 'vc-find-file-hook)
-(setq tramp-default-method "scp")
+;; tramp
+(load-file (expand-file-name "mixins/tramp.el" user-emacs-directory))
 
 ;; Use project.el for managing projects
-(load-file (expand-file-name "mixins/project.el" user-emacs-directory))
+;; (load-file (expand-file-name "mixins/project.el" user-emacs-directory))
 
 ;; Use projectile.el for managing projects
 ;(load-file (expand-file-name "mixins/projectile.el" user-emacs-directory))
@@ -440,7 +434,7 @@
 (load-file (expand-file-name "mixins/dev.el" user-emacs-directory))
 
 ;; Vim-bindings in Emacs (evil-mode configuration)
-;(load-file (expand-file-name "mixins/vim-like.el" user-emacs-directory))
+;; (load-file (expand-file-name "mixins/vim-like.el" user-emacs-directory))
 
 ;; meow setup for emacs
 (load-file (expand-file-name "mixins/meow.el" user-emacs-directory))
