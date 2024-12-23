@@ -47,7 +47,8 @@
    '("B" . meow-back-symbol)
    '("c" . meow-change)
    '("x" . meow-delete)
-   '("d" . meow-kill)
+   ;; '("d" . meow-kill)
+   '("d" . kill-region)
    '("D" . meow-kill-whole-line)
    '("e" . meow-next-word)
    '("E" . meow-next-symbol)
@@ -87,12 +88,12 @@
    '("'" . repeat)
    '(":" . meow-goto-line)
    '("/" . phi-search)
+   '("C-r" . undo-redo)
    '("<escape>" . ignore)))
 
 
 ;; meow-use-clipboard
 (setq meow-use-clipboard t)
-;; '("C-w" . meow-backward-kill-word)
 
 (require 'meow)
 (meow-setup)
@@ -102,3 +103,7 @@
 (global-set-key "\C-w" 'backward-kill-word)
 (global-set-key "\C-x\C-k" 'kill-region)
 (global-set-key "\C-c\C-k" 'kill-region)
+
+
+;; swap windows
+(global-set-key (kbd "C-x w") 'ace-swap-window) 
