@@ -73,14 +73,15 @@
 
 ;; (defun my/eglot-capf ()
 ;;   (setq-local completion-at-point-functions
-;;               (list (cape-super-capf
+;;               (list (cape-capf-super
 ;;                      #'eglot-completion-at-point
+;;                      #'cape-file
 ;;                      (cape-company-to-capf #'company-yasnippet)))))
 
 ;; (add-hook 'eglot-managed-mode-hook #'my/eglot-capf)
 
 ;; Option 1: Specify explicitly to use Orderless for Eglot
-(setq completion-category-overrides '((eglot (styles orderless))))
+;; (setq completion-category-overrides '((eglot (styles orderless))))
 
 ;; Option 2: Undo the Eglot modification of completion-category-defaults
 ;(with-eval-after-load 'eglot

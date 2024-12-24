@@ -106,4 +106,9 @@
 
 
 ;; swap windows
-(global-set-key (kbd "C-x w") 'ace-swap-window) 
+(global-set-key (kbd "C-x w") 'ace-swap-window)
+
+;; use meow-tree-sitter
+(use-package meow-tree-sitter
+  :ensure t)
+(meow-tree-sitter-register-defaults)

@@ -38,7 +38,7 @@
 
 ;; Enable Company by default in programming buffers
 (add-hook 'prog-mode-hook #'company-mode)
-(add-hook 'company-mode-hook 'yas-minor-mode))
+(add-hook 'company-mode-hook 'yas-minor-mode)
 ;'(add-to-list 'company-backends 'company-pseudo-tooltip-frontend)
 ;'(add-to-list 'company-backends 'company-preview-frontend)
 ;'(add-to-list 'company-backends 'company-irony)

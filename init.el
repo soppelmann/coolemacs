@@ -21,6 +21,11 @@
 ;; ranger
 ;; copilot mode
 
+;; This is at the top of the file to ensure that
+;; it benfits startup time of stuff later on.
+
+(setq gc-cons-threshold (* 100 1024 1024)
+      read-process-output-max (* 1024 1024))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
@@ -242,8 +247,8 @@
                   (let ((buffer-file-name (buffer-name)))
                     (set-auto-mode)))))
 
-;(setq doom-modeline-icon t)
-;(setq doom-modeline-support-imenu t)
+;; (setq doom-modeline-icon t)
+;; (setq doom-modeline-support-imenu t)
 
 (use-package doom-modeline
   :ensure t
@@ -451,8 +456,11 @@
 (load-theme 'doom-monokai-machine-private t)
 ;; (load-file (expand-file-name "mixins/themes.el" user-emacs-directory))
 
+;; (load-file (expand-file-name "mixins/new.el" user-emacs-directory))
+
 ;; Completion settings (corfu capf cape)
 (load-file (expand-file-name "mixins/completion.el" user-emacs-directory))
+
 
 ;; Eglot config
 (load-file (expand-file-name "mixins/eglot.el" user-emacs-directory))
@@ -511,5 +519,3 @@
 ;                       org-support-shift-select
 ;                       (not (use-region-p)))
 ;                  (cua-set-mark)))))))
-
-

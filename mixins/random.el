@@ -1,11 +1,8 @@
 ;; Stolen from https://esrh.me/posts/2021-11-27-emacs-config#nyaatouch
 
-;; performance
-(setq read-process-output-max (* 1024 1024)) ;; 1mb (setq gc-cons-threshold 100000000)
-
 (global-set-key (kbd "C-x w") 'ace-swap-window)
-;; Furcula
 
+;; Furcula
 ;; Implementation of the furcula (branching arrow) as described in the
 ;; swiss-arrows macroset for clojure. I am a huge fan of this idea, and I
 ;; included an implementation of it in my janet fork, matsurika. The basic
@@ -18,18 +15,16 @@
 ;; This particular implementation comes from Adam Porter’s (alphapapa) code
 ;; from his 2018 proposal to dash.el. Kind of bummed this never got merged.
 
-(defmacro -< (expr &rest forms) (declare (indent defun)) (let ((var (gensym))) `(let ((,var ,expr)) (list ,@(--map (pcase it ((pred symbolp) (list it var)) ((pred listp) (-snoc it var))) forms))))) (defmacro -<< (expr &rest forms) (declare (indent defun)) (let ((var (gensym))) `(let ((,var ,expr)) (list ,@(--map (pcase it ((pred symbolp) (list it var)) (`(,first . ,rest) `(,first ,var ,@rest))) forms)))))
+;; (defmacro -< (expr &rest forms) (declare (indent defun)) (let ((var (gensym))) `(let ((,var ,expr)) (list ,@(--map (pcase it ((pred symbolp) (list it var)) ((pred listp) (-snoc it var))) forms))))) (defmacro -<< (expr &rest forms) (declare (indent defun)) (let ((var (gensym))) `(let ((,var ,expr)) (list ,@(--map (pcase it ((pred symbolp) (list it var)) (`(,first . ,rest) `(,first ,var ,@rest))) forms)))))
 
 ;; JIT
 (setq comp-deferred-compilation t) (setq warning-suppress-log-types '((comp)))
 
 ;; straight-use-package is a bit of a keyful to type, especially interactively.
-
 (defalias 'sup 'straight-use-package)
 
 ;; Libraries
-
-(sup 's) (sup 'dash)
+;; (sup 's) (sup 'dash)
 
 ;; Nullary lambda
 (defmacro fn (&rest forms) (declare (indent 0)) `(lambda () ,@forms))
@@ -43,11 +38,19 @@
 
 ;; Better parenthesis location
 
-;; I can’t count parentheses. I use an advice override to change how the parenthesis locating functionality works. This is because I use a block cursor with meow, which makes cursor position slightly deceptive.
+;; I can’t count parentheses. I use an advice override to change how the
+;; parenthesis locating functionality works. This is because I use a block
+;; cursor with meow, which makes cursor position slightly deceptive.
 
-;; Basically, the block cursor by default highlights the parenthesis when your cursor is immediately AFTER the parenthesis in question, because the point is always between two characters in emacs (the point is really right after the parenthesis as well). So, if you have nested parentheses, as we often do, it’s strange to see the “wrong parenthesis” highlighted.
+;; Basically, the block cursor by default highlights the parenthesis when your
+;; cursor is immediately AFTER the parenthesis in question, because the point
+;; is always between two characters in emacs (the point is really right after
+;; the parenthesis as well). So, if you have nested parentheses, as we often
+;; do, it’s strange to see the “wrong parenthesis” highlighted.
 
-;; This advice first checks before the point and only then after the point for a parenthesis. I think this behavior is very intuitive. The defined function overrides the internal function used to find parentheses.
+;; This advice first checks before the point and only then after the point
+;; for a parenthesis. I think this behavior is very intuitive. The defined
+;; function overrides the internal function used to find parentheses.
 
 (column-number-mode) (show-paren-mode) (defun show-paren--locate-near-paren-ad () "Locate an unescaped paren \"near\" point to show. If one is found, return the cons (DIR . OUTSIDE), where DIR is 1 for an open paren, -1 for a close paren, and OUTSIDE is the buffer position of the outside of the paren. Otherwise return nil." (let* ((before (show-paren--categorize-paren (point)))) (when (or (eq (car before) 1) (eq (car before) -1)) before))) (advice-add 'show-paren--locate-near-paren :override #'show-paren--locate-near-paren-ad)
 
@@ -84,13 +87,8 @@
 ;; Ace window
 ;; don’t hint me for things outside the frame
 
-(setq aw-scope 'frame)
+;; (setq aw-scope 'frame)
 
 ;; I never want to switch to the current buffer
 
 ;; (setq aw-ignore-current t) (setq aw-background nil)
-
-;; YASnippet
-;; Just works!
-
-(sup 'yasnippet) (yas-global-mode) (setq yas-indent-line 'fixed)
