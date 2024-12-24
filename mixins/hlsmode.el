@@ -11,9 +11,9 @@
          xref
          capf
          hierarchy
-        ; eglot
-         lsp
-         flycheck
+        eglot
+         ;; lsp
+         ;; flycheck
          ;beautify
          navigation
          template
