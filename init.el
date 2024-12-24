@@ -250,17 +250,42 @@
 ;; (setq doom-modeline-icon t)
 ;; (setq doom-modeline-support-imenu t)
 
+
+
 (use-package doom-modeline
   :ensure t
-  :hook (after-init . doom-modeline-mode))
+  :hook (after-init . doom-modeline-mode)
+  :custom    
+  (doom-modeline-height 25)
+  (doom-modeline-bar-width 1)
+  (doom-modeline-icon t)
+  (doom-modeline-major-mode-icon t)
+  (doom-modeline-major-mode-color-icon t)
+  (doom-modeline-buffer-file-name-style 'truncate-upto-project)
+  (doom-modeline-buffer-state-icon t)
+  (doom-modeline-buffer-modification-icon t)
+  (doom-modeline-minor-modes nil)
+  (doom-modeline-enable-word-count nil)
+  (doom-modeline-buffer-encoding t)
+  (doom-modeline-indent-info nil)
+  (doom-modeline-checker-simple-format t)
+  (doom-modeline-vcs-max-length 12)
+  (doom-modeline-env-version t)
+  (doom-modeline-irc-stylize 'identity)
+  (doom-modeline-github-timer nil)
+  (doom-modeline-gnus-timer nil))
 
-
+(display-battery-mode)
+;; (use-package doom-modeline
+;;   :ensure t
+;;   :hook (after-init . doom-modeline-mode))
 
 
 ;; Mode line information
 (setq line-number-mode nil)                        ; Show current line in modeline
 (setq column-number-mode nil)                      ; Show column as well
 (setq mode-line-percent-position nil)              ; No percent
+(setq doom-modeline-percent-position nil)
 
 (setq x-underline-at-descent-line nil)           ; Prettier underlines
 (setq switch-to-buffer-obey-display-actions t)   ; Make switching buffers more consistent
