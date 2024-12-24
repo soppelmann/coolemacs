@@ -39,7 +39,7 @@
 
   ;(global-set-key (kbd "C-,") #'eldoc-box-help-at-point)
 
-  (add-to-list 'eglot-stay-out-of 'flymake)
+  ;; (add-to-list 'eglot-stay-out-of 'flymake)
 
   (add-to-list 'eglot-server-programs '(nix-mode . ("rnix-lsp")))
 

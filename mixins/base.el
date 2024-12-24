@@ -88,8 +88,8 @@
   :config
   (marginalia-mode))
 
-(use-package eshell
-  :bind (("C-r" . consult-history)))
+;; (use-package eshell
+;;   :bind (("C-r" . consult-history)))
 
 ;; Orderless: powerful completion style
 (use-package orderless
@@ -152,7 +152,7 @@
 
 
 ;; ;; Dont open hundreds of dired buffers
-;; (setf dired-kill-when-opening-new-dired-buffer t)
+(setf dired-kill-when-opening-new-dired-buffer t)
 
 ;; (use-package dired-k
 ;;   :ensure t)
@@ -260,8 +260,8 @@
          )
   :config
   ;; Narrowing lets you restrict results to certain groups of candidates
-  (setq consult-narrow-key "<"))
-
+  ;; (setq consult-narrow-key "<"))
+)
 (use-package embark
   :ensure t
   :demand t
@@ -385,7 +385,6 @@ targets."
          ;("C-o" . ace-window)
 ;         ("C-p" . ace-window)
          ))
-
 ;; Nice tabs
 (use-package centaur-tabs
   :ensure t
@@ -416,6 +415,10 @@ targets."
   ("C-x <left>" . centaur-tabs-backward)
   ("C-x <right>" . centaur-tabs-forward))
 
+(require 'centaur-tabs)
+;; without this centaur tabs blocks tramp according to profiler
+(centaur-tabs-group-by-projectile-project)
+
 
 (defun tdr/fix-centaur-tabs ()
   "Reset Centaur Tabs."
@@ -424,24 +427,6 @@ targets."
   (centaur-tabs-headline-match)) ; Update tabs
 
 (add-hook 'focus-in-hook 'tdr/fix-centaur-tabs)
-;; ;; Nice tabs
-;; (use-package centaur-tabs
-;;   :ensure t
-;;   :config
-;;   (centaur-tabs-mode t)
-;;   :bind
-;;   ("C-x <left>" . centaur-tabs-backward)
-;;   ("C-x <right>" . centaur-tabs-forward)
-;;   :custom
-;;   (centaur-tabs-style "bar")
-;;   (centaur-tabs-set-bar 'under)
-;;   (x-underline-at-descent-line t) ;; for 'under
-;;   :init
-;;   (if (daemonp)
-;;       (add-hook 'server-after-make-frame-hook 'centaur-tabs-mode)
-;;     (add-hook 'after-init-hook 'centaur-tabs-mode))
-;;   )
-
 
 ;; When the currently selected tab(A) is at the right of the last visited
 ;; tab(B), move A to the right of B. When the currently selected tab(A) is
@@ -478,18 +463,7 @@ targets."
 ;; Style
 ;(setq centaur-tabs-style "alternate")
 
-;;(centaur-tabs-group-by-projectile-project)
 ;; (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp"))
-
-;; (require 'awesome-tab)
-
-;; (awesome-tab-mode t)
-
-;; Undo system
-;; https://codeberg.org/ideasman42/emacs-undo-fu
-;; (use-package undo-fu
-;;   :ensure t
-;; )
 
 (use-package vundo
   :ensure t)

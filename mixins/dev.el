@@ -163,21 +163,21 @@
 ;; Bind it to C-c t
 ;; Make sure git timemachine toggles evil-local-mode and
 ;; display-line-numbers-mode
-(use-package git-timemachine
-  :ensure t
-  :bind (("C-c t" . git-timemachine-toggle))
-  :hook
- (git-timemachine-mode . evil-local-mode)
-  ;; (git-timemachine-mode . meow-normal-mode)
-  (git-timemachine-mode . display-line-numbers-mode)
-  )
+;; (use-package git-timemachine
+;;   :ensure t
+;;   :bind (("C-c t" . git-timemachine-toggle))
+;;   :hook
+;;  (git-timemachine-mode . evil-local-mode)
+;;   ;; (git-timemachine-mode . meow-normal-mode)
+;;   (git-timemachine-mode . display-line-numbers-mode)
+;;   )
 
-;; @see https://bitbucket.org/lyro/evil/issue/511/let-certain-minor-modes-key-bindings
-;; http://blog.binchen.org/posts/use-git-timemachine-with-evil.html
-(with-eval-after-load 'git-timemachine
- (evil-make-overriding-map git-timemachine-mode-map 'normal)
-  force update evil keymaps after git-timemachine-mode loaded
- (add-hook 'git-timemachine-mode-hook #'evil-normalize-keymaps))
+;; ;; @see https://bitbucket.org/lyro/evil/issue/511/let-certain-minor-modes-key-bindings
+;; ;; http://blog.binchen.org/posts/use-git-timemachine-with-evil.html
+;; (with-eval-after-load 'git-timemachine
+;;  (evil-make-overriding-map git-timemachine-mode-map 'normal)
+;;   force update evil keymaps after git-timemachine-mode loaded
+;;  (add-hook 'git-timemachine-mode-hook #'evil-normalize-keymaps))
 
 
 ;; Define buffer-local variable
@@ -251,10 +251,10 @@
 ;; (setq-default flycheck-indication-mode 'left-fringe)
 ;; (add-hook 'flycheck-mode-hook #'flycheck-set-indication-mode)
 
-(use-package flycheck-checkbashisms
-  :ensure t
-  :config
-  (flycheck-checkbashisms-setup))
+;; (use-package flycheck-checkbashisms
+;;   :ensure t
+;;   :config
+;;   (flycheck-checkbashisms-setup))
 
 
 ;; Add these commands to embark directory map at some point
@@ -283,11 +283,11 @@
 ;;  :ensure t)
 ;;  :hook ((markdown-mode . visual-line-mode)))
 
-(use-package yaml-mode
-  :ensure t)
+;; (use-package yaml-mode
+;;   :ensure t)
 
-(use-package json-mode
-  :ensure t)
+;; (use-package json-mode
+;;   :ensure t)
 
 
 ;; https://old.reddit.com/r/emacs/comments/audffp/tip_how_to_use_a_stable_and_fast_environment_to/
@@ -370,13 +370,13 @@
 
 ;; C-c C-C is a worthless binding for comments, so unbind it
 ;; Use C-x C-; instead or M-; for line comments
-(define-key c-mode-base-map (kbd "C-c C-c") nil)
+;; (define-key c-mode-base-map (kbd "C-c C-c") nil)
 ;(define-key c-ts-mode-map (kbd "C-c C-c") nil)
 (define-key prog-mode-map (kbd "C-c C-c") nil)
 
 (use-package smart-compile
   :ensure t)
-(define-key c-mode-base-map (kbd "C-c C-c") 'smart-compile)
+;; (define-key c-mode-base-map (kbd "C-c C-c") 'smart-compile)
 (define-key prog-mode-map (kbd "C-c C-c") 'smart-compile)
 ;(define-key c-ts-mode-map (kbd "C-c C-c") 'smart-compile)
 ;(add-hook 'c-mode-common-hook 
@@ -404,8 +404,8 @@
 (bind-key "C-c f f" 'my/format-buffer)
 
 
-(use-package consult-flycheck
-  :ensure t)
+;; (use-package consult-flycheck
+;;   :ensure t)
 
 (add-to-list 'load-path "~/.emacs.d/localpkgs/")
 
@@ -444,26 +444,26 @@
   :ensure t
   :mode "\\.nix\\'")
 
-(use-package zig-mode
-  :ensure t)
+;; (use-package zig-mode
+;;   :ensure t)
 
-(use-package vterm
-  :ensure t
-  :config
-  (setq vterm-max-scrollback 10000)
-  (setq vterm-shell "bash")
-  (setq vterm-kill-buffer-on-exit t)
-  (setq vterm-always-compile-module t)
-  (setq vterm-buffer-name-string "vterm %s")
-  )
+;; (use-package vterm
+;;   :ensure t
+;;   :config
+;;   (setq vterm-max-scrollback 10000)
+;;   (setq vterm-shell "bash")
+;;   (setq vterm-kill-buffer-on-exit t)
+;;   (setq vterm-always-compile-module t)
+;;   (setq vterm-buffer-name-string "vterm %s")
+;;   )
 
-;; vterm
-(use-package vterm-toggle
-  :ensure t
-  :config
-  (setq vterm-toggle-reset-window-configration-after-exit t)
-  (setq vterm-toggle-hide-method 'reset-window-configration)
-  )
+;; ;; vterm
+;; (use-package vterm-toggle
+;;   :ensure t
+;;   :config
+;;   (setq vterm-toggle-reset-window-configration-after-exit t)
+;;   (setq vterm-toggle-hide-method 'reset-window-configration)
+;;   )
 
 ;(use-package multi-vterm
 ;  :ensure t
@@ -486,8 +486,8 @@
 
 ;(dddefine-key vterm)
 ;(define-key vterm-mode-map [?\C-c] nil)
-(define-key vterm-mode-map (kbd "<f4>") 'vterm-toggle)
-(define-key vterm-mode-map (kbd "<f5>") 'ef-themes-toggle)
+;; (define-key vterm-mode-map (kbd "<f4>") 'vterm-toggle)
+;; (define-key vterm-mode-map (kbd "<f5>") 'ef-themes-toggle)
 
 ;; Speedup tramp
 
