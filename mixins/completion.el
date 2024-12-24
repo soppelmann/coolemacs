@@ -74,8 +74,6 @@
    :host github
    :repo "jsigman/yasnippet-snippets"))
 
-
-
 ;; A few more useful configurations...
 (use-package emacs
   :custom
@@ -95,20 +93,24 @@
   ;; useful beyond Corfu.
   (read-extended-command-predicate #'command-completion-default-include-p))
 
-
-
 ;; to enable yasnippet-capf everywhere (optional) (add-to-list 'completion-at-point-functions #'yasnippet-capf)
 
 ;; to integrate yasnippet-capf with eglot completion
 ;; https://github.com/minad/corfu/wiki#making-a-cape-super-capf-for-eglot
 
-(defun mi/eglot-capf-with-yasnippet () (setq-local completion-at-point-functions (list (cape-capf-super #'yasnippet-capf #'eglot-completion-at-point)))) (with-eval-after-load 'eglot (add-hook 'eglot-managed-mode-hook #'mi/eglot-capf-with-yasnippet)) 
+;; (fset 'non-greedy-capf (cape-capf-properties #'cape-file :exclusive 'no))
 
+;; (defun mi/eglot-capf-with-yasnippet () (setq-local completion-at-point-functions (list (cape-capf-super #'yasnippet-capf #'eglot-completion-at-point)))) (with-eval-after-load 'eglot (add-hook 'eglot-managed-mode-hook #'mi/eglot-capf-with-yasnippet)) 
 
+(defun my/eglot-capf ()
+  (setq-local completion-at-point-functions
+              (list (cape-capf-super
+                     #'cape-file
+                     #'eglot-completion-at-point
+                     #'yasnippet-capf
+                     ))))
 
-
-
-
+(add-hook 'eglot-managed-mode-hook #'my/eglot-capf)
 
 
 ;; (defun my/eglot-capf ()
