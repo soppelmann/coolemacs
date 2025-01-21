@@ -131,7 +131,7 @@ Can be an integer to determine the exact padding."
 
    ;;;; magit
    (magit-header-line :background base2 :foreground fg)
-   
+
    ;;;; centaur-tabs
    (centaur-tabs-selected-modified               :inherit 'centaur-tabs-selected :foreground yellow)
    (centaur-tabs-unselected                      :background bg :foreground fg)
@@ -145,7 +145,7 @@ Can be an integer to determine the exact padding."
    (deadgrep-match-face                          :inherit 'match :box `(:line-width 2 :color ,yellow))
 
 ;   (mode-line :box '(:line-width 1 :color fg))
-   
+
    ;;;; doom-modeline
    (doom-modeline-bar                            :background yellow)
    (doom-modeline-buffer-file                    :inherit 'mode-line-buffer-id :weight 'bold)
@@ -165,8 +165,8 @@ Can be an integer to determine the exact padding."
    (corfu-current				 :background base2 :foreground cyan)
    ;; orderless
 ;   (orderless-match-face-0			 :inherit 'corfu-current)
-   (orderless-match-face-0			 :background nil :foreground cyan)
-   
+   ;; (orderless-match-face-0			 :background nil :foreground cyan)
+
    ;;;; flycheck
    ((flycheck-error &override)                   :background base3)
    ((flycheck-warning &override)                 :background base3)
