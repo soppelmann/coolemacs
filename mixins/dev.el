@@ -604,6 +604,20 @@
 (use-package dumb-jump
   :ensure t)
 
+(add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
+(setq dumb-jump-quiet t)
+
+;; (use-package dumb-jump
+;;   :ensure t
+;;   :bind (("M-g o" . dumb-jump-go-other-window)
+;;          ("M-g j" . dumb-jump-go)
+;;          ("M-g b" . dumb-jump-back)
+;;          ("M-g q" . dumb-jump-quick-look)
+;;          ("M-g x" . dumb-jump-go-prefer-external)
+;;          ("M-g z" . dumb-jump-go-prefer-external-other-window))
+;;   :config (setq dumb-jump-selector 'ivy))
+
+
 (use-package drag-stuff
   :ensure t)
 (drag-stuff-global-mode 1)
