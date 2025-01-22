@@ -44,9 +44,17 @@
 ;;
 (setq package-check-signature nil)
 
+
 (with-eval-after-load 'package
   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t))
+(require 'package)
+(setq package-archives '(("melpa" . "https://melpa.org/packages/")
+                         ("elpa" . "https://elpa.gnu.org/packages/")
+                         ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
+(package-initialize)
 
+;; Upgrade built-in packages
+(setopt package-install-upgrade-built-in t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
@@ -73,8 +81,8 @@
 (straight-use-package 'el-patch)
 
 ;; Enable defer and ensure by default for use-package
-;(setq use-package-always-defer t
-;      use-package-always-ensure t)
+;; (setq use-package-always-defer t
+     ;; use-package-always-ensure t)
 
 ;; exec-path-from-shell
 (use-package exec-path-from-shell
@@ -473,11 +481,14 @@
 (load-file (expand-file-name "mixins/dashboard.el" user-emacs-directory))
 
 ;; Nice fonts for emacs
- (when (or (daemonp) (display-graphic-p))
- (load-file (expand-file-name "mixins/fontaine.el" user-emacs-directory))
- )
+ ;; (when (or (daemonp) (display-graphic-p))
+ ;; (load-file (expand-file-name "mixins/fontaine.el" user-emacs-directory))
+ ;; )
 
 ;; Themes
+(use-package doom-themes
+  :ensure t)
+
 (load-theme 'doom-monokai-machine-private t)
 ;; (load-file (expand-file-name "mixins/themes.el" user-emacs-directory))
 
