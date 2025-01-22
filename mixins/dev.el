@@ -473,31 +473,12 @@
 (global-set-key (kbd "C-c s") 'vterm)
 (global-set-key (kbd "C-c e") 'eshell)
 
-(require 'tramp)
-;; Required for eglot to find lsp servers on remote
-(add-to-list 'tramp-remote-path 'tramp-own-remote-path)
-
-;(setq tramp-default-method "ssh")
-(setq vterm-tramp-shells '(("docker" "/bin/sh")
-                           ("scpx" "/bin/sh")
-                           ("ssh" "/bin/sh")))
-
 (define-key global-map (kbd "<f4>") #'vterm-toggle)
 
 ;(dddefine-key vterm)
 ;(define-key vterm-mode-map [?\C-c] nil)
 ;; (define-key vterm-mode-map (kbd "<f4>") 'vterm-toggle)
 ;; (define-key vterm-mode-map (kbd "<f5>") 'ef-themes-toggle)
-
-;; Speedup tramp
-
-(setq vc-ignore-dir-regexp
-      (format "\\(%s\\)\\|\\(%s\\)"
-              vc-ignore-dir-regexp
-              tramp-file-name-regexp))
-
-(setq debug-ignored-errors
-      (cons 'remote-file-error debug-ignored-errors))
 
 ;; (use-package cmake-mode
   ;; :ensure t)
@@ -615,3 +596,19 @@
   :ensure t)
 
 (setq ffip-use-rust-fd t)
+
+;; (use-package indent-bars
+  ;; :ensure t
+  ;; :hook ((prog-mode) . indent-bars-mode)) ; or whichever modes you prefer
+
+(use-package dumb-jump
+  :ensure t)
+
+(use-package drag-stuff
+  :ensure t)
+(drag-stuff-global-mode 1)
+(drag-stuff-define-keys)
+
+(use-package auto-header
+  :ensure t)
+(add-hook 'c-mode-hook #'auto-header-mode)
