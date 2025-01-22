@@ -480,3 +480,5 @@ targets."
   (eww-display-html 'utf-8 (buffer-name) nil (point-min) (current-buffer)))
 
 
+(use-package rainbow-mode
+  :ensure t)
