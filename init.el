@@ -263,7 +263,7 @@
 (use-package doom-modeline
   :ensure t
   :hook (after-init . doom-modeline-mode)
-  :custom    
+  :custom
   (doom-modeline-height 25)
   (doom-modeline-bar-width 1)
   (doom-modeline-icon t)
@@ -339,6 +339,20 @@
 ;(pixel-scroll-precision-mode)                         ; Smooth scrolling
 ;(pixel-scroll-mode)                                   ; Smooth scrolling
 ;(setq scroll-preserve-screen-position 'always)        ; Scroll commands keep cursor position
+
+(defun pixel-scroll-setup () 
+  (interactive) 
+  (setq
+   pixel-scroll-precision-large-scroll-height 1) 
+  (setq
+   pixel-scroll-precision-interpolation-factor 1)) 
+(when (boundp
+       'pixel-scroll-precision-mode) 
+  (pixel-scroll-setup) 
+  (add-hook
+   'prog-mode-hook #'pixel-scroll-precision-mode) 
+  (add-hook
+   'org-mode-hook #'pixel-scroll-precision-mode))
 
 ;; Set line width to 80 characters and display a vertical line at that column
 (setq-default fill-column 80)
@@ -440,7 +454,6 @@
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
 (defun clear-register ()
   "Clear the contents of an interactively chosen register."
   (interactive)
@@ -456,7 +469,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; UI/UX enhancements mostly focused on minibuffer and autocompletion interfaces
-;; These ones are *strongly* recommended!
 (load-file (expand-file-name "mixins/base.el" user-emacs-directory))
 
 ;; tramp
@@ -489,7 +501,31 @@
 (use-package doom-themes
   :ensure t)
 
+(use-package nyan-mode
+  :ensure t)
+(nyan-mode)
+
+(defun disable-all-themes ()
+  "disable all active themes."
+  (dolist (i custom-enabled-themes)
+    (disable-theme i)))
+
+(defadvice load-theme (before disable-themes-first activate)
+  (disable-all-themes))
+
+(use-package modern-tab-bar
+  :straight (modern-tab-bar :host github :repo "aaronjensen/emacs-modern-tab-bar" :protocol ssh)
+  :init
+  (setq tab-bar-show t
+        tab-bar-new-button nil
+        tab-bar-close-button-show nil)
+
+  ;; (modern-tab-bar-mode)
+  )
+
+
 (load-theme 'doom-monokai-machine-private t)
+;; (load-theme 'leuven t)
 ;; (load-file (expand-file-name "mixins/themes.el" user-emacs-directory))
 
 ;; (load-file (expand-file-name "mixins/new.el" user-emacs-directory))
