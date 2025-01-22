@@ -1,3 +1,7 @@
+(straight-use-package '(far :type git :repo "https://github.com/eshrh/far.el"))
+
+
+
 (use-package meow
   :ensure t)
 
@@ -25,6 +29,7 @@
    '("/" . meow-keypad-describe-key)
    '("?" . meow-cheatsheet))
   (meow-normal-define-key
+   '("`" . far-fill-paragraph)
    '("0" . meow-expand-0)
    '("9" . meow-expand-9)
    '("8" . meow-expand-8)
@@ -90,7 +95,6 @@
    '("/" . phi-search)
    '("C-r" . undo-redo)
    '("<escape>" . ignore)))
-
 
 ;; meow-use-clipboard
 (setq meow-use-clipboard t)
