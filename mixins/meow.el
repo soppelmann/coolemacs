@@ -1,6 +1,8 @@
 (straight-use-package '(far :type git :repo "https://github.com/eshrh/far.el"))
 
-
+;; (define-key input-decode-map 
+    ;; (kbd "C-[") 
+    ;; [control-bracketleft])
 
 (use-package meow
   :ensure t)
@@ -46,6 +48,8 @@
    '("." . meow-bounds-of-thing)
    '("[" . meow-beginning-of-thing)
    '("]" . meow-end-of-thing)
+   ;; '("M-]" . xref-find-definitions)
+   ;; '("M-[" . xref-go-back)
    '("a" . meow-append)
    '("A" . meow-open-below)
    '("b" . meow-back-word)

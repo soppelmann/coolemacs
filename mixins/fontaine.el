@@ -136,6 +136,21 @@
          :italic-family nil
          :italic-slant italic
          :line-spacing nil)
+        (SFMono
+         :default-family "SFMono Nerd Font"
+         :default-weight normal
+         :default-height 140
+         :fixed-pitch-family nil ; falls back to :default-family
+         :fixed-pitch-weight normal ; falls back to :default-weight
+         :fixed-pitch-height 1.0
+         :variable-pitch-family "SFMono Nerd Font"
+         :variable-pitch-weight normal
+         :variable-pitch-height 1.05
+         :bold-family nil ; use whatever the underlying face has
+         :bold-weight bold
+         :italic-family nil
+         :italic-slant italic
+         :line-spacing nil)
         (Plex
          :default-family "IBM Plex Mono"
          :default-weight normal

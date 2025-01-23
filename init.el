@@ -132,6 +132,9 @@
 (setq auto-revert-check-vc-info t)
 (setq global-auto-revert-mode t)
 
+;; newline final
+(setq mode-require-final-newline t) 
+
 ;; Delete trailing whitespace on save
 ;(add-hook 'before-save-hook
 ;          'delete-trailing-whitespace)
@@ -493,9 +496,9 @@
 (load-file (expand-file-name "mixins/dashboard.el" user-emacs-directory))
 
 ;; Nice fonts for emacs
- ;; (when (or (daemonp) (display-graphic-p))
- ;; (load-file (expand-file-name "mixins/fontaine.el" user-emacs-directory))
- ;; )
+(when (or (daemonp) (display-graphic-p))
+(load-file (expand-file-name "mixins/fontaine.el" user-emacs-directory))
+)
 
 ;; Themes
 (use-package doom-themes
@@ -505,13 +508,13 @@
   :ensure t)
 (nyan-mode)
 
-(defun disable-all-themes ()
-  "disable all active themes."
-  (dolist (i custom-enabled-themes)
-    (disable-theme i)))
+;; (defun disable-all-themes ()
+  ;; "disable all active themes."
+  ;; (dolist (i custom-enabled-themes)
+    ;; (disable-theme i)))
 
-(defadvice load-theme (before disable-themes-first activate)
-  (disable-all-themes))
+;; (defadvice load-theme (before disable-themes-first activate)
+  ;; (disable-all-themes))
 
 (use-package modern-tab-bar
   :straight (modern-tab-bar :host github :repo "aaronjensen/emacs-modern-tab-bar" :protocol ssh)
@@ -525,6 +528,7 @@
 
 
 (load-theme 'doom-monokai-machine-private t)
+;; (load-theme 'modus-operandi t)
 ;; (load-theme 'leuven t)
 ;; (load-file (expand-file-name "mixins/themes.el" user-emacs-directory))
 

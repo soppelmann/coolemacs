@@ -617,6 +617,9 @@
 ;;          ("M-g z" . dumb-jump-go-prefer-external-other-window))
 ;;   :config (setq dumb-jump-selector 'ivy))
 
+;; (use-package indent-bars
+  ;; :ensure t
+  ;; :hook ((prog-mode) . indent-bars-mode)) ; or whichever modes you prefer
 
 (use-package drag-stuff
   :ensure t)
@@ -626,3 +629,6 @@
 (use-package auto-header
   :ensure t)
 (add-hook 'c-mode-hook #'auto-header-mode)
+
+(use-package go-mode
+  :ensure t)
