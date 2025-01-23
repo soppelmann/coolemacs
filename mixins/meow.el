@@ -5,7 +5,11 @@
     ;; [control-bracketleft])
 
 (use-package meow
-  :ensure t)
+  :ensure t
+  :init
+  ;; This allows 'a' key to work as in vim.
+  (setq meow-use-cursor-position-hack t))
+(require 'meow)
 
 (defun meow-setup ()
   (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)

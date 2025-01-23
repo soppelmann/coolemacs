@@ -12,14 +12,13 @@
 ;;;  - Built-in customization framework
 (setq warning-minimum-level :emergency)
 
-;;; TODO:
+;; TODO:
 ;;
 ;; keybinds for consult-tramp
 ;; tramp in general
-;; eglot functions
 ;; burly bookmarks
 ;; ranger
-;; copilot mode
+;; completion
 
 ;; This is at the top of the file to ensure that
 ;; it benfits startup time of stuff later on.
@@ -156,14 +155,6 @@
 (when (string= system-type "darwin")
   (setq dired-use-ls-dired nil))
 
-;; Move through windows with Ctrl-<arrow keys>
-;(windmove-default-keybindings 'C-c) ; You can use other modifiers here
-;(windmove-default-keybindings 'control) ; You can use other modifiers here
-;(global-set-key (kbd "C-c <left>") 'windmove-left)
-;(global-set-key (kbd "C-c <right>") 'windmove-right)
-;(global-set-key (kbd "C-c <up>") 'windmove-up)
-;(global-set-key (kbd "C-c <down>") 'windmove-down)
-
 ;; Fix archaic defaults
 (setq sentence-end-double-space nil)
 
@@ -188,7 +179,6 @@
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file t)
 
-;; Currently tramp is messed up
 ;; Backup and Autosave Directories
 (setq temporary-file-directory "~/.emacs.d/tmp")
 (setq backup-directory-alist `((".*" . ,temporary-file-directory)))
@@ -261,8 +251,6 @@
 ;; (setq doom-modeline-icon t)
 ;; (setq doom-modeline-support-imenu t)
 
-
-
 (use-package doom-modeline
   :ensure t
   :hook (after-init . doom-modeline-mode)
@@ -287,10 +275,6 @@
   (doom-modeline-gnus-timer nil))
 
 (display-battery-mode)
-;; (use-package doom-modeline
-;;   :ensure t
-;;   :hook (after-init . doom-modeline-mode))
-
 
 ;; Mode line information
 (setq line-number-mode nil)                        ; Show current line in modeline
@@ -335,7 +319,11 @@
 ;(setq-default tab-width 2)
 ;(setq-default c-basic-indent 2)
 
-(setq backward-delete-char-untabify-method 'hungry)
+;; i dont like this
+;(setq backward-delete-char-untabify-method 'hungry)
+; i like this?
+(setq backward-delete-char-untabify-method 'untabify)
+
 
 ;; Misc. UI tweaks
 (blink-cursor-mode -1)                                ; Steady cursor

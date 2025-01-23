@@ -134,7 +134,8 @@
 ;; Magit: best Git client to ever exist
 (use-package magit
   :ensure t
-  :bind (("s-g" . magit-status)
+  :bind (
+         ;; ("s-g" . magit-status)
          ("C-c g" . magit-status)))
 
 ;(use-package libgit
@@ -412,8 +413,10 @@
 ;; (add-hook 'c-mode-hook (lambda () (setq flycheck-clang-language-standard "c99")))
 ;; (add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-language-standard "c++11")))
 
-(add-to-list 'auto-mode-alist '("\\.upphtml\\'" . shell-script-mode))
-(add-to-list 'auto-mode-alist '("\\.uppcss\\'" . shell-script-mode))
+;; (add-to-list 'auto-mode-alist '("\\.upphtml\\'" . shell-script-mode))
+;; (add-to-list 'auto-mode-alist '("\\.uppcss\\'" . shell-script-mode))
+(add-to-list 'auto-mode-alist '("\\.upphtml\\'" . html-mode))
+(add-to-list 'auto-mode-alist '("\\.uppcss\\'" . css-mode))
 
 ;; (use-package eldoc-box
   ;; :ensure t
@@ -473,9 +476,9 @@
 (global-set-key (kbd "C-c s") 'vterm)
 (global-set-key (kbd "C-c e") 'eshell)
 
-(define-key global-map (kbd "<f4>") #'vterm-toggle)
+;; (define-key global-map (kbd "<f4>") #'vterm-toggle)
 
-;(dddefine-key vterm)
+;(define-key vterm)
 ;(define-key vterm-mode-map [?\C-c] nil)
 ;; (define-key vterm-mode-map (kbd "<f4>") 'vterm-toggle)
 ;; (define-key vterm-mode-map (kbd "<f5>") 'ef-themes-toggle)
@@ -521,31 +524,29 @@
 (setq ediff-diff-options "-w")
 (add-hook 'ediff-after-quit-hook-internal 'winner-undo)
 
-
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; MAGIT
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;(defun local/change-commit-author (arg)
-;  "Change the commit author during an interactive rebase in Magit.
-;With a prefix argument, insert a new change commit author command
-;even when there is already another rebase command on the current
-;line.  With empty input, remove the change commit author action
-;on the current line, if any."
-;  (interactive "P")
-;  (let ((author
-;         (magit-transient-read-person "Select a new author for this commit"
-;                               nil
-;                               nil)))
-;    (git-rebase-set-noncommit-action
-;     "exec"
-;     (lambda (_) (if author
-;                     (format "git commit --amend --author='%s'" author)
-;                   ""))
-;     arg)))
-;
-;(define-key git-rebase-mode-map (kbd "h") #'local/change-commit-author)
+;; (defun local/change-commit-author (arg)
+;;  "Change the commit author during an interactive rebase in Magit.
+;; With a prefix argument, insert a new change commit author command
+;; even when there is already another rebase command on the current
+;; line.  With empty input, remove the change commit author action
+;; on the current line, if any."
+;;  (interactive "P")
+;;  (let ((author
+;;         (magit-transient-read-person "Select a new author for this commit"
+;;                               nil
+;;                               nil)))
+;;    (git-rebase-set-noncommit-action
+;;     "exec"
+;;     (lambda (_) (if author
+;;                     (format "git commit --amend --author='%s'" author)
+;;                   ""))
+;;     arg)))
+
+;; (define-key git-rebase-mode-map (kbd "h") #'local/change-commit-author)
 
 
 ;; install phi-search and phi-search-mc using use-package
@@ -608,14 +609,14 @@
 (setq dumb-jump-quiet t)
 
 ;; (use-package dumb-jump
-;;   :ensure t
-;;   :bind (("M-g o" . dumb-jump-go-other-window)
-;;          ("M-g j" . dumb-jump-go)
-;;          ("M-g b" . dumb-jump-back)
-;;          ("M-g q" . dumb-jump-quick-look)
-;;          ("M-g x" . dumb-jump-go-prefer-external)
-;;          ("M-g z" . dumb-jump-go-prefer-external-other-window))
-;;   :config (setq dumb-jump-selector 'ivy))
+  ;; :ensure t
+  ;; :bind (("M-g o" . dumb-jump-go-other-window)
+         ;; ("M-g j" . dumb-jump-go)
+         ;; ("M-g b" . dumb-jump-back)
+         ;; ("M-g q" . dumb-jump-quick-look)
+         ;; ("M-g x" . dumb-jump-go-prefer-external)
+         ;; ("M-g z" . dumb-jump-go-prefer-external-other-window))
+  ;; :config (setq dumb-jump-selector 'ivy))
 
 ;; (use-package indent-bars
   ;; :ensure t
