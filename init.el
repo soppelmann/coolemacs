@@ -180,9 +180,9 @@
 (load custom-file t)
 
 ;; Backup and Autosave Directories
-(setq temporary-file-directory "~/.emacs.d/tmp")
-(setq backup-directory-alist `((".*" . ,temporary-file-directory)))
-(setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
+;; (setq temporary-file-directory "~/.emacs.d/tmp")
+;; (setq backup-directory-alist `((".*" . ,temporary-file-directory)))
+;; (setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
 
 ;; Remember last cursor location of opened files
 (save-place-mode 1)

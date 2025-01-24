@@ -482,3 +482,36 @@ targets."
 
 (use-package rainbow-mode
   :ensure t)
+
+(use-package htmlize
+  :ensure t)
+
+;; (use-package scpaste
+  ;; :ensure t)
+(add-to-list 'load-path "~/.emacs.d/elisp/")
+(require 'scpaste)
+
+(setq scpaste-http-destination "https://dflund.se/~getz/pastes"
+      scpaste-scp-destination "brutus.df.lth.se:~/public_html/pastes/")
+
+;; If you have a different keyfile, you can set that, too:
+;; (setq scpaste-scp-pubkey "~/.ssh/my_keyfile.pub")
+
+;; (setq scpaste-user-name "Technomancy"
+;;       scpaste-user-address "https://technomancy.us/")
+
+
+(use-package unkillable-scratch
+  :ensure t
+  :config (unkillable-scratch t))
+
+(setq unkillable-scratch-do-not-reset-scratch-buffer t)
+(setq unkillable-scratch-behavior 'bury)
+;; (setq unkillable-scratch-behavior 'do-nothing)
+
+(setq initial-scratch-message
+      (concat
+       ";; ╔═╗┌─┐┬─┐┌─┐┌┬┐┌─┐┬ ┬\n"
+       ";; ╚═╗│  ├┬┘├─┤ │ │  ├─┤\n"
+       ";; ╚═╝└─┘┴└─┴ ┴ ┴ └─┘┴ ┴\n\n"))
+
