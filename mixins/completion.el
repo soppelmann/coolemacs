@@ -32,7 +32,7 @@
   (corfu-on-exact-match 'show)
   :init
   (global-corfu-mode)
-  (corfu-prescient-mode 1)
+  ;; (corfu-prescient-mode 1)
   (corfu-history-mode)
 
   ;; Optionally use TAB for cycling, default is `corfu-complete'.
@@ -174,9 +174,11 @@
 ;;                         completion-category-overrides nil
 ;;                         completion-category-defaults nil)))
 
-;; (setq corfu-auto        t
-      ;; corfu-auto-delay  0  ;; TOO SMALL - NOT RECOMMENDED!
-      ;; corfu-auto-prefix 0) ;; TOO SMALL - NOT RECOMMENDED!
+(setq corfu-auto        t
+      corfu-auto-delay  0.3  ;; TOO SMALL IS NOT RECOMMENDED!
+      corfu-auto-prefix 2
+      corfu-quit-no-match t)
+      ;; corfu-quit-no-match 'separator)
 
 (add-hook 'corfu-mode-hook
           (lambda ()
@@ -185,13 +187,17 @@
                         completion-category-overrides nil
                         completion-category-defaults nil)))
 
+(add-hook 'eshell-mode-hook (lambda ()
+                              (setq-local corfu-auto nil)
+                              (corfu-mode)))
 ;; Part of corfu
 ;; (use-package corfu-popupinfo
 ;;   :after corfu
+;;   :ensure nil
 ;;   :hook (corfu-mode . corfu-popupinfo-mode)
 
 ;;   :custom
-;;   (corfu-auto nil)
+;;   (corfu-auto t)
 ;;   (corfu-auto-delay 2.1)
 ;;   (corfu-auto-prefix 0)
 ;;   (corfu-min-width 80)
@@ -246,7 +252,7 @@
   ;; used by `completion-at-point'.  The order of the functions matters, the
   ;; first function returning a result wins.  Note that the list of buffer-local
   ;; completion functions takes precedence over the global list.
-  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+  ;; (add-to-list 'completion-at-point-functions #'cape-dabbrev)
   (add-to-list 'completion-at-point-functions #'cape-file)
   ;; (add-to-list 'completion-at-point-functions #'cape-elisp-block)
   ;; (add-to-list 'completion-at-point-functions #'yasnippet-capf)  
@@ -275,8 +281,6 @@
 ;; ))))
 ;; (add-hook 'eglot-managed-mode-hook #'my/eglot-capf)
 
-
-
 ;(defun local/clang-capf-init ()
 ;  "Add `clang-capf' to `completion-at-point-functions'."
 ;  (add-hook 'completion-at-point-functions #'clang-capf nil t))
@@ -285,16 +289,16 @@
 
 ;; (add-hook 'eshell-mode-hook #'capf-autosuggest-mode)
 
-;; (use-package yasnippet
-;;   :ensure t
-;;   ;; :hook
-;;   ;; (prog-mode . yas-minor-mode)
-;;   :config
-;;   (yas-reload-all))
+(use-package yasnippet
+  :ensure t
+  ;; :hook
+  ;; (prog-mode . yas-minor-mode)
+  :config
+  (yas-reload-all))
 
-;; (use-package yasnippet-snippets
-;;   :ensure t
-;;   )
+(use-package yasnippet-snippets
+  :ensure t
+  )
 
 ;; (use-package yasnippet-classic-snippets
   ;; :ensure t
@@ -315,12 +319,12 @@
 ;;   :ensure t
 ;;   )
 
-;; (use-package yasnippet-capf
-;;   :ensure t
-;;   :after cape
-;;   :config
+(use-package yasnippet-capf
+  :ensure t
+  :after cape
+  ;; :config
 ;;   (add-to-list 'completion-at-point-functions #'yasnippet-capf)
-;;   )
+  )
 
 
 ;; (defun my/eglot-capf ()
@@ -336,8 +340,6 @@
 
 
 ;; Configure Tempel
-
-
 
 ;; (use-package tempel
 ;;   ;; Require trigger prefix before template name when completing.
