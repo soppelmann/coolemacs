@@ -124,3 +124,9 @@
 (use-package meow-tree-sitter
   :ensure t)
 (meow-tree-sitter-register-defaults)
+
+
+(with-eval-after-load 'meow
+  (add-hook 'meow-insert-mode-hook (lambda () (setq delete-active-region t)))
+  (add-hook 'meow-insert-exit-hook (lambda () (setq delete-active-region nil)))
+)
