@@ -1,5 +1,3 @@
-;;; Emacs Bedrock
-;;;
 ;;; Mixin: Base UI enhancements
 
 ;;; Usage: Append or require this file from init.el to enable various UI/UX
@@ -463,8 +461,6 @@ targets."
 ;; Style
 ;(setq centaur-tabs-style "alternate")
 
-;; (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp"))
-
 (use-package vundo
   :ensure t)
 
@@ -488,18 +484,27 @@ targets."
 
 ;; (use-package scpaste
   ;; :ensure t)
-(add-to-list 'load-path "~/.emacs.d/elisp/")
 (require 'scpaste)
 
+(defun scpaste-make-name-combined (&optional suffix)
+  (concat (file-name-sans-extension (buffer-name))
+          ;; "-"
+          ;; (format-time-string "%s")
+          suffix
+          (file-name-extension (buffer-name) t)))
+
+
+
 (setq scpaste-http-destination "https://dflund.se/~getz/pastes"
-      scpaste-scp-destination "brutus.df.lth.se:~/public_html/pastes/")
+      scpaste-scp-destination "brutus.df.lth.se:~/public_html/pastes/"
+      scpaste-make-name-function 'scpaste-make-name-combined
+      )
 
 ;; If you have a different keyfile, you can set that, too:
 ;; (setq scpaste-scp-pubkey "~/.ssh/my_keyfile.pub")
 
 ;; (setq scpaste-user-name "Technomancy"
 ;;       scpaste-user-address "https://technomancy.us/")
-
 
 (use-package unkillable-scratch
   :ensure t

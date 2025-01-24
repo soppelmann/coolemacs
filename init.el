@@ -453,6 +453,8 @@
       (set-register register nil)
       (message "Cleared register %c." register))))
 
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/elisp"))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;;   Optional mixins
