@@ -8,10 +8,17 @@
 ; :ensure t
 ; :config (define-key global-map (kbd "<f5>") #'modus-themes-toggle))
 
-(use-package
- ef-themes
- :ensure t
- :config (define-key global-map (kbd "<f5>") #'ef-themes-toggle))
+(use-package ef-themes
+  :ensure (:host github :repo "protesilaos/ef-themes" :branch "master")
+  :config
+  (define-key global-map (kbd "<f5>") #'ef-themes-toggle)
+  (setq ef-bio-palette-overrides '((variable fg-main)
+                                   (string green-faint)))
+  (setq ef-cyprus-palette-overrides '((variable fg-main)
+                                      (bg-main bg-dim)
+                                      (string green-faint)))
+  (load-theme sss-emacs-theme t)
+  )
 
 (setq
  ef-themes-custom-auto-reload nil
