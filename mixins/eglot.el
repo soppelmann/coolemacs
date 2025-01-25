@@ -109,3 +109,7 @@
 ;  (require 'eglot-x)
 ;  (eglot-x-setup))
 
+(use-package flymake-collection 
+  :ensure t 
+  :hook ((after-init . flymake-collection-hook-setup) 
+         (emacs-lisp-mode . flymake-mode)))
