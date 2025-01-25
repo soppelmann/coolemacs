@@ -171,6 +171,9 @@
 ;; For `eat-eshell-mode'.
 (add-hook 'eshell-load-hook #'eat-eshell-mode)
 
+;; For `eat-eshell-visual-command-mode'.
+;; (add-hook 'eshell-load-hook #'eat-eshell-visual-command-mode)
+
 (defun eshell/clear ()
   "Clear the eshell buffer."
   (let ((inhibit-read-only t))
@@ -488,8 +491,8 @@ targets."
 
 (defun scpaste-make-name-combined (&optional suffix)
   (concat (file-name-sans-extension (buffer-name))
-          ;; "-"
-          ;; (format-time-string "%s")
+          "-"
+          (format-time-string "%s")
           suffix
           (file-name-extension (buffer-name) t)))
 
