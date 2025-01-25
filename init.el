@@ -518,8 +518,8 @@
 
 
 (load-theme 'doom-monokai-machine-private t)
-;; (load-theme 'modus-operandi t)
-;; (load-theme 'leuven t)
+;; (load-theme 'doom-tomorrow-day-private t)
+
 ;; (load-file (expand-file-name "mixins/themes.el" user-emacs-directory))
 
 ;; (load-file (expand-file-name "mixins/new.el" user-emacs-directory))
