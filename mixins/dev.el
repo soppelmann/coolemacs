@@ -117,13 +117,48 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Hook burly-tabs-mode to tab-bar-mode
-;; (use-package burly
-  ;; :ensure t
-;  :hook (tab-bar-mode . burly-tabs-mode)
-  ;; )
+(use-package burly
+  :ensure t
+  :hook (tab-bar-mode . burly-tabs-mode))
 
 ;; hook tab-bar-mode hook
-;(add-hook 'tab-bar-mode-hook 'burly-tabs-mode)
+(add-hook 'tab-bar-mode-hook 'burly-tabs-mode)
+
+(use-package bufler
+  :straight (bufler :fetcher github :repo "alphapapa/bufler.el"
+                    :files (:defaults (:exclude "helm-bufler.el")))
+  :init (bufler-mode)
+  ;; :bind
+  ;; (("C-x C-a C-n" . bufler-new)
+  ;;  ("C-x C-a C-d" . bufler-define)
+  ;;  ("C-x C-a C-a" . bufler-resume)
+  ;;  ("C-x C-a C-s" . bufler-suspend)
+  ;;  ("C-x C-a C-k" . bufler-kill)
+  ;;  ("C-x C-a RET" . bufler-switch)
+  ;;  ("C-x C-a b" . bufler-switch-buffer)
+  ;;  ("C-x C-a g" . bufler-revert)
+  ;;  ("C-x C-a l" . bufler-list))
+  (setq bufler-reverse t))
+
+;; (use-package activities
+;;   :ensure t
+;;   :init
+;;   (activities-mode)
+;;   ;; (activities-tabs-mode)
+;;   ;; Prevent `edebug' default bindings from interfering.
+;;   (setq edebug-inhibit-emacs-lisp-mode-bindings t)
+;;   :hook (tab-bar-mode 'activities-tabs-mode)
+;;   :bind
+;;   (("C-x C-a C-n" . activities-new)
+;;    ("C-x C-a C-d" . activities-define)
+;;    ("C-x C-a C-a" . activities-resume)
+;;    ("C-x C-a C-s" . activities-suspend)
+;;    ("C-x C-a C-k" . activities-kill)
+;;    ("C-x C-a RET" . activities-switch)
+;;    ("C-x C-a b" . activities-switch-buffer)
+;;    ("C-x C-a g" . activities-revert)
+;;    ("C-x C-a l" . activities-list)))
+;; (add-hook 'tab-bar-mode-hook 'activities-tabs-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
