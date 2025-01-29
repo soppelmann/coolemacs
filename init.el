@@ -55,6 +55,9 @@
 ;; Upgrade built-in packages
 (setopt package-install-upgrade-built-in t)
 
+;; Dont accidentaly close emacs
+(global-unset-key (kbd "s-q"))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;;   Straight
@@ -180,9 +183,10 @@
 (load custom-file t)
 
 ;; Backup and Autosave Directories
-;; (setq temporary-file-directory "~/.emacs.d/tmp")
-;; (setq backup-directory-alist `((".*" . ,temporary-file-directory)))
-;; (setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
+(setq temporary-file-directory "~/.emacs.d/tmp/")
+;; (setq temporary-file-directory "/Users/getz/.emacs.d/tmp/")
+(setq backup-directory-alist `((".*" . ,temporary-file-directory)))
+(setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
 
 ;; Remember last cursor location of opened files
 (save-place-mode 1)
@@ -585,3 +589,12 @@
 ;                       org-support-shift-select
 ;                       (not (use-region-p)))
 ;                  (cua-set-mark)))))))
+
+;; (add-hook 'emacs-lisp-mode-hook
+;;           (lambda ()
+;;             (let  ((auto-insert-query nil)
+;;                    (auto-insert-alist
+;;                    '((("\\.el\\'" . "Emacs Lisp header")
+;;                       ""
+;;                       ";;; -*- lexical-binding: t; -*-\n\n" '(setq lexical-binding t)))))
+;;               (auto-insert))))
