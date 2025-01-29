@@ -4,7 +4,7 @@
 
 ;; Author: Phil Hagelberg
 ;; URL: https://git.sr.ht/~technomancy/scpaste
-;; Version: 0.6.5
+;; Version: 0.7.0
 ;; Created: 2008-04-02
 ;; Keywords: convenience hypermedia
 ;; EmacsWiki: SCPaste
@@ -57,6 +57,8 @@
 
 ;; (setq scpaste-user-name "Technomancy"
 ;;       scpaste-user-address "https://technomancy.us/")
+
+;; You can set `scpaste-async' to non-nil to run the upload in the background.
 
 ;;; Usage
 
@@ -246,6 +248,7 @@ for the file name."
       (write-file tmp-hfile)
       (kill-buffer hb))
 
+    (let ((default-directory temporary-file-directory))
     (let* ((identity (and scpaste-scp-pubkey (list "-i" scpaste-scp-pubkey)))
            (port (and scpaste-scp-port (list "-P" scpaste-scp-port)))
            (command `(,scpaste-scp "-q" ,@identity ,@port ,tmp-file ,tmp-hfile
@@ -253,7 +256,7 @@ for the file name."
            (select-enable-primary t))
       (if scpaste-async
           (scpaste-upload-async command tmp-file tmp-hfile full-url)
-        (scpaste-upload command tmp-file tmp-hfile full-url)))))
+        (scpaste-upload command tmp-file tmp-hfile full-url))))))
 
 ;;;###autoload
 (defun scpaste-region (name)
@@ -307,4 +310,3 @@ NAME is used for the file name."
 
 (provide 'scpaste)
 ;;; scpaste.el ends here
-
