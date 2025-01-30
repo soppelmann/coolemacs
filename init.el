@@ -510,17 +510,6 @@
 ;; (defadvice load-theme (before disable-themes-first activate)
   ;; (disable-all-themes))
 
-(use-package modern-tab-bar
-  :straight (modern-tab-bar :host github :repo "aaronjensen/emacs-modern-tab-bar" :protocol ssh)
-  :init
-  (setq tab-bar-show t
-        tab-bar-new-button nil
-        tab-bar-close-button-show nil)
-
-  ;; (modern-tab-bar-mode)
-  )
-
-
 (load-theme 'doom-monokai-machine-private t)
 ;; (load-theme 'doom-tomorrow-day-private t)
 
