@@ -166,10 +166,34 @@
 ;;   :ensure t)
 
 (use-package eat
+  :straight (eat
+             :type git
+             :host codeberg
+             :repo "akib/emacs-eat"
+             :files ("*.el" ("term" "term/*.el") "*.texi"
+                     "*.ti" ("terminfo/e" "terminfo/e/*")
+                     ("terminfo/65" "terminfo/65/*")
+                     ("integration" "integration/*")
+                     (:exclude ".dir-locals.el" "*-tests.el")))
   :ensure t
-)
+  :config
+  (eat-eshell-mode +1)
+  (eat-eshell-visual-command-mode +1)
+  ;; (eat-eshell-mode)
+  ;; (setq eshell-visual-commands '())
+ )
+
+;; (use-package eat
+  ;; :ensure t
+;; )
 ;; For `eat-eshell-mode'.
-(add-hook 'eshell-load-hook #'eat-eshell-mode)
+;; (add-hook 'eshell-load-hook #'eat-eshell-mode)
+
+;; (with-eval-after-load 'eshell
+  ;; (eat-eshell-mode +1)
+  ;; (eat-eshell-mode +1)
+  ;; (eat-eshell-visual-command-mode +1)
+  ;; )
 
 ;; For `eat-eshell-visual-command-mode'.
 ;; (add-hook 'eshell-load-hook #'eat-eshell-visual-command-mode)
@@ -522,4 +546,5 @@ targets."
        ";; ╔═╗┌─┐┬─┐┌─┐┌┬┐┌─┐┬ ┬\n"
        ";; ╚═╗│  ├┬┘├─┤ │ │  ├─┤\n"
        ";; ╚═╝└─┘┴└─┴ ┴ ┴ └─┘┴ ┴\n\n"))
+
 
