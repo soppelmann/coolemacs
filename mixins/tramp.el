@@ -12,15 +12,16 @@
 (add-hook 'find-file-hook 'my-vc-off-if-remote)
 (setq vc-follow-symlinks t)
 
-;; (setq vc-handled-backends nil)
-;; (remove-hook 'find-file-hook 'vc-find-file-hook)
-(setq tramp-default-method "scp")
+(setq vc-handled-backends nil)
+(remove-hook 'find-file-hook 'vc-find-file-hook)
+(setq tramp-default-method "scpx")
 
 
 ;; Required for eglot to find lsp servers on remote
-;; (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
+(add-to-list 'tramp-remote-path 'tramp-own-remote-path)
+;; (setq tramp-backup-directory-alist nil)
 
-;(setq tramp-default-method "ssh")
+                                        ;(setq tramp-default-method "ssh")
 ;; (setq vterm-tramp-shells '(("docker" "/bin/sh")
                            ;; ("scpx" "/bin/sh")
                            ;; ("ssh" "/bin/sh")))
