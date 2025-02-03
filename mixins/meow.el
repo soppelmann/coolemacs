@@ -1,4 +1,10 @@
-(straight-use-package '(far :type git :repo "https://github.com/eshrh/far.el"))
+;(straight-use-package '(far :type git :repo "https://github.com/soppelmann/far.el"))
+
+(use-package far
+  :straight (far :type git :host github :repo "soppelmann/far.el")
+  :after meow
+  :ensure t
+)
 
 ;; (define-key input-decode-map 
     ;; (kbd "C-[") 
@@ -130,3 +136,4 @@
   (add-hook 'meow-insert-mode-hook (lambda () (setq delete-active-region t)))
   (add-hook 'meow-insert-exit-hook (lambda () (setq delete-active-region nil)))
 )
+
