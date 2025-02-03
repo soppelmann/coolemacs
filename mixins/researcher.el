@@ -116,7 +116,7 @@
   :mode ("\\.tex\\$" . latex-mode)
   :custom
   (TeX-source-correlate-mode t)
-  (TeX-source-correlate-method 'synctax)
+  (TeX-source-correlate-method 'synctex)
   (TeX-auto-save t)
   (TeX-parse-self t)
   (TeX-electric-math (cons "$" "$"))
@@ -132,11 +132,12 @@
     ;; (TeX-command-run-all nil))
   ;; (bind-key "<f5>" 'save-and-compile)
   (progn
-    ;; (pdf-loader-install)
+    (pdf-loader-install)
     ;; Update PDF buffers after successful LaTeX runs
     (add-hook 'TeX-after-compilation-finished-functions
           #'TeX-revert-document-buffer)
     (yas-reload-all)
+
     (add-hook 'LaTeX-mode-hook
           (lambda ()
         (reftex-mode t)
@@ -148,13 +149,16 @@
         ;; Set Latexmk to be the default compiler
         (setq TeX-command-default "LatexMk")))))
 
-;; (use-package reftex
-  ;; :ensure t
-  ;; :custom
-  ;; (reftex-cite-prompt-optional-args t)) ; Prompt for empty optional arguments in cite
+;; (setq LaTeX-command "latex --synctex=1") ;; optional: enable synctex
+(setq reftex-extra-bindings t)
+(use-package reftex
+  :ensure t
+  :custom
+  (reftex-cite-prompt-optional-args t)) ; Prompt for empty optional arguments in cite
 
 (setq LaTeX-biblatex-use-Biber t)
 (add-hook 'doc-view-mode-hook 'auto-revert-mode)
+
 ;; (setq TeX-auto-save t 
       ;; TeX-parse-self t)
 
@@ -166,6 +170,23 @@
   (pdf-view-display-size 'fit-width)
   (pdf-annot-activate-created-annotations t "automatically annotate highlights")
   :config
+  (setq TeX-source-correlate-mode t)
   (define-key pdf-view-mode-map (kbd "C-s") 'isearch-forward)
   :hook
-  (pdf-view-mode . (lambda() (setq display-line-numbers-mode nil))))
+  (pdf-view-mode . (lambda() (setq display-line-numbers-mode nil)))
+  (pdf-view-mode . (lambda() (auto-revert-mode 1)))
+  (pdf-view-mode . (lambda() (pdf-view-themed-minor-mode)))
+  :bind (:map pdf-view-mode-map
+            ("<left>" . pdf-view-previous-page-command)
+            ("<right>" . pdf-view-next-page-command))
+  )
+
+(pdf-loader-install)
+
+(use-package latex-preview-pane
+  :ensure t
+  :config
+  (latex-preview-pane-enable))
+(add-hook 'LaTeX-mode-hook 'latex-preview-pane-mode)
+
+;; (add-to-list 'revert-without-query ".+\\.pdf$")
