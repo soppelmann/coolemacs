@@ -183,6 +183,20 @@
   ;; (setq eshell-visual-commands '())
  )
 
+;; Clear commands eshell considers visual by default.
+(setq eshell-visual-commands '()) ;; fixes tramp
+
+(setq eat-minimum-latency 0.002)
+
+  ;; Eat settings
+(setq eat-kill-buffer-on-exit t
+      eat-term-name "xterm-256color"  ;; easier than tryin to hack eat-term to work
+      eat-shell "/bin/bash"
+      eat-tramp-shells '(("docker" . "/bin/sh")
+                         ("scpx" . "/bin/bash")
+                         ("ssh" . "/bin/bash")))
+
+
 ;; (use-package eat
   ;; :ensure t
 ;; )
