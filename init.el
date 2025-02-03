@@ -561,7 +561,7 @@
 ;(load-file (expand-file-name "mixins/email.el" user-emacs-directory))
 
 ;; Tools for academic researchers
-;(load-file (expand-file-name "mixins/researcher.el" user-emacs-directory))
+(load-file (expand-file-name "mixins/researcher.el" user-emacs-directory))
 
 
 ;; org
