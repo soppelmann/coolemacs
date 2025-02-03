@@ -508,8 +508,9 @@
 ;)
 
 ;; add keybind C-c e for eshell and C-c s for vterm
-(global-set-key (kbd "C-c s") 'vterm)
-(global-set-key (kbd "C-c e") 'eshell)
+(global-set-key (kbd "C-c v") 'vterm)
+(global-set-key (kbd "C-c e") 'eat)
+(global-set-key (kbd "C-c s") 'eshell)
 
 ;; (define-key global-map (kbd "<f4>") #'vterm-toggle)
 
