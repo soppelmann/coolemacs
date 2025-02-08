@@ -44,14 +44,27 @@
           (typescript-mode . typescript-ts-mode)
           (json-mode . json-ts-mode)
           (css-mode . css-ts-mode)
-          (python-mode . python-ts-mode)))
+          ;; (python-mode . python-ts-mode)
+          ))
  :hook
  ;; Auto parenthesis matching
  (
   (prog-mode . electric-pair-mode)
   (prog-mode . rainbow-delimiters-mode)
+  (prog-mode . which-function-mode)
   )
   )
+
+(setq which-func-unknown "n/a")
+
+;; (setq which-func-modes '(prog-mode))
+;; (setq which-func-display-in-header-line t)
+;; (which-function-mode)
+;; (add-hook 'prog-mode-hook
+          ;; (defun which-function-header-line-enable ()
+            ;; (require 'which-func)
+            ;; (setq header-line-format
+                  ;; '((:eval (which-function))))))
 
 ;; (use-package fancy-narrow
 ;;   :ensure t
@@ -59,9 +72,9 @@
 ;; )
 ;; ;;(add-hook 'prog-mode-hook 'fancy-narrow-mode)
 
-(use-package blacken
-  :ensure t
-  :hook ((python-mode . blacken-mode)))
+;; (use-package blacken
+  ;; :ensure t
+  ;; :hook ((python-mode . blacken-mode)))
 
 ;;;
 ;;; debug
@@ -679,3 +692,14 @@
   ;; :hook ((prog-mode . smartparens-mode))
   ;; :config
   ;; (require 'smartparens-config))
+
+
+;; fix python
+
+
+(use-package python
+:config
+(defun python-info-current-defun () nil)
+)
+
+(global-eldoc-mode -1)
