@@ -10,6 +10,12 @@
     ;; (kbd "C-[") 
     ;; [control-bracketleft])
 
+(defun local/conditional-quit ()
+  "Quit buffer if not in Eat-Eshell minor mode, otherwise do nothing."
+  (interactive)
+  (unless (bound-and-true-p eat-eshell-mode)
+    (meow-quit)))
+
 (use-package meow
   :ensure t
   :init
@@ -22,7 +28,8 @@
   (meow-motion-overwrite-define-key
    '("j" . meow-next)
    '("k" . meow-prev)
-   '("<escape>" . ignore))
+   '("<escape>" . ignore)
+   )
   (meow-leader-define-key
    ;; SPC j/k will run the original command in MOTION state.
    '("j" . "H-j")
@@ -89,7 +96,7 @@
    '("o" . meow-block)
    '("O" . meow-to-block)
    '("p" . meow-yank)
-   '("q" . meow-quit)
+   '("q" . local/conditional-quit)
    '("Q" . meow-goto-line)
    '("r" . meow-replace)
    '("R" . meow-swap-grab)
@@ -108,7 +115,8 @@
    '(":" . meow-goto-line)
    '("/" . phi-search)
    '("C-r" . undo-redo)
-   '("<escape>" . ignore)))
+   '("<escape>" . ignore)
+   ))
 
 ;; meow-use-clipboard
 (setq meow-use-clipboard t)
