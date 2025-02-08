@@ -1,3 +1,19 @@
+(use-package verilog-mode
+  :straight (:repo "veripool/verilog-mode")
+  :ensure t)
+
+(eval-after-load 'verilog-mode
+    '(progn
+        ;; same for all the electric-verilog-* commands in                
+        ;; the mode's map (see verilog-mode.el)                      
+        (define-key verilog-mode-map (kbd "RET") 'electric-newline-and-maybe-indent)))
+
+(eval-after-load 'verilog-ts-mode
+    '(progn
+        ;; same for all the electric-verilog-* commands in                
+        ;; the mode's map (see verilog-mode.el)                      
+        (define-key verilog-ts-mode-map (kbd "RET") 'electric-newline-and-maybe-indent)))
+
 (use-package verilog-ext
  :ensure t
  :after verilog-mode
@@ -11,7 +27,7 @@
          xref
          capf
          hierarchy
-        eglot
+         eglot
          ;; lsp
          ;; flycheck
          ;beautify
@@ -30,27 +46,29 @@
  :config
  (verilog-ext-mode-setup))
 
-;; we use M-TAB for completion
+(require 'verilog-ext)
+
+(verilog-ext-eglot-set-server 've-svls) ;`eglot' config
+;; (verilog-ext-eglot-set-server 've-svlangserver) ;`eglot' config
 
 (setq verilog-ext-flycheck-verible-rules '("-line-length"
                                            "+parameter-type-name-style"))
 
-
 ;; put entire path here instead
-(setq verilog-ext-flycheck-verilator-include-path `(,(file-name-concat (getenv "UVM_HOME") "src")))
-(setq verilog-ext-flycheck-verilator-file-list `(,(file-name-concat (getenv "UVM_HOME") "src/uvm_pkg.sv")))
-(setq verilog-ext-flycheck-svlang-include-path `(,(file-name-concat (getenv "UVM_HOME") "src")))
-(setq verilog-ext-flycheck-svlang-file-list `(,(file-name-concat (getenv "UVM_HOME") "src/uvm_pkg.sv")))
-(setq verilog-ext-flycheck-iverilog-include-path `(,(file-name-concat (getenv "UVM_HOME") "src")))
-(setq verilog-ext-flycheck-iverilog-file-list `(,(file-name-concat (getenv "UVM_HOME") "src/uvm_pkg.sv")))
-(setq verilog-ext-flycheck-slang-include-path `(,(file-name-concat (getenv "UVM_HOME") "src")))
-(setq verilog-ext-flycheck-slang-file-list `(,(file-name-concat (getenv "UVM_HOME") "src/uvm_pkg.sv")))
+;; (setq verilog-ext-flycheck-verilator-include-path `(,(file-name-concat (getenv "UVM_HOME") "src")))
+;; (setq verilog-ext-flycheck-verilator-file-list `(,(file-name-concat (getenv "UVM_HOME") "src/uvm_pkg.sv")))
+;; (setq verilog-ext-flycheck-svlang-include-path `(,(file-name-concat (getenv "UVM_HOME") "src")))
+;; (setq verilog-ext-flycheck-svlang-file-list `(,(file-name-concat (getenv "UVM_HOME") "src/uvm_pkg.sv")))
+;; (setq verilog-ext-flycheck-iverilog-include-path `(,(file-name-concat (getenv "UVM_HOME") "src")))
+;; (setq verilog-ext-flycheck-iverilog-file-list `(,(file-name-concat (getenv "UVM_HOME") "src/uvm_pkg.sv")))
+;; (setq verilog-ext-flycheck-slang-include-path `(,(file-name-concat (getenv "UVM_HOME") "src")))
+;; (setq verilog-ext-flycheck-slang-file-list `(,(file-name-concat (getenv "UVM_HOME") "src/uvm_pkg.sv")))
 
 ; set variable verilog-ext-flycheck-linter to slang
-(setq verilog-ext-flycheck-linter 'slang)
+;; (setq verilog-ext-flycheck-linter 'slang)
 
 (setq verilog-ext-tags-backend 'tree-sitter)
-;(setq verilog-ext-tags-backend 'builtin)
+;; (setq verilog-ext-tags-backend 'builtin)
 
 (setq verilog-ext-project-alist
       `(("icp2" ; Project name
@@ -67,11 +85,25 @@
          :ignore-dirs ("ICP2/work")
          ;:ignore-files ("sources/SPHD110420.v")
          ;:compile-cmd "make tb_top" ; command used to compile current project
-         ;; `vhier' related properties
-         ;:command-file "commands.f" ; vhier command file
-         :lib-search-path nil)))    ; list of dirs to look for include directories or libraries
+         :lib-search-path nil)))
 
-; (use-package verilog-ts-mode
-;  :ensure t
-;   :mode (("\\.s?vh?\\'" . verilog-ts-mode))
-;  )
+(setq verilog-ext-project-alist
+      (append verilog-ext-project-alist
+              `(("bch_coder" ; Reusable verification components
+                 :root "~/Developer/git/bch_verilog"
+                 :dirs ("-r ./")
+                 :files ("*.v"
+                         "*.vh")
+                 ;; :ignore-dirs ("coverage"
+                 ;; "waves")
+                 ;; :compile-cmd "make vip"
+                 :lib-search-path nil))))
+
+(use-package verilog-ts-mode
+  :ensure t
+  :mode (("\\.s?vh?\\'" . verilog-ts-mode))
+  )
+
+;; (use-package outshine
+  ;; :straight (outshine :fetcher github :repo "alphapapa/outshine")
+  ;; :ensure t)
