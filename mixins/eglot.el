@@ -14,17 +14,18 @@
   ;;       ;;(eglot-managed-mode-hook . flycheck-mode)
   ;;       )
 
-  :custom
-  (eglot-send-changes-idle-time 0.1)
-   (eglot-ignored-server-capabilities
-    '(;:hoverProvider
-      :documentHighlightProvider
-      ;:documentFormattingProvider
-      ;:documentRangeFormattingProvider
-      ;:documentOnTypeFormattingProvider
-      :colorProvider
-      :inlayHintProvider
-      :foldingRangeProvider))
+  ;; these caused verilog to not work
+  ;; :custom
+  ;; (eglot-send-changes-idle-time 0.1)
+  ;;  (eglot-ignored-server-capabilities
+  ;;   '(;:hoverProvider
+  ;;     :documentHighlightProvider
+  ;;     ;:documentFormattingProvider
+  ;;     ;:documentRangeFormattingProvider
+  ;;     ;:documentOnTypeFormattingProvider
+  ;;     :colorProvider
+  ;;     :inlayHintProvider
+  ;;     :foldingRangeProvider))
 
   :config
   (fset #'jsonrpc--log-event #'ignore)  ; massive perf boost---don't log every event
