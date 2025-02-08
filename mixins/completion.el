@@ -38,18 +38,18 @@
   ;; Optionally use TAB for cycling, default is `corfu-complete'.
   :bind (:map corfu-map
               ("M-SPC"      . corfu-insert-separator)
-              ("SPC"        . corfu-insert-separator)
+              ;; ("SPC"        . corfu-insert-separator)
               ("M-TAB"      . corfu-next)
               ("M-<tab>"      . corfu-next)
-              ("M-TAB"      . corfu-complete)
-              ("M-<tab>"      . corfu-complete)
-              ("TAB"        . corfu-next)
-              ([tab]        . corfu-next)
+              ("M-TAB"      . corfu-next)
+              ("M-<tab>"      . corfu-next)
+              ("TAB"        . corfu-complete)
+              ([tab]        . corfu-complete)
               ("S-TAB"      . corfu-previous)
               ([backtab]    . corfu-previous)
-              ("S-<return>" . corfu-insert)
-              ("<backtab>"  . corfu-insert)
-              ("RET"        . corfu-insert))
+              ("<backtab>"  . corfu-previous)
+              ("S-<return>" . corfu-complete)
+              ("RET"        . corfu-complete))
   :config
   ;; Setup lsp to use corfu for lsp completion
   (defun kb/corfu-setup-lsp ()
@@ -107,11 +107,11 @@
               (list (cape-capf-super
                      #'cape-file
                      #'eglot-completion-at-point
+                     #'verilog-ext-capf
                      #'yasnippet-capf
                      ))))
 
 (add-hook 'eglot-managed-mode-hook #'my/eglot-capf)
-
 
 ;; (defun my/eglot-capf ()
 ;;   (setq-local completion-at-point-functions
@@ -188,7 +188,7 @@
                         completion-category-defaults nil)))
 
 (add-hook 'eshell-mode-hook (lambda ()
-                              (setq-local corfu-auto nil)
+                              ;; (setq-local corfu-auto nil)
                               (corfu-mode)))
 ;; Part of corfu
 ;; (use-package corfu-popupinfo
@@ -254,6 +254,7 @@
   ;; completion functions takes precedence over the global list.
   ;; (add-to-list 'completion-at-point-functions #'cape-dabbrev)
   (add-to-list 'completion-at-point-functions #'cape-file)
+  ;; (add-to-list 'completion-at-point-functions #'verilog-ext-capf)
   ;; (add-to-list 'completion-at-point-functions #'cape-elisp-block)
   ;; (add-to-list 'completion-at-point-functions #'yasnippet-capf)  
   ;; (add-to-list 'completion-at-point-functions #'tempel-complete)
