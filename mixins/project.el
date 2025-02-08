@@ -1,9 +1,7 @@
 
 
 
-;; add consult-ag from git
-
-;;also add ffio
+;;also add ffip
 
 (setq project-switch-commands
       '((?f "Find file" project-find-file)
@@ -19,7 +17,7 @@
   :ensure t
   :bind
   (("C-c p f" . consult-project-extra-find)
-   ("C-c p s" . consult-ag)
+   ("C-c p s" . consult-ripgrep)
    ("C-c p o" . consult-project-extra-find-other-window)))
 
 
