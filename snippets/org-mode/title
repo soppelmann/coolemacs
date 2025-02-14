@@ -1,0 +1,14 @@
+# -*- mode: snippet -*-
+# name: Org title
+# key: title
+# --
+#+TITLE: $1
+#+AUTHOR: $2
+#+EMAIL: $3
+#+DATE: $4
+#+LATEX_HEADER: \usepackage[margin=1.0in]{geometry}
+#+OPTIONS: toc:nil email:t
+#+cite_export: biblatex backend=bibtex,style=ieee,url=false
+#+BIBLIOGRAPHY: ~/Nextcloud/Zotero.bib
+
+$0

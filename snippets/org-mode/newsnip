@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: template for new snippets
+# key: sniptemp
+# group: snippetTemplates
+# contributor: Blaine Mooers bmooers1@gmail.com
+# --
+;; Remember to edit the four fields above.
+${1:Enter code here}
+$0
+

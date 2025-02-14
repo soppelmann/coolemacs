@@ -123,7 +123,7 @@
 ;;                      #'cape-file))))
 
 ;; (add-hook 'eglot-managed-mode-hook #'my/eglot-capf)
-(setq yasnippet-capf-lookup-by 'name) ;; Prefer the name of the snippet instead
+;; (setq yasnippet-capf-lookup-by 'name) ;; Prefer the name of the snippet instead
 (setq yas-indent-line 'fixed)
 (add-hook 'eglot-managed-mode-hook #'yas-minor-mode)
 
@@ -176,7 +176,7 @@
 
 (setq corfu-auto        t
       corfu-auto-delay  0.3  ;; TOO SMALL IS NOT RECOMMENDED!
-      corfu-auto-prefix 2
+      corfu-auto-prefix 1
       corfu-quit-no-match t)
       ;; corfu-quit-no-match 'separator)
 
@@ -256,12 +256,12 @@
   (add-to-list 'completion-at-point-functions #'cape-file)
   ;; (add-to-list 'completion-at-point-functions #'verilog-ext-capf)
   ;; (add-to-list 'completion-at-point-functions #'cape-elisp-block)
-  ;; (add-to-list 'completion-at-point-functions #'yasnippet-capf)  
+  (add-to-list 'completion-at-point-functions #'yasnippet-capf)  
   ;; (add-to-list 'completion-at-point-functions #'tempel-complete)
   ;; (add-to-list 'completion-at-point-functions #'cape-abbrev)
   ;; (add-to-list 'completion-at-point-functions #'cape-keyword)
   ;;(add-to-list 'completion-at-point-functions #'cape-history)
-  ;;(add-to-list 'completion-at-point-functions #'cape-tex)
+  (add-to-list 'completion-at-point-functions #'cape-tex)
   ;;(add-to-list 'completion-at-point-functions #'cape-sgml)
   ;;(add-to-list 'completion-at-point-functions #'cape-rfc1345)
   ;;(add-to-list 'completion-at-point-functions #'cape-dict)
@@ -301,9 +301,21 @@
   :ensure t
   )
 
-;; (use-package yasnippet-classic-snippets
-  ;; :ensure t
-  ;; )
+(use-package yasnippet-classic-snippets
+  :ensure t
+  )
+
+;; (setq yas-snippet-dirs
+;;       '("~/.emacs.d/snippets/org-mode"                 ;; personal snippets
+;;         ))
+
+;; (yas-load-directory "~/.emacs.d/snippets/org-mode/")
+
+
+(setq yas-snippet-dirs '("~/.emacs.d/snippets")) ;; path to snippets
+(yas-recompile-all)
+(yas-reload-all)
+(yas-global-mode 1)
 
 ;; (use-package consult-yasnippet
 ;;   :ensure t
@@ -323,8 +335,8 @@
 (use-package yasnippet-capf
   :ensure t
   :after cape
-  ;; :config
-;;   (add-to-list 'completion-at-point-functions #'yasnippet-capf)
+  :config
+  (add-to-list 'completion-at-point-functions #'yasnippet-capf)
   )
 
 
