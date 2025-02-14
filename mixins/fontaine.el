@@ -241,6 +241,66 @@
          :italic-family nil
          :italic-slant italic
          :line-spacing nil)
+        (Pragmata
+         :default-family "Pragmata Pro"
+         :default-weight normal
+         :default-height 140
+         :fixed-pitch-family nil ; falls back to :default-family
+         :fixed-pitch-weight nil ; falls back to :default-weight
+         :fixed-pitch-height 1.0
+         :variable-pitch-family "Pragmata Pro"
+         :variable-pitch-weight normal
+         :variable-pitch-height 1.05
+         :bold-family nil ; use whatever the underlying face has
+         :bold-weight normal
+         :italic-family nil
+         :italic-slant italic
+         :line-spacing nil)
+        (XanhMono
+         :default-family "Xanh Mono"
+         :default-weight normal
+         :default-height 140
+         :fixed-pitch-family nil ; falls back to :default-family
+         :fixed-pitch-weight nil ; falls back to :default-weight
+         :fixed-pitch-height 1.0
+         :variable-pitch-family "Xanh Mono"
+         :variable-pitch-weight normal
+         :variable-pitch-height 1.05
+         :bold-family nil ; use whatever the underlying face has
+         :bold-weight normal
+         :italic-family nil
+         :italic-slant italic
+         :line-spacing nil)
+        (MajorMono
+         :default-family "Major Mono Display"
+         :default-weight normal
+         :default-height 140
+         :fixed-pitch-family nil ; falls back to :default-family
+         :fixed-pitch-weight nil ; falls back to :default-weight
+         :fixed-pitch-height 1.0
+         :variable-pitch-family "Major Mono Display"
+         :variable-pitch-weight normal
+         :variable-pitch-height 1.05
+         :bold-family nil ; use whatever the underlying face has
+         :bold-weight normal
+         :italic-family nil
+         :italic-slant italic
+         :line-spacing nil)
+        (BerkeleyVariable
+         :default-family "Berkeley Mono Variable"
+         :default-weight normal
+         :default-height 140
+         :fixed-pitch-family nil ; falls back to :default-family
+         :fixed-pitch-weight nil ; falls back to :default-weight
+         :fixed-pitch-height 1.0
+         :variable-pitch-family "Berkeley Mono Variable"
+         :variable-pitch-weight normal
+         :variable-pitch-height 1.05
+         :bold-family nil ; use whatever the underlying face has
+         :bold-weight normal
+         :italic-family nil
+         :italic-slant italic
+         :line-spacing nil)
         (Comic
          :default-family "Comic Code Ligatures"
          :default-weight normal
