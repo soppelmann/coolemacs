@@ -166,6 +166,7 @@
 
 (use-package pdf-tools
   :ensure t
+  :mode (("\\.pdf\\'" . pdf-view-mode))
   :custom
   (pdf-view-display-size 'fit-width)
   (pdf-annot-activate-created-annotations t "automatically annotate highlights")
@@ -181,6 +182,8 @@
             ("<right>" . pdf-view-next-page-command))
   )
 
+(add-to-list 'org-file-apps '("\\.pdf\\'" . emacs))
+
 (pdf-loader-install)
 
 (use-package latex-preview-pane
@@ -190,3 +193,50 @@
 (add-hook 'LaTeX-mode-hook 'latex-preview-pane-mode)
 
 ;; (add-to-list 'revert-without-query ".+\\.pdf$")
+
+(setq org-export-in-background nil)
+
+;; Use zotero bib for org mode always
+;; Use latexmk for PDF export
+(setq reftex-default-bibliography '("/Users/getz/Nextcloud/Zotero.bib"))
+(setq org-latex-to-pdf-process (list "latexmk -pdf -bibtex %f"))
+
+;; (require 'ox-bibtex)
+(setq org-latex-pdf-process '("latexmk -pdf --synctex=1 -outdir=%o %f"))
+
+(setq reftex-plug-into-AUCTeX t)
+(use-package consult-reftex
+  :straight (consult-reftex :type git :host github :repo "karthink/consult-reftex")
+  :ensure t)
+
+
+(use-package org
+  :hook ((org-mode . visual-line-mode)  ; wrap lines at word breaks
+         (org-mode . org-modern-mode)    ; Look nice
+         (org-mode . flyspell-mode))    ; Look nice
+
+  :bind (:map global-map
+              ("C-c l s" . org-store-link)          ; Mnemonic: link → store
+              ("C-c l i" . org-insert-link-global)) ; Mnemonic: link → insert
+  :config
+  (require 'oc-csl)                     ; citation support
+  ;; (add-to-list 'org-export-backends 'md)
+
+  ;; Make org-open-at-point follow file links in the same window
+  (setf (cdr (assoc 'file org-link-frame-setup)) 'find-file)
+
+  ;; Make exporting quotes better
+  (setq org-export-with-smart-quotes t)
+
+  ;; Support shift select
+  (setq org-support-shift-select t)
+  )
+
+;; use flyspell
+;; (add-hook 'text-mode-hook #'flyspell-mode)
+;; (add-hook 'flyspell-mode-hook #'flyspell-local-vars)
+;; (defun flyspell-local-vars ()
+  ;; (add-hook 'hack-local-variables-hook #'flyspell-buffer))
+  ;; (add-hook 'hack-local-variables #'flyspell-buffer nil 'local))
+
+(add-hook 'flyspell-mode-hook #'flyspell-buffer)
