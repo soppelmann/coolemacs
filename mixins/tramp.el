@@ -22,15 +22,15 @@
 ;; (setq tramp-backup-directory-alist nil) ;;eshell cant open visual over tramp
 
 ;; Set up the popup shell
-(add-to-list 'display-buffer-alist
-             ;; *shell*  *eshell*  *eat*
-             '("\\*\\(e?shell\\|eat\\)\\*"
-               (display-buffer-in-side-window)
-               (side . bottom)
-               (slot . -1) ;; -1 == L  0 == Mid 1 == R
-               (window-height . 0.33) ;; take 2/3 on bottom left
-               (window-parameters
-                (no-delete-other-windows . nil))))
+;; (add-to-list 'display-buffer-alist
+;;              ;; *shell*  *eshell*  *eat*
+;;              '("\\*\\(e?shell\\|eat\\)\\*"
+;;                (display-buffer-in-side-window)
+;;                (side . bottom)
+;;                (slot . -1) ;; -1 == L  0 == Mid 1 == R
+;;                (window-height . 0.33) ;; take 2/3 on bottom left
+;;                (window-parameters
+;;                 (no-delete-other-windows . nil))))
 
 
 
