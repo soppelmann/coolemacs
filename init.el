@@ -415,6 +415,7 @@
 (use-package eww
   :config (setq eww-search-prefix "https://duckduckgo.com/html/?q="))
 
+;; (setq auto-revert-remote-files t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
@@ -431,8 +432,8 @@
 (set-face-attribute 'tab-bar nil ;; background behind all tabs on the tab bar
 :height 1.15)
 
-
-(setq display-time-format "%a %F %T")
+(setq display-time-format "%T")
+;; (setq display-time-format "%a %F %T")
 (setq display-time-interval 1)
 (display-time-mode)
 
@@ -500,6 +501,8 @@
 
 (use-package nyan-mode
   :ensure t)
+(setq nyan-bar-length 30)
+(setq nyan-minimum-window-width 100)
 (nyan-mode)
 
 ;; (defun disable-all-themes ()
