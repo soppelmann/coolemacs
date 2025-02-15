@@ -240,3 +240,52 @@
   ;; (add-hook 'hack-local-variables #'flyspell-buffer nil 'local))
 
 (add-hook 'flyspell-mode-hook #'flyspell-buffer)
+
+
+(use-package org-babel
+  :no-require
+  :config
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '(
+       (awk . t)
+       (calc .t)
+       (C . t)
+       (emacs-lisp . t)
+       (haskell . t)
+       (gnuplot . t)
+       (latex . t)
+       (js . t)
+       (haskell . t)
+       ;; (http . t)
+       (perl . t)
+       (python . t)
+       (R . t)
+       (scheme . t)
+       ;; (sh . t)
+       ;; (sql . t)
+       )))
+
+(setq org-confirm-babel-evaluate nil)
+
+
+(setq org-babel-default-header-args
+  `(
+    (:noweb . "strip-tangle")
+    (:session . "none")
+    (:results . "replace")
+    (:exports . "code")
+    (:cache . "no")
+    (:hlines . "no")
+    (:tangle . "no")
+    ))
+
+;; Default flags passed to each C code block
+(setq org-babel-default-header-args:C
+  `(
+    (:flags . "-Wall -Wextra -Werror -std=c11")
+    (:noweb . "strip-tangle")
+    (:includes   . ("<stdio.h>"
+                    "<stdlib.h>"))
+    ))
+
