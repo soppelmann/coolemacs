@@ -300,15 +300,21 @@
 (setq org-latex-listings-options
       '(("basicstyle" "\\ttfamily")
         ("showstringspaces" "false")
-        ("backgroundcolor" "\\color[rgb]{.97,.97,.97}")
+
+        ;; ("backgroundcolor" "\\color[rgb]{.97,.97,.97}")
         ("rulecolor" "\\color[rgb]{.62,.62,.62}")
         ("basicstyle" "\\ttfamily\\small")
         ("stringstyle" "\\color[rgb]{.31,.54,.30}")
 
-        ("keywordstyle" "\\color{blue}\\textbf")
+        ;; ("keywordstyle" "\\color{blue}\\textbf")
+        ("keywordstyle" "\\color{black}\\textbf")
         ("commentstyle" "\\color{gray}")
-        ;; ("stringstyle" "\\color{green!70!black}")
-        ;; ("stringstyle" "\\color{red}")
+
+     ;; ("keywordstyle" "\\color{blue}\\textbf")
+     ;; ("commentstyle" "\\color{gray}")
+     ;; ("stringstyle" "\\color{green!70!black}")
+     ;; ("stringstyle" "\\color{red}")
+
         ("frame" "single")
         ("breaklines" "true")
         ("numbers" "left")
