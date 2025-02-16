@@ -7,7 +7,7 @@
 #+EMAIL: $3
 #+DATE: $4
 #+LATEX_HEADER: \usepackage[margin=1.0in]{geometry}
-#+OPTIONS: toc:nil email:t
+#+OPTIONS: toc:nil email:nil
 #+cite_export: biblatex backend=bibtex,style=ieee,url=false
 #+BIBLIOGRAPHY: ~/Nextcloud/Zotero.bib
 
