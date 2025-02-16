@@ -202,6 +202,7 @@
 (setq org-latex-to-pdf-process (list "latexmk -pdf -bibtex %f"))
 
 ;; (require 'ox-bibtex)
+;; (setq org-latex-pdf-process '("latexmk -pdf -shell-escape --synctex=1 -outdir=%o %f"))
 (setq org-latex-pdf-process '("latexmk -pdf --synctex=1 -outdir=%o %f"))
 
 (setq reftex-plug-into-AUCTeX t)
@@ -271,7 +272,7 @@
 
 (setq org-babel-default-header-args
   `(
-    (:noweb . "strip-tangle")
+    (:noweb . "strip-export")
     (:session . "none")
     (:results . "replace")
     (:exports . "code")
@@ -284,8 +285,32 @@
 (setq org-babel-default-header-args:C
   `(
     (:flags . "-Wall -Wextra -Werror -std=c11")
-    (:noweb . "strip-tangle")
     (:includes   . ("<stdio.h>"
                     "<stdlib.h>"))
     ))
 
+(add-to-list 'org-latex-packages-alist '("" "listings"))
+(add-to-list 'org-latex-packages-alist '("" "inconsolata"))
+(add-to-list 'org-latex-packages-alist '("" "tikz"))
+(add-to-list 'org-latex-packages-alist '("" "color"))
+(add-to-list 'org-latex-packages-alist '("" "xcolor"))
+
+(setq org-latex-src-block-backend 'listings)
+;; (setq org-latex-src-block-backend 'minted)
+(setq org-latex-listings-options
+      '(("basicstyle" "\\ttfamily")
+        ("showstringspaces" "false")
+        ("backgroundcolor" "\\color[rgb]{.97,.97,.97}")
+        ("rulecolor" "\\color[rgb]{.62,.62,.62}")
+        ("basicstyle" "\\ttfamily\\small")
+        ("stringstyle" "\\color[rgb]{.31,.54,.30}")
+
+        ("keywordstyle" "\\color{blue}\\textbf")
+        ("commentstyle" "\\color{gray}")
+        ;; ("stringstyle" "\\color{green!70!black}")
+        ;; ("stringstyle" "\\color{red}")
+        ("frame" "single")
+        ("breaklines" "true")
+        ("numbers" "left")
+        ("numberstyle" "\\ttfamily")
+        ("columns" "fullflexible")))
