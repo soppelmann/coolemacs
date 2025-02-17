@@ -488,7 +488,10 @@
 (load-file (expand-file-name "mixins/meow.el" user-emacs-directory))
 
 ;; Dashboard for emacs
-(load-file (expand-file-name "mixins/dashboard.el" user-emacs-directory))
+;; (load-file (expand-file-name "mixins/dashboard.el" user-emacs-directory))
+
+;; Enlight dashboard for emacs
+(load-file (expand-file-name "mixins/enlight.el" user-emacs-directory))
 
 ;; Nice fonts for emacs
 (when (or (daemonp) (display-graphic-p))
