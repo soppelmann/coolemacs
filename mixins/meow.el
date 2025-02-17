@@ -6,6 +6,10 @@
   :ensure t
 )
 
+(use-package evil-matchit
+  :ensure t)
+
+
 ;; (define-key input-decode-map 
     ;; (kbd "C-[") 
     ;; [control-bracketleft])
@@ -49,6 +53,7 @@
    '("?" . meow-cheatsheet))
   (meow-normal-define-key
    '("`" . far-fill-paragraph)
+   '("%" . evilmi-jump-items-native)
    '("0" . meow-expand-0)
    '("9" . meow-expand-9)
    '("8" . meow-expand-8)
