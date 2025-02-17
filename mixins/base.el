@@ -86,6 +86,7 @@
   :config
   (marginalia-mode))
 
+
 ;;;;; nerd-icons-completion
 ;; icons with completion
 ;; https://github.com/rainstormstudio/nerd-icons-completion
@@ -93,8 +94,10 @@
   :ensure t
   :after (marginalia nerd-icons)
   :hook (marginalia-mode . nerd-icons-completion-marginalia-setup)
-  :config
-  (nerd-icons-completion-mode))
+  )
+
+(nerd-icons-completion-mode)
+
 
 ;; (use-package eshell
 ;;   :bind (("C-r" . consult-history)))
