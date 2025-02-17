@@ -651,11 +651,11 @@
   ;; :ensure t
   ;; :hook ((prog-mode) . indent-bars-mode)) ; or whichever modes you prefer
 
-(use-package dumb-jump
-  :ensure t)
+;; (use-package dumb-jump
+;;   :ensure t)
 
-(add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
-(setq dumb-jump-quiet t)
+;; (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
+;; (setq dumb-jump-quiet t)
 
 ;; (use-package dumb-jump
   ;; :ensure t
