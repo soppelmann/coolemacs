@@ -15,7 +15,7 @@
         (define-key verilog-ts-mode-map (kbd "RET") 'electric-newline-and-maybe-indent)))
 
 (use-package verilog-ext
- :ensure t
+ :straight t
  :after verilog-mode
  :demand
  :hook ((verilog-mode . verilog-ext-mode))
@@ -100,7 +100,7 @@
                  :lib-search-path nil))))
 
 (use-package verilog-ts-mode
-  :ensure t
+  :straight t
   :mode (("\\.s?vh?\\'" . verilog-ts-mode))
   )
 
