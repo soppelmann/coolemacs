@@ -86,6 +86,16 @@
   :config
   (marginalia-mode))
 
+;;;;; nerd-icons-completion
+;; icons with completion
+;; https://github.com/rainstormstudio/nerd-icons-completion
+(use-package nerd-icons-completion
+  :ensure t
+  :after (marginalia nerd-icons)
+  :hook (marginalia-mode . nerd-icons-completion-marginalia-setup)
+  :config
+  (nerd-icons-completion-mode))
+
 ;; (use-package eshell
 ;;   :bind (("C-r" . consult-history)))
 
@@ -174,6 +184,12 @@
               (auto-revert-mode)
               (setq-default auto-revert-interval 1)
               (auto-revert-set-timer))))
+
+
+;; Colourful dired-mode
+(use-package diredfl
+  :ensure t
+  :hook (dired-mode . diredfl-mode))
 
 ;; (use-package dired-k
 ;;   :ensure t)
