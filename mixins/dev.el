@@ -647,32 +647,52 @@
   ;; :hook ((prog-mode) . indent-bars-mode)) ; or whichever modes you prefer
 
 ;; An Emacs "jump to definition" package for 50+ languages
+;; (use-package dumb-jump
+;;   :straight t
+;;   :after xref
+;;   :custom
+;;   (dumb-jump-selector 'completing-read)
+;;   :init
+;;   ;; Use `dumb-jump' as `xref' backend
+;;   (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
+
+
 (use-package dumb-jump
-  :straight t
-  :after xref
-  :custom
-  (dumb-jump-selector 'completing-read)
-  :init
-  ;; Use `dumb-jump' as `xref' backend
+  :ensure t
+  :config
   (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
 
-;; Combine multiple Xref backends
 (use-package xref-union
   :straight t
+  :after (eglot dumb-jump)
+  :hook (eglot-managed-mode . xref-union-mode)
   :commands (xref-union-mode)
-  :custom
-  ;; BUG+HACK: When in `xref-union-mode', the `xref-union--backend' seems to
-  ;; access all the backends, including the ones that aren't enabled locally.
-  ;; The list includes `etags' which is annoying since it asks about the TAGS
-  ;; file, which interrupts `xref-union' from trying the rest of the backends.
-  ;; So, lets exclude `etags' since I'm not using it, the predicate function can
-  ;; be modified to check for other conditions (for example: enable `etags' in
-  ;; some circumstances)
-  (xref-union-excluded-backends #'+xref-union--exclude-backends-predicate)
   :config
-  (defun +xref-union--exclude-backends-predicate (backend)
-    (memq backend '(etags--xref-backend))))
 
+  ;; (defun +xref-union--exclude-backends-predicate (backend)
+    ;; (memq backend '(etags--xref-backend)))
+
+  (cl-defmethod xref-backend-identifier-at-point ((_backend (eql eglot)))
+    :extra "remove-lsp-identifier-at-point" :around
+    "Force the eglot backend to return nil, so it falls back to other xref backends"
+    (let ((id (cl-call-next-method)))
+      (if (string= id "LSP identifier at point") nil id)))
+
+  (defun xref-union-same-p (l1 l2)
+    "More lenient version that only compares file and line number of xref location"
+    (cl-flet ((file-and-line (l) (list (xref-file-location-file (xref-item-location l))
+                                       (xref-file-location-line (xref-item-location l)))))
+      (equal (file-and-line l1) (file-and-line l2))))
+
+  (defun xref-union-ignore-etags (backend)
+    (eq backend 'etags--xref-backend))
+
+  :custom
+  ;; (xref-union-excluded-backends #'+xref-union--exclude-backends-predicate)
+
+  (xref-union-excluded-backends #'xref-union-ignore-etags)
+
+  )
 
 ;; (use-package dumb-jump
 ;;   :ensure t)
@@ -735,15 +755,15 @@
 (setq quickrun-focus-p nil)
 
 ;; Emacs headerline indication of where you are in a large project
-(use-package breadcrumb
-  :straight t
-  :hook ((c-mode c++-mode c-ts-base-mode python-base-mode rust-ts-mode sh-mode bash-ts-mode) . breadcrumb-local-mode)
-  :config
-  ;; Don't show the project/file name in the header by just a file icon
-  (with-eval-after-load 'nerd-icons
-    (advice-add
-     'breadcrumb-project-crumbs :override
-     (defun +breadcrumb--project:override-a ()
-       (concat " " (if-let* ((file buffer-file-name))
-                       (nerd-icons-icon-for-file file)
-                     (nerd-icons-icon-for-mode major-mode)))))))
+;; (use-package breadcrumb
+;;   :straight t
+;;   :hook ((c-mode c++-mode c-ts-base-mode python-base-mode rust-ts-mode sh-mode bash-ts-mode) . breadcrumb-local-mode)
+;;   :config
+;;   ;; Don't show the project/file name in the header by just a file icon
+;;   (with-eval-after-load 'nerd-icons
+;;     (advice-add
+;;      'breadcrumb-project-crumbs :override
+;;      (defun +breadcrumb--project:override-a ()
+;;        (concat " " (if-let* ((file buffer-file-name))
+;;                        (nerd-icons-icon-for-file file)
+;;                      (nerd-icons-icon-for-mode major-mode)))))))
