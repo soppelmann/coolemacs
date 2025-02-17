@@ -154,7 +154,7 @@
 
 ;; Single dired buffer
 (use-package dired-single
-  :ensure t
+  :straight (dired-single :type git :host github :repo "emacsattic/dired-single")
   :commands dired-single-buffer dired-single-buffer-mouse
   :defines dired-mode-map
   :init
@@ -163,7 +163,7 @@
               ;; Enable all commands
               (setq disabled-command-function nil)
 
-              ;; (define-key dired-mode-map [return] 'dired-single-buffer)
+              (define-key dired-mode-map [return] 'dired-single-buffer)
               ;; (define-key dired-mode-map [down-mouse-1] 'dired-single-buffer-mouse)
               (define-key dired-mode-map [^]
                 (lambda ()
@@ -585,3 +585,40 @@ targets."
        ";; ╚═╝└─┘┴└─┴ ┴ ┴ └─┘┴ ┴\n\n"))
 
 
+;; Pulse highlight on demand or after select functions
+(use-package pulsar
+  :ensure t
+  :straight (:host github :repo "protesilaos/pulsar")
+  :hook (minemacs-first-file . pulsar-global-mode)
+  :custom
+  (pulsar-iterations 6)
+  (pulsar-pulse-region t)
+  (pulsar-pulse-on-window-change t)
+  (pulsar-region-face 'pulsar-green)
+  (pulsar-highlight-face 'pulsar-cyan)
+  (pulsar-region-change-face 'pulsar-red)
+  (pulsar-window-change-face 'pulsar-yellow)
+  :config
+  (cl-callf append pulsar-pulse-functions '(what-cursor-position)))
+
+;; View, edit, search and compare very large files in batches, trading memory for processor time
+(use-package vlf-setup
+  :straight (vlf :source gnu-elpa-mirror)
+  :demand
+  :config
+  (with-eval-after-load 'so-long
+    (add-to-list 'so-long-mode-preserved-variables 'vlf-mode)))
+
+
+;; Fast opening of large files
+(use-package guard-lf
+  :straight (:host github :repo "jcs-elpa/guard-lf")
+  :init
+  (guard-lf-mode 1)
+  :config
+  (cl-callf append guard-lf-intact-major-modes '(rosbag-info-mode ein:ipynb-mode)))
+
+
+;; Same functionality as `find-dired' and `find-grep-dired', using fd/rg instead
+(use-package fd-dired
+  :straight t)
