@@ -115,3 +115,10 @@
   :ensure t 
   :hook ((after-init . flymake-collection-hook-setup) 
          (emacs-lisp-mode . flymake-mode)))
+
+(use-package eglot-booster
+  :straight (:host github :repo "jdtsmith/eglot-booster")
+  :after eglot
+  :init
+  (when (executable-find "emacs-lsp-booster")
+    (eglot-booster-mode 1)))
