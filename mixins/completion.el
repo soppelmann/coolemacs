@@ -17,6 +17,7 @@
   (add-hook 'prog-mode-hook #'global-corfu-mode nil nil :transient t)
   ;; (corfu-prescient-mode 1)
   (corfu-history-mode)
+  (global-corfu-mode)
 
   ;; Optionally use TAB for cycling, default is `corfu-complete'.
   :bind (:map corfu-map
