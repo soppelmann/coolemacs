@@ -1,6 +1,17 @@
 (use-package verilog-mode
   :straight (:repo "veripool/verilog-mode")
-  :ensure t)
+  :ensure t
+  ;; :init
+  (setq verilog-indent-level 3)
+  ;; (setq verilog-indent-level-module 0)
+  ;; (setq verilog-indent-level-declaration 0)
+  ;; (setq verilog-indent-level-behavioral 0)
+  ;; (setq verilog-indent-level-directive 0)
+  ;; (setq verilog-indent-lists t)
+  ;; (setq verilog-cexp-indent 4)
+  ;; (setq verilog-case-indent 4)
+  ;; (setq verilog-auto-newline t)
+  )
 
 (eval-after-load 'verilog-mode
     '(progn
@@ -107,3 +118,9 @@
 ;; (use-package outshine
   ;; :straight (outshine :fetcher github :repo "alphapapa/outshine")
   ;; :ensure t)
+
+
+(use-package fpga
+  :straight t
+  :init
+  (setq fpga-feature-list '(xilinx yosys)))
