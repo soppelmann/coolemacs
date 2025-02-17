@@ -84,7 +84,7 @@
       ("Desktop / Session"
        ("Restore session" desktop-read "d")
        ("Bufler switch" bufler-switch-buffer "b")
-       ("Restore session from file" +desktop-read-session "R"))))))
+       ("Restore session from file" +desktop-read-session "r"))))))
     "\n"
 
     (grid-get-box
