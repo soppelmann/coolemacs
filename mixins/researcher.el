@@ -263,12 +263,11 @@
        (python . t)
        (R . t)
        (scheme . t)
-       ;; (sh . t)
+       (sh . t)
        ;; (sql . t)
        )))
 
 (setq org-confirm-babel-evaluate nil)
-
 
 (setq org-babel-default-header-args
   `(
@@ -294,16 +293,18 @@
 (add-to-list 'org-latex-packages-alist '("" "tikz"))
 (add-to-list 'org-latex-packages-alist '("" "color"))
 (add-to-list 'org-latex-packages-alist '("" "xcolor"))
+(add-to-list 'org-latex-packages-alist '("" "verbatim"))
 
 (setq org-latex-src-block-backend 'listings)
 ;; (setq org-latex-src-block-backend 'minted)
 (setq org-latex-listings-options
-      '(("basicstyle" "\\ttfamily")
+      '(
+        ("basicstyle" "\\ttfamily\\small")
+        ;; ("basicstyle" "\\ttfamily") ;; use inconsolata
         ("showstringspaces" "false")
 
         ;; ("backgroundcolor" "\\color[rgb]{.97,.97,.97}")
         ("rulecolor" "\\color[rgb]{.62,.62,.62}")
-        ("basicstyle" "\\ttfamily\\small")
         ("stringstyle" "\\color[rgb]{.31,.54,.30}")
 
         ;; ("keywordstyle" "\\color{blue}\\textbf")
@@ -320,3 +321,17 @@
         ("numbers" "left")
         ("numberstyle" "\\ttfamily")
         ("columns" "fullflexible")))
+
+
+;; (setq org-babel-exp-code-template
+;;          (concat "\n=%name=:\n"
+;;               org-babel-exp-code-template)
+;;                )
+
+
+;; Automatically toggle Org mode LaTeX fragment previews as the cursor enters and exits them
+(use-package org-fragtog
+  :ensure t
+  :hook (org-mode . org-fragtog-mode)
+  :custom
+  (org-fragtog-preview-delay 0.2))
