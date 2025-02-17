@@ -6,29 +6,29 @@
          :repo "minad/corfu")
   :ensure t
   ;; :hook (lsp-completion-mode . kb/corfu-setup-lsp) ; Use corfu for lsp completion
-  :hook ((eshell-mode shell-mode) . +corfu-less-intrusive-h)
-  :hook (minibuffer-setup . +corfu-enable-in-minibuffer-h)
+  ;; :hook ((eshell-mode shell-mode) . +corfu-less-intrusive-h)
+  ;; :hook (minibuffer-setup . +corfu-enable-in-minibuffer-h)
   :custom
   ;; (corfu-preselect 'prompt) ;; Always preselect the prompt
  ; (corfu-preview-current t)
   (corfu-cycle t)
   (corfu-on-exact-match 'show)
   :init
-  (add-hook 'prog-mode-hook #'global-corfu-mode nil nil :transient t)
+  ;; (add-hook 'prog-mode-hook #'global-corfu-mode nil nil :transient t)
   ;; (corfu-prescient-mode 1)
-  (corfu-history-mode)
+  ;; (corfu-history-mode)
   (global-corfu-mode)
 
   ;; Optionally use TAB for cycling, default is `corfu-complete'.
   :bind (:map corfu-map
               ("M-SPC"      . corfu-insert-separator)
-              ;; ("SPC"        . corfu-insert-separator)
+              ("SPC"        . corfu-insert-separator)
               ("M-TAB"      . corfu-next)
               ("M-<tab>"      . corfu-next)
               ("M-TAB"      . corfu-next)
               ("M-<tab>"      . corfu-next)
-              ("TAB"        . corfu-complete)
-              ([tab]        . corfu-complete)
+              ;; ("TAB"        . corfu-complete)
+              ;; ([tab]        . corfu-complete)
               ("S-TAB"      . corfu-previous)
               ([backtab]    . corfu-previous)
               ("<backtab>"  . corfu-previous)
@@ -79,7 +79,7 @@
 
   ;; Enable indentation+completion using the TAB key.
   ;; `completion-at-point' is often bound to M-TAB.
-  (tab-always-indent 'complete)
+  (tab-always-indent 'complete) ; dont bind corfu-complete, bind this
 
   ;; Emacs 30 and newer: Disable Ispell completion function.
   ;; Try `cape-dict' as an alternative.
@@ -129,7 +129,8 @@
   ;;       orderless-component-separator #'orderless-escapable-split-on-space)
   (setq completion-styles '(orderless basic)
         completion-category-defaults nil
-        completion-category-overrides '((file (styles partial-completion)))))
+        ;; completion-category-overrides '((file (styles basic partial-completion)))))
+        completion-category-overrides '((file (styles . (partial-completion))))))
 
 (defun orderless-fast-dispatch (word index total)
   (and (= index 0) (= total 1) (length< word 4)
@@ -142,8 +143,13 @@
 (setq corfu-auto        t
       corfu-auto-delay  0.1  ;; TOO SMALL IS NOT RECOMMENDED!
       corfu-auto-prefix 1
-      corfu-quit-no-match t)
+      corfu-quit-no-match t
+      corfu-quit-at-boundary t)
       ;; corfu-quit-no-match 'separator)
+
+;; make corfu stop completing when no match
+(add-hook 'completion-in-region-mode-hook
+  (lambda () (setq completion-in-region-mode--predicate #'always)))
 
 (add-hook 'corfu-mode-hook
           (lambda ()
