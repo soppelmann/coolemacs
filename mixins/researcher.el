@@ -48,6 +48,12 @@
   :bind (("C-c b" . citar-insert-citation)
          :map minibuffer-local-map
          ("M-b" . citar-insert-preset))
+  :config
+  (with-eval-after-load 'nerd-icons
+    (setq citar-symbols
+          `((file ,(nerd-icons-codicon "nf-cod-file_pdf" :face 'error) . " ")
+            (note ,(nerd-icons-faicon "nf-fa-file_text" :face 'warning) . " ")
+            (link ,(nerd-icons-mdicon "nf-md-link" :face 'org-link) . " "))))
   :custom
   ;; Allows you to customize what citar-open does
   (citar-file-open-functions '(("html" . citar-file-open-external)
