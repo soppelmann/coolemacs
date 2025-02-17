@@ -6,18 +6,18 @@
          :repo "minad/corfu")
   :ensure t
   ;; :hook (lsp-completion-mode . kb/corfu-setup-lsp) ; Use corfu for lsp completion
-  ;; :hook ((eshell-mode shell-mode) . +corfu-less-intrusive-h)
-  ;; :hook (minibuffer-setup . +corfu-enable-in-minibuffer-h)
+  :hook ((eshell-mode shell-mode) . +corfu-less-intrusive-h)
+  :hook (minibuffer-setup . +corfu-enable-in-minibuffer-h)
   :custom
   ;; (corfu-preselect 'prompt) ;; Always preselect the prompt
  ; (corfu-preview-current t)
   (corfu-cycle t)
   (corfu-on-exact-match 'show)
   :init
-  (add-hook 'prog-mode-hook #'global-corfu-mode nil nil :transient t)
+  ;; (add-hook 'prog-mode-hook #'global-corfu-mode nil nil :transient t)
   ;; (corfu-prescient-mode 1)
   ;; (corfu-history-mode)
-  ;; (global-corfu-mode)
+  (global-corfu-mode)
 
   ;; Optionally use TAB for cycling, default is `corfu-complete'.
   :bind (:map corfu-map
