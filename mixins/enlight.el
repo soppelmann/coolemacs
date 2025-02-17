@@ -1,4 +1,28 @@
 ;; Highly customizable startup screen for Emacs
+  ;; A wrapper around `desktop-read' to select from the list of saved files
+(defun +desktop-read-session (base-name)
+  (interactive
+   (list (completing-read
+          "Select a session file to read: "
+          (seq-filter (lambda (file)
+                        (and (file-regular-p (expand-file-name file (car desktop-path)))
+                             (not (equal "lock" (file-name-extension file)))))
+                      (directory-files (car desktop-path) nil directory-files-no-dot-files-regexp)))))
+  (let ((desktop-base-file-name base-name)
+        (desktop-dirname (car desktop-path)))
+    (call-interactively #'desktop-read)))
+
+(defvar +desktop-this-session-base-file-name (format-time-string "%F--%H-%m-%S"))
+
+(defun +desktop-save--timestamp-file:around-a (origfn &rest args)
+  (let ((dirname (car desktop-path)))
+    (let ((desktop-base-file-name +desktop-this-session-base-file-name)
+          (desktop-dirname dirname))
+      (apply origfn args))
+    (copy-file (expand-file-name +desktop-this-session-base-file-name dirname)
+               (expand-file-name desktop-base-file-name dirname)
+               'overwrite)))
+
 
 ;; recent files
 (use-package recentf
@@ -56,7 +80,7 @@
       ("Projects"
        ("Switch to project" project-switch-project "p"))
       ("Files"
-         ("Recent" (consult-recent-file) "r"))
+         ("Recent" (consult-recent-file) "f"))
       ("Desktop / Session"
        ("Restore session" desktop-read "d")
        ("Bufler switch" bufler-switch-buffer "b")
@@ -107,10 +131,6 @@
 ;(global-set-key (kbd "s-q") 'kill-current-buffer)
 (setq tab-line-separator "") ;; set it to empty
 
-
-
-
-
 (use-package desktop
   :custom
   (desktop-base-file-name "last-session") ; File name to use when saving desktop
@@ -122,33 +142,15 @@
   ;; (desktop-path (list (+directory-ensure minemacs-local-dir "desktop-session/")))
   :commands (+desktop-read-session)
   :init
-  ;; (setq desktop-dirname (expand-file-name (+directory-ensure minemacs-local-dir "desktop-session/")))
-  (defvar +desktop-this-session-base-file-name (format-time-string "%F--%H-%m-%S"))
+  (setq desktop-dirname "~/.emacs.d/desktop/"
+
   :config
   ;; HACK: When saving the session, we set the file name to the timestamp. Then
   ;; we copy it back to `desktop-base-file-name'. This ensures `desktop-read'
   ;; will read the last session when called while keeping the previous one.
-  (defun +desktop-save--timestamp-file:around-a (origfn &rest args)
-    (let ((dirname (car desktop-path)))
-      (let ((desktop-base-file-name +desktop-this-session-base-file-name)
-            (desktop-dirname dirname))
-        (apply origfn args))
-      (copy-file (expand-file-name +desktop-this-session-base-file-name dirname)
-                 (expand-file-name desktop-base-file-name dirname)
-                 'overwrite)))
-  (advice-add 'desktop-save :around #'+desktop-save--timestamp-file:around-a)
 
-  ;; A wrapper around `desktop-read' to select from the list of saved files
-  (defun +desktop-read-session (base-name)
-    (interactive
-     (list (completing-read
-            "Select a session file to read: "
-            (seq-filter (lambda (file)
-                          (and (file-regular-p (expand-file-name file (car desktop-path)))
-                               (not (equal "lock" (file-name-extension file)))))
-                        (directory-files (car desktop-path) nil directory-files-no-dot-files-regexp)))))
-    (let ((desktop-base-file-name base-name)
-          (desktop-dirname (car desktop-path)))
-      (call-interactively #'desktop-read))))
+  (advice-add 'desktop-save :around #'+desktop-save--timestamp-file:around-a)
+  ))
+
 
 (desktop-save-mode)
