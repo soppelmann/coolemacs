@@ -1,22 +1,3 @@
-;(add-to-list 'load-path "~/.emacs.d/lisp/")
-
-;; Needs to patch
-;;(use-package corfu-candidate-overlay
-;;  :after corfu
-;;  :config
-;;  ;; enable corfu-candidate-overlay mode globally
-;;  ;; this relies on having corfu-auto set to nil
-;;  (corfu-candidate-overlay-mode +1)
-;;  ;; bind Ctrl + TAB to trigger the completion popup of corfu
-;;  (global-set-key (kbd "C-<tab>") 'completion-at-point)
-;;  ;; bind Ctrl + Shift + Tab to trigger completion of the first candidate
-;;  ;; (keybing <iso-lefttab> may not work for your keyboard model)
-;;  (global-set-key (kbd "S-<tab>") 'corfu-candidate-overlay-complete-at-point)
-;;  )
-
-;; unbind M-TAB globally
-;; (global-unset-key (kbd "M-TAB"))
-
 ;; Popup completion-at-point
 (use-package corfu
   :straight
@@ -25,13 +6,15 @@
          :repo "minad/corfu")
   :ensure t
   ;; :hook (lsp-completion-mode . kb/corfu-setup-lsp) ; Use corfu for lsp completion
+  :hook ((eshell-mode shell-mode) . +corfu-less-intrusive-h)
+  :hook (minibuffer-setup . +corfu-enable-in-minibuffer-h)
   :custom
   ;; (corfu-preselect 'prompt) ;; Always preselect the prompt
  ; (corfu-preview-current t)
   (corfu-cycle t)
   (corfu-on-exact-match 'show)
   :init
-  (global-corfu-mode)
+  (add-hook 'prog-mode-hook #'global-corfu-mode nil nil :transient t)
   ;; (corfu-prescient-mode 1)
   (corfu-history-mode)
 
@@ -51,6 +34,19 @@
               ("S-<return>" . corfu-complete)
               ("RET"        . corfu-complete))
   :config
+  (defun +corfu-enable-in-minibuffer-h ()
+    "Enable Corfu in the minibuffer if `completion-at-point' is bound."
+    (when (local-variable-p 'completion-at-point-functions)
+      (setq-local corfu-auto t ; Enable/disable auto completion
+                  corfu-popupinfo-delay nil)
+      (corfu-mode 1)))
+
+  (defun +corfu-less-intrusive-h ()
+    (setq-local corfu-quit-at-boundary t
+                corfu-quit-no-match t
+                corfu-auto nil)
+    (corfu-mode 1))
+
   ;; Setup lsp to use corfu for lsp completion
   (defun kb/corfu-setup-lsp ()
    ;; "Use orderless completion style with lsp-capf instead of the
@@ -113,41 +109,15 @@
 
 (add-hook 'eglot-managed-mode-hook #'my/eglot-capf)
 
-;; (defun my/eglot-capf ()
-;;   (setq-local completion-at-point-functions
-;;               (list (cape-capf-super
-;;                      #'eglot-completion-at-point
-;;                      #'yasnippet-capf
-;;                      ;; #'yas-expand
-;;                      #'cape-dabbrev
-;;                      #'cape-file))))
-
-;; (add-hook 'eglot-managed-mode-hook #'my/eglot-capf)
 ;; (setq yasnippet-capf-lookup-by 'name) ;; Prefer the name of the snippet instead
 (setq yas-indent-line 'fixed)
 (add-hook 'eglot-managed-mode-hook #'yas-minor-mode)
 
 ;; ;; Strangely, just redefining one of the variations below won't work.
 ;; ;; All rebinds seem to be needed.
-
 (define-key yas-minor-mode-map [(tab)]        nil)
 (define-key yas-minor-mode-map (kbd "TAB")    nil)
 (define-key yas-minor-mode-map (kbd "<tab>")  nil)
-
-
-  ;; (use-package corfu-candidate-overlay
-  ;;   :straight (:type git
-  ;;              :repo "https://code.bsdgeek.org/adam/corfu-candidate-overlay"
-  ;;              :files (:defaults "*.el"))
-  ;;   :after corfu
-  ;;   :config
-  ;;   ;; enable corfu-candidate-overlay mode globally
-  ;;   ;; this relies on having corfu-auto set to nil
-  ;;   (corfu-candidate-overlay-mode +1)
-  ;;   ;; bind Ctrl + Shift + Tab to trigger completion of the first candidate
-  ;;   ;; (keybing <iso-lefttab> may not work for your keyboard model)
-  ;;   (global-set-key (kbd "C-<tab>") 'corfu-candidate-overlay-complete-at-point)
-  ;;   )
 
 ;; Optionally use the `orderless' completion style.
 (use-package orderless
@@ -168,14 +138,8 @@
   (orderless-style-dispatchers '(orderless-fast-dispatch))
   (orderless-matching-styles '(orderless-literal orderless-regexp)))
 
-;; (add-hook 'corfu-mode-hook
-;;           (lambda ()
-;;             (setq-local completion-styles '(orderless-fast basic)
-;;                         completion-category-overrides nil
-;;                         completion-category-defaults nil)))
-
 (setq corfu-auto        t
-      corfu-auto-delay  0.3  ;; TOO SMALL IS NOT RECOMMENDED!
+      corfu-auto-delay  0.1  ;; TOO SMALL IS NOT RECOMMENDED!
       corfu-auto-prefix 1
       corfu-quit-no-match t)
       ;; corfu-quit-no-match 'separator)
@@ -186,35 +150,6 @@
             (setq-local completion-styles '(basic)
                         completion-category-overrides nil
                         completion-category-defaults nil)))
-
-(add-hook 'eshell-mode-hook (lambda ()
-                              ;; (setq-local corfu-auto nil)
-                              (corfu-mode)))
-;; Part of corfu
-;; (use-package corfu-popupinfo
-;;   :after corfu
-;;   :ensure nil
-;;   :hook (corfu-mode . corfu-popupinfo-mode)
-
-;;   :custom
-;;   (corfu-auto t)
-;;   (corfu-auto-delay 2.1)
-;;   (corfu-auto-prefix 0)
-;;   (corfu-min-width 80)
-;;   (corfu-max-width corfu-min-width)
-;;   ;(corfu-preselect-first t)        ; Preselect first candidate?
-;; ;  (corfu-preselect-first nil)        ; Preselect first candidate?
-;;   ;(corfu-popupinfo-delay '(0.25 . 0.1))
-;;   ;(corfu-popupinfo-hide nil)
-;;   :config
-;;   (corfu-popupinfo-mode))
-
-;; Make corfu popup come up in terminal overlay
-;; (use-package corfu-terminal
-  ;; :if (not (display-graphic-p))
-  ;; :ensure t
-  ;; :config
-  ;; (corfu-terminal-mode))
 
 ;; Pretty icons for corfu
 (use-package kind-icon
@@ -269,25 +204,6 @@
   ;;(add-to-list 'completion-at-point-functions #'cape-line)
 )
 
-;; (defun my/eglot-capf ()
-;; (setq-local completion-at-point-functions
-;; (list (cape-capf-super
-;; #'eglot-completion-at-point
-;;        ;; #'yasnippet-capf
-;; #'cape-dabbrev
-;; ;; (cape-company-to-capf #'company-yasnippet)
-;; ;; #'tempel-expand
-;; #'cape-file
-
-;; ))))
-;; (add-hook 'eglot-managed-mode-hook #'my/eglot-capf)
-
-;(defun local/clang-capf-init ()
-;  "Add `clang-capf' to `completion-at-point-functions'."
-;  (add-hook 'completion-at-point-functions #'clang-capf nil t))
-;
-;(add-hook 'c-mode-hook #'local/clang-capf-init)
-
 ;; (add-hook 'eshell-mode-hook #'capf-autosuggest-mode)
 
 (use-package yasnippet
@@ -305,32 +221,10 @@
   :ensure t
   )
 
-;; (setq yas-snippet-dirs
-;;       '("~/.emacs.d/snippets/org-mode"                 ;; personal snippets
-;;         ))
-
-;; (yas-load-directory "~/.emacs.d/snippets/org-mode/")
-
-
 (setq yas-snippet-dirs '("~/.emacs.d/snippets")) ;; path to snippets
 (yas-recompile-all)
 (yas-reload-all)
 (yas-global-mode 1)
-
-;; (use-package consult-yasnippet
-;;   :ensure t
-;;   )
-
-
-;; Strangely, just redefining one of the variations below won't work.
-;; All rebinds seem to be needed.
-;; (define-key yas-minor-mode-map [(tab)]        nil)
-;; (define-key yas-minor-mode-map (kbd "TAB")    nil)
-;; (define-key yas-minor-mode-map (kbd "<tab>")  nil)
-
-;; (use-package corfu-prescient
-;;   :ensure t
-;;   )
 
 (use-package yasnippet-capf
   :ensure t
@@ -338,19 +232,6 @@
   :config
   (add-to-list 'completion-at-point-functions #'yasnippet-capf)
   )
-
-
-;; (defun my/eglot-capf ()
-  ;; (setq-local completion-at-point-functions
-              ;; (list (cape-capf-super
-                     ;; #'eglot-completion-at-point
-                     ;; #'yasnippet-capf
-                     ;; #'tempel-expand
-                     ;; #'cape-dabbrev
-                     ;; #'cape-file))))
-
-;; (add-hook 'eglot-managed-mode-hook #'my/eglot-capf)
-
 
 ;; Configure Tempel
 
