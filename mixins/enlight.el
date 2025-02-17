@@ -6,13 +6,15 @@
   :config
   (recentf-mode)
   :custom
-  (recentf-save-file
-   (convert-standard-filename
-       (expand-file-name  "emacs/recentf" (xdg-state-home))))
+  ;; (recentf-save-file
+   ;; (convert-standard-filename
+       ;; (expand-file-name  "emacs/recentf" (xdg-state-home))))
   (recentf-max-menu-items 25)
   (recentf-max-saved-items 25)
   (recentf-exclude '("/autosave$"
                      ".cache")))
+
+(run-at-time nil 600 'recentf-save-list)
 
 (use-package grid
   :straight (:host github :repo "ichernyshovvv/grid.el"))
@@ -57,6 +59,7 @@
          ("Recent" (consult-recent-file) "r"))
       ("Desktop / Session"
        ("Restore session" desktop-read "d")
+       ("Bufler switch" bufler-switch-buffer "b")
        ("Restore session from file" +desktop-read-session "R"))))))
    "\n"
 
@@ -103,3 +106,49 @@
 ;(global-unset-key (kbd "s-q"))
 ;(global-set-key (kbd "s-q") 'kill-current-buffer)
 (setq tab-line-separator "") ;; set it to empty
+
+
+
+
+
+(use-package desktop
+  :custom
+  (desktop-base-file-name "last-session") ; File name to use when saving desktop
+  (desktop-base-lock-name (concat desktop-base-file-name ".lock")) ; File name to use as a lock
+  (desktop-restore-eager 50) ; Load 50 buffers immediately, and the remaining buffers lazily
+  (desktop-file-checksum t) ; Avoid writing contents unchanged between auto-saves
+  (desktop-save-buffer t) ; Save buffer status
+  (desktop-save t) ; Always save, the hack below will take care of file names
+  ;; (desktop-path (list (+directory-ensure minemacs-local-dir "desktop-session/")))
+  :commands (+desktop-read-session)
+  :init
+  ;; (setq desktop-dirname (expand-file-name (+directory-ensure minemacs-local-dir "desktop-session/")))
+  (defvar +desktop-this-session-base-file-name (format-time-string "%F--%H-%m-%S"))
+  :config
+  ;; HACK: When saving the session, we set the file name to the timestamp. Then
+  ;; we copy it back to `desktop-base-file-name'. This ensures `desktop-read'
+  ;; will read the last session when called while keeping the previous one.
+  (defun +desktop-save--timestamp-file:around-a (origfn &rest args)
+    (let ((dirname (car desktop-path)))
+      (let ((desktop-base-file-name +desktop-this-session-base-file-name)
+            (desktop-dirname dirname))
+        (apply origfn args))
+      (copy-file (expand-file-name +desktop-this-session-base-file-name dirname)
+                 (expand-file-name desktop-base-file-name dirname)
+                 'overwrite)))
+  (advice-add 'desktop-save :around #'+desktop-save--timestamp-file:around-a)
+
+  ;; A wrapper around `desktop-read' to select from the list of saved files
+  (defun +desktop-read-session (base-name)
+    (interactive
+     (list (completing-read
+            "Select a session file to read: "
+            (seq-filter (lambda (file)
+                          (and (file-regular-p (expand-file-name file (car desktop-path)))
+                               (not (equal "lock" (file-name-extension file)))))
+                        (directory-files (car desktop-path) nil directory-files-no-dot-files-regexp)))))
+    (let ((desktop-base-file-name base-name)
+          (desktop-dirname (car desktop-path)))
+      (call-interactively #'desktop-read))))
+
+(desktop-save-mode)
