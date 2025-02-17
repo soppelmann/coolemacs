@@ -642,14 +642,37 @@
 (add-hook 'isearch-mode-hook 'phi-search-from-isearch-mc/setup-keys)
 
 
-(use-package find-file-in-project
-  :ensure t)
-
-(setq ffip-use-rust-fd t)
-
 ;; (use-package indent-bars
   ;; :ensure t
   ;; :hook ((prog-mode) . indent-bars-mode)) ; or whichever modes you prefer
+
+;; An Emacs "jump to definition" package for 50+ languages
+(use-package dumb-jump
+  :straight t
+  :after xref
+  :custom
+  (dumb-jump-selector 'completing-read)
+  :init
+  ;; Use `dumb-jump' as `xref' backend
+  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
+
+;; Combine multiple Xref backends
+(use-package xref-union
+  :straight t
+  :commands (xref-union-mode)
+  :custom
+  ;; BUG+HACK: When in `xref-union-mode', the `xref-union--backend' seems to
+  ;; access all the backends, including the ones that aren't enabled locally.
+  ;; The list includes `etags' which is annoying since it asks about the TAGS
+  ;; file, which interrupts `xref-union' from trying the rest of the backends.
+  ;; So, lets exclude `etags' since I'm not using it, the predicate function can
+  ;; be modified to check for other conditions (for example: enable `etags' in
+  ;; some circumstances)
+  (xref-union-excluded-backends #'+xref-union--exclude-backends-predicate)
+  :config
+  (defun +xref-union--exclude-backends-predicate (backend)
+    (memq backend '(etags--xref-backend))))
+
 
 ;; (use-package dumb-jump
 ;;   :ensure t)
@@ -703,3 +726,24 @@
 )
 
 (global-eldoc-mode -1)
+
+;; Out of the box code execution from editing buffer
+(use-package quickrun
+  :straight t
+  :bind (([f5] . quickrun)))
+
+(setq quickrun-focus-p nil)
+
+;; Emacs headerline indication of where you are in a large project
+(use-package breadcrumb
+  :straight t
+  :hook ((c-mode c++-mode c-ts-base-mode python-base-mode rust-ts-mode sh-mode bash-ts-mode) . breadcrumb-local-mode)
+  :config
+  ;; Don't show the project/file name in the header by just a file icon
+  (with-eval-after-load 'nerd-icons
+    (advice-add
+     'breadcrumb-project-crumbs :override
+     (defun +breadcrumb--project:override-a ()
+       (concat " " (if-let* ((file buffer-file-name))
+                       (nerd-icons-icon-for-file file)
+                     (nerd-icons-icon-for-mode major-mode)))))))

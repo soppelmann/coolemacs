@@ -122,3 +122,7 @@
   :init
   (when (executable-find "emacs-lsp-booster")
     (eglot-booster-mode 1)))
+
+;; Consult integration with Eglot
+(use-package consult-eglot
+  :straight t)
