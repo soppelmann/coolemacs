@@ -5,6 +5,7 @@
 /custom.el
 /.lsp*
 /.cache/
+/desktop/*
 /eln-cache/
 /elpa/
 /history

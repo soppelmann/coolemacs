@@ -85,7 +85,7 @@
        ("Restore session" desktop-read "d")
        ("Bufler switch" bufler-switch-buffer "b")
        ("Restore session from file" +desktop-read-session "R"))))))
-   "\n"
+    "\n"
 
     (grid-get-box
      `( :align center
@@ -139,7 +139,7 @@
   (desktop-file-checksum t) ; Avoid writing contents unchanged between auto-saves
   (desktop-save-buffer t) ; Save buffer status
   (desktop-save t) ; Always save, the hack below will take care of file names
-  ;; (desktop-path (list (+directory-ensure minemacs-local-dir "desktop-session/")))
+  (desktop-path (list "~/.emacs.d/desktop/"))
   :commands (+desktop-read-session)
   :init
   (setq desktop-dirname "~/.emacs.d/desktop/"
