@@ -152,6 +152,29 @@
 ;; ;; Dont open hundreds of dired buffers
 (setf dired-kill-when-opening-new-dired-buffer t)
 
+;; Single dired buffer
+(use-package dired-single
+  :ensure t
+  :commands dired-single-buffer dired-single-buffer-mouse
+  :defines dired-mode-map
+  :init
+  (add-hook 'dired-mode-hook
+            (lambda ()
+              ;; Enable all commands
+              (setq disabled-command-function nil)
+
+              (define-key dired-mode-map [return] 'dired-single-buffer)
+              (define-key dired-mode-map [down-mouse-1] 'dired-single-buffer-mouse)
+              (define-key dired-mode-map [^]
+                (lambda ()
+                  (interactive)
+                  (dired-single-buffer "..")))
+
+              ;; Auto-refresh dired on file change
+              (auto-revert-mode)
+              (setq-default auto-revert-interval 1)
+              (auto-revert-set-timer))))
+
 ;; (use-package dired-k
 ;;   :ensure t)
 
