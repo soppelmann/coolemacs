@@ -569,6 +569,8 @@
 ;; Tools for academic researchers
 (load-file (expand-file-name "mixins/researcher.el" user-emacs-directory))
 
+;; Multi cursor support
+(load-file (expand-file-name "mixins/multi-curosrs.el" user-emacs-directory))
 
 ;; org
 
