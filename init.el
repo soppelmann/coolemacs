@@ -570,28 +570,4 @@
 (load-file (expand-file-name "mixins/researcher.el" user-emacs-directory))
 
 ;; Multi cursor support
-(load-file (expand-file-name "mixins/multi-curosrs.el" user-emacs-directory))
-
-;; org
-
-;; https://old.reddit.com/r/emacs/comments/tbj09/using_shift_selection_in_orgmode_buffers_without/
-;(setq org-support-shift-select t)
-;
-;(eval-after-load "org"
-;    '(progn
-;       (eval-after-load "cua-base"
-;         '(progn
-;            (define-advice org-call-for-shift-select (before org-call-for-shift-select-cua activate)
-;              (if (and cua-mode
-;                       org-support-shift-select
-;                       (not (use-region-p)))
-;                  (cua-set-mark)))))))
-
-;; (add-hook 'emacs-lisp-mode-hook
-;;           (lambda ()
-;;             (let  ((auto-insert-query nil)
-;;                    (auto-insert-alist
-;;                    '((("\\.el\\'" . "Emacs Lisp header")
-;;                       ""
-;;                       ";;; -*- lexical-binding: t; -*-\n\n" '(setq lexical-binding t)))))
-;;               (auto-insert))))
+(load-file (expand-file-name "mixins/multi-cursors.el" user-emacs-directory))
