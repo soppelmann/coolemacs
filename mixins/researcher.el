@@ -192,11 +192,11 @@
 
 (pdf-loader-install)
 
-(use-package latex-preview-pane
-  :ensure t
-  :config
-  (latex-preview-pane-enable))
-(add-hook 'LaTeX-mode-hook 'latex-preview-pane-mode)
+;; (use-package latex-preview-pane
+;;   :ensure t
+;;   :config
+;;   (latex-preview-pane-enable))
+;; (add-hook 'LaTeX-mode-hook 'latex-preview-pane-mode)
 
 ;; (add-to-list 'revert-without-query ".+\\.pdf$")
 
@@ -247,7 +247,6 @@
   ;; (add-hook 'hack-local-variables #'flyspell-buffer nil 'local))
 
 (add-hook 'flyspell-mode-hook #'flyspell-buffer)
-
 
 (use-package org-babel
   :no-require
