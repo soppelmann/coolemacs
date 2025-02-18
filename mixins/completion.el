@@ -99,16 +99,16 @@
 
 ;; (defun mi/eglot-capf-with-yasnippet () (setq-local completion-at-point-functions (list (cape-capf-super #'yasnippet-capf #'eglot-completion-at-point)))) (with-eval-after-load 'eglot (add-hook 'eglot-managed-mode-hook #'mi/eglot-capf-with-yasnippet)) 
 
-(defun my/eglot-capf ()
-  (setq-local completion-at-point-functions
-              (list (cape-capf-super
-                     #'cape-file
-                     #'eglot-completion-at-point
-                     #'verilog-ext-capf
-                     #'yasnippet-capf
-                     ))))
+;; (defun my/eglot-capf ()
+;;   (setq-local completion-at-point-functions
+;;               (list (cape-capf-super
+;;                      #'cape-file
+;;                      #'eglot-completion-at-point
+;;                      #'verilog-ext-capf
+;;                      #'yasnippet-capf
+;;                      ))))
 
-(add-hook 'eglot-managed-mode-hook #'my/eglot-capf)
+;; (add-hook 'eglot-managed-mode-hook #'my/eglot-capf)
 
 ;; (setq yasnippet-capf-lookup-by 'name) ;; Prefer the name of the snippet instead
 (setq yas-indent-line 'fixed)
@@ -215,8 +215,6 @@
 
 (use-package yasnippet
   :ensure t
-  ;; :hook
-  ;; (prog-mode . yas-minor-mode)
   :config
   (yas-reload-all))
 
@@ -279,3 +277,5 @@
 ;;   :preface (eglot-tempel-mode)
 ;;   :init
 ;;   (eglot-tempel-mode t))
+
+
