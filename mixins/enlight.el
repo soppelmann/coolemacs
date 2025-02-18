@@ -135,12 +135,12 @@
   :custom
   (desktop-base-file-name "last-session") ; File name to use when saving desktop
   (desktop-base-lock-name (concat desktop-base-file-name ".lock")) ; File name to use as a lock
-  (desktop-restore-eager 50) ; Load 50 buffers immediately, and the remaining buffers lazily
+  ;; (desktop-restore-eager 50) ; Load 50 buffers immediately, and the remaining buffers lazily
   (desktop-file-checksum t) ; Avoid writing contents unchanged between auto-saves
   (desktop-save-buffer t) ; Save buffer status
   (desktop-save t) ; Always save, the hack below will take care of file names
   (desktop-path (list "~/.emacs.d/desktop/"))
-  :commands (+desktop-read-session)
+  ;; :commands (+desktop-read-session)
   :init
   (setq desktop-dirname "~/.emacs.d/desktop/"
 
@@ -153,4 +153,4 @@
   ))
 
 
-(desktop-save-mode)
+;; (desktop-save-mode)
