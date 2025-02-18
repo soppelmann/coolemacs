@@ -11,7 +11,7 @@
 (use-package ef-themes
   :ensure (:host github :repo "protesilaos/ef-themes" :branch "master")
   :config
-  (define-key global-map (kbd "<f5>") #'ef-themes-toggle)
+  (define-key global-map (kbd "<f6>") #'ef-themes-toggle)
   (setq ef-bio-palette-overrides '((variable fg-main)
                                    (string green-faint)))
   (setq ef-cyprus-palette-overrides '((variable fg-main)
@@ -35,7 +35,7 @@
    (t . (regular 1.15))))
 
 (setq
- ef-themes-to-toggle '(ef-owl ef-eagle)
+ ef-themes-to-toggle '(ef-maris-dark ef-deuteranopia-light)
 )
 
 ;;(setq
@@ -157,8 +157,8 @@
    (read-only-mode)
 
    (scroll-bar-mode 0)
-   ;(ef-themes-select 'ef-owl)
-   (load-theme 'doom-gruvbox)
+   (ef-themes-select 'ef-maris-dark)
+   ;; (load-theme 'doom-gruvbox)
 ;   (load-theme 'doom-monokai-machine-private)
    ;(ef-themes-select 'ef-maris-dark)
    ;;(modus-themes-select 'modus-operandi)
@@ -168,8 +168,8 @@
    ))
 
 ;;(load-theme 'modus-vivendi)
-;(ef-themes-select 'ef-owl)
-(load-theme 'doom-gruvbox)
+(ef-themes-select 'ef-maris-dark)
+;; (load-theme 'doom-gruvbox)
 ;(load-theme 'doom-monokai-machine-private)
                                         ;(ef-themes-select 'ef-maris-dark)
 ;;(modus-themes-select 'modus-operandi)
@@ -189,4 +189,4 @@
 ;;  :bind (("C-c <f6>" . heaven-and-hell-load-default-theme)
 ;;         ("<f6>" . heaven-and-hell-toggle-theme)))
 
-(setq doom-themes-enable-bold nil)
+;; (setq doom-themes-enable-bold nil)
