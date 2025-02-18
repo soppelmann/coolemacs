@@ -152,14 +152,14 @@
 ;;  (setq dired-use-ls-dired nil))
 
 
-;; (defun local/dired-mode-hook ()
-;;   (local-set-key (kbd "<tab>") nil) ; Unbind Tab first
-;;   (local-set-key (kbd "<tab>") 'dired-subtree-toggle))
+(defun local/dired-mode-hook ()
+  (local-set-key (kbd "<tab>") nil) ; Unbind Tab first
+  (local-set-key (kbd "<tab>") 'dired-subtree-toggle))
 
-;; (add-hook 'dired-mode-hook 'local/dired-mode-hook)
+(add-hook 'dired-mode-hook 'local/dired-mode-hook)
 
-;; (global-set-key (kbd "C-x C-d") 'dired)
-;; (global-set-key (kbd "C-x C-b") 'switch-to-buffer)
+(global-set-key (kbd "C-x C-d") 'dired)
+(global-set-key (kbd "C-x C-b") 'switch-to-buffer)
 
 
 ;; ;; Dont open hundreds of dired buffers
@@ -201,8 +201,8 @@
 ;; (add-hook 'dired-after-readin-hook #'dired-k-no-revert)
 ;; ;; (add-hook 'dired-initial-position-hook 'dired-k)
 
-;; (use-package dired-subtree
-;;   :ensure t)
+(use-package dired-subtree
+  :ensure t)
 
 ;; (use-package dired-hacks-utils
 ;;   :ensure t)
