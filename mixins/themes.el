@@ -9,7 +9,7 @@
 ; :config (define-key global-map (kbd "<f5>") #'modus-themes-toggle))
 
 (use-package ef-themes
-  :ensure (:host github :repo "protesilaos/ef-themes" :branch "master")
+  :straight (:host github :repo "protesilaos/ef-themes" :branch "main")
   :config
   (define-key global-map (kbd "<f6>") #'ef-themes-toggle)
   (setq ef-bio-palette-overrides '((variable fg-main)
