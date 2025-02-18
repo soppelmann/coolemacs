@@ -421,12 +421,13 @@
 ;; Use C-x C-; instead or M-; for line comments
 ;; (define-key c-mode-base-map (kbd "C-c C-c") nil)
 ;(define-key c-ts-mode-map (kbd "C-c C-c") nil)
-(define-key prog-mode-map (kbd "C-c C-c") nil)
+;; (define-key prog-mode-map (kbd "C-c C-c") nil)
 
 (use-package smart-compile
   :ensure t)
 ;; (define-key c-mode-base-map (kbd "C-c C-c") 'smart-compile)
-(define-key prog-mode-map (kbd "C-c C-c") 'smart-compile)
+(define-key prog-mode-map (kbd "C-x c") 'smart-compile)
+;; (global-set-key (kbd "C-x c") 'smart-compile)
 ;(define-key c-ts-mode-map (kbd "C-c C-c") 'smart-compile)
 ;(add-hook 'c-mode-common-hook 
 ;          (lambda () (define-key c-mode-base-map (kbd "C-c C-c") 'compile)))
