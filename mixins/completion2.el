@@ -47,8 +47,8 @@
       (add-to-list 'completion-at-point-functions #'yasnippet-capf))))
 
 ;; The Doom Emacs snippets library
-;; (use-package doom-snippets
-;;   :straight (:host github :repo "hlissner/doom-snippets" :files ("*.el" "*")))
+(use-package doom-snippets
+  :straight (:host github :repo "hlissner/doom-snippets" :files ("*.el" "*")))
 
 (setq yasnippet-capf-lookup-by 'name) ;; Prefer the name of the snippet instead
 (setq yas-indent-line 'fixed)
@@ -218,4 +218,5 @@
                      ))))
 
 (add-hook 'verilog-ext-mode-hook #'my/verilog-capf)
+(add-hook 'verilog-ts-mode-hook #'my/verilog-capf)
 
