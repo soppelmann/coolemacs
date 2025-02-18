@@ -27,7 +27,7 @@
                         "/Users/getz/.emacs.d/snippets/org-mode/tramp-cluster"
                         nil nil)
                        ("title"
-                        "#+TITLE: $1\n#+AUTHOR: $2\n#+EMAIL: $3\n#+DATE: $4\n#+LATEX_HEADER: \\usepackage[margin=1.0in]{geometry}\n#+OPTIONS: toc:nil email:t\n#+cite_export: biblatex backend=bibtex,style=ieee,url=false\n#+BIBLIOGRAPHY: ~/Nextcloud/Zotero.bib\n\n$0"
+                        "#+TITLE: $1\n#+AUTHOR: $2\n#+EMAIL: $3\n#+DATE: $4\n#+LATEX_HEADER: \\usepackage[margin=1.0in]{geometry}\n#+OPTIONS: toc:nil email:nil\n#+cite_export: biblatex backend=bibtex,style=ieee,url=false\n#+BIBLIOGRAPHY: ~/Nextcloud/Zotero.bib\n\n$0"
                         "Org title" nil nil nil
                         "/Users/getz/.emacs.d/snippets/org-mode/title" nil nil)
                        ("ob-clojure-setup"
@@ -65,6 +65,16 @@
                         ";; Remember to edit the four fields above.\n${1:Enter code here}\n$0\n\n"
                         "template for new snippets" nil ("snippetTemplates") nil
                         "/Users/getz/.emacs.d/snippets/org-mode/newsnip" nil nil)
+                       ("listplain"
+                        "+ ${1:item}\n+ ${2:item}\n+ ${3:item}\n+ ${4:item}\n+ ${5:item}\n$0"
+                        "plan list 5 items" nil ("lists") nil
+                        "/Users/getz/.emacs.d/snippets/org-mode/listplain" nil
+                        nil)
+                       ("listnum"
+                        "1. ${1:item}\n2. ${2:item}\n3. ${3:item}\n4. ${4:item}\n5. ${5:item}\n$0"
+                        "numbered list 5 items" nil ("lists") nil
+                        "/Users/getz/.emacs.d/snippets/org-mode/listnumb" nil
+                        nil)
                        ("weblink" "[[${1:changeURL}] [${2:changeName}]]\n$0\n\n"
                         "insert weblink template in an org file" nil ("links")
                         nil
@@ -200,7 +210,12 @@
                        ("srcblock"
                         "#+NAME: ${1:name}\n#+BEGIN_SRC ${2:language}\n  $3\n#+END_SRC\n"
                         "srcblock" nil nil nil
-                        "/Users/getz/.emacs.d/snippets/org-mode/code" nil nil)))
+                        "/Users/getz/.emacs.d/snippets/org-mode/code" nil nil)
+                       ("c5"
+                        "- [ ] ${1:item}\n- [ ] ${2:item}\n- [ ] ${3:item}\n- [ ] ${4:item}\n- [ ] ${5:item}\n$0"
+                        "list of 5 checkbox items" nil ("lists") nil
+                        "/Users/getz/.emacs.d/snippets/org-mode/checklist5" nil
+                        nil)))
 
 
-;;; Do not edit! File generated at Sat Feb 15 00:10:35 2025
+;;; Do not edit! File generated at Tue Feb 18 13:41:18 2025
