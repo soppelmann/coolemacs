@@ -516,10 +516,10 @@
 ;; (defadvice load-theme (before disable-themes-first activate)
   ;; (disable-all-themes))
 
-(load-theme 'doom-monokai-machine-private t)
+;; (load-theme 'doom-monokai-machine-private t)
 ;; (load-theme 'doom-tomorrow-day-private t)
 
-;; (load-file (expand-file-name "mixins/themes.el" user-emacs-directory))
+(load-file (expand-file-name "mixins/themes.el" user-emacs-directory))
 
 ;; (load-file (expand-file-name "mixins/new.el" user-emacs-directory))
 
@@ -535,6 +535,8 @@
 
 ;; Rust config
 ;(load-file (expand-file-name "mixins/rust.el" user-emacs-directory))
+;; Company config
+;; (load-file (expand-file-name "mixins/company.el" user-emacs-directory))
 
 
 ;; verilog config
@@ -544,8 +546,6 @@
 ;(load-file (expand-file-name "mixins/cargo.el" user-emacs-directory))
 ;(add-to-list 'load-path "~/.emacs.d/elisp/cargo-transient.el")
 
-;; Company config
-;; (load-file (expand-file-name "mixins/company.el" user-emacs-directory))
 
 ;; Set up codeium AI assistant
 ;; (load-file (expand-file-name "mixins/codeium.el" user-emacs-directory))

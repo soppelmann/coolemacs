@@ -36,33 +36,42 @@
 (yas-reload-all)
 (yas-global-mode 1)
 
+;; Completion-At-Point Extension for YASnippet
 (use-package yasnippet-capf
-  :ensure t
-  :after cape
-  )
+  :straight t
+  :hook ((prog-mode text-mode conf-mode) . +cape-yasnippet--setup-h)
+  :bind (("C-c p y" . yasnippet-capf))
+  :init
+  (defun +cape-yasnippet--setup-h ()
+    (when (bound-and-true-p yas-minor-mode)
+      (add-to-list 'completion-at-point-functions #'yasnippet-capf))))
 
 ;; The Doom Emacs snippets library
-(use-package doom-snippets
-  :straight (:host github :repo "hlissner/doom-snippets" :files ("*.el" "*")))
+;; (use-package doom-snippets
+;;   :straight (:host github :repo "hlissner/doom-snippets" :files ("*.el" "*")))
+
+(setq yasnippet-capf-lookup-by 'name) ;; Prefer the name of the snippet instead
+(setq yas-indent-line 'fixed)
 
 ;; Completion at point extensions which can be used in combination with Corfu, Company or the default completion UI
 (use-package cape
   :straight t
   :init
-  (add-to-list 'completion-at-point-functions #'cape-file)
-  (add-to-list 'completion-at-point-functions #'yasnippet-capf)
-  (add-to-list 'completion-at-point-functions #'cape-tex)
-  (add-to-list 'completion-at-point-functions #'verilog-ext-capf)
+  (add-hook 'completion-at-point-functions #'cape-file)
+  ;; (add-hook 'completion-at-point-functions #'eglot-completion-at-point)
+  ;; (add-hook 'completion-at-point-functions #'yasnippet-capf)
+  ;; (add-hook 'completion-at-point-functions #'cape-tex)
+  ;; (add-hook 'completion-at-point-functions #'verilog-ext-capf)
   :bind (("C-c p p" . completion-at-point) ; capf
          ("C-c p t" . complete-tag) ; etags
          ("C-c p d" . cape-dabbrev) ; or dabbrev-completion
          ("C-c p h" . cape-history)
-         ("C-c p f" . cape-file)
+         ;; ("C-c p f" . cape-file)
          ("C-c p k" . cape-keyword)
-         ("C-c p s" . cape-elisp-symbol)
+         ;; ("C-c p s" . cape-elisp-symbol)
          ("C-c p e" . cape-elisp-block)
          ("C-c p a" . cape-abbrev)
-         ("C-c p l" . cape-line)
+         ;; ("C-c p l" . cape-line)
          ("C-c p w" . cape-dict)
          ("C-c p :" . cape-emoji)
          ("C-c p \\" . cape-tex)
@@ -79,10 +88,11 @@
    '(comint-completion-at-point eglot-completion-at-point pcomplete-completions-at-point)
    :around #'cape-wrap-nonexclusive)
 
-  (add-hook
-   'completion-at-point-functions
+  ;; (add-hook
+   ;; 'completion-at-point-functions
    ;; BUG+TEMP: `cape-dict' is causing problems on Emacs 31
-   (append '(cape-file cape-keyword) (when (< emacs-major-version 31) '(cape-dict))))
+   ;; (append '(cape-file cape-keyword) (when (< emacs-major-version 31) '(cape-dict))))
+   ;; (append '(cape-file yasnippet-capf) (when (< emacs-major-version 31) '(cape-dict))))
 
   (add-hook
    '(emacs-lisp-mode-hook git-commit-mode-hook)
@@ -95,6 +105,10 @@
   (add-hook
    '(TeX-mode-hook LaTeX-mode-hook)
    (lambda () (add-hook 'completion-at-point-functions #'cape-tex nil t))))
+
+;; quit completion
+(add-hook 'completion-in-region-mode-hook
+          (lambda () (setq completion-in-region-mode--predicate #'always)))
 
 ;; Corfu enhances in-buffer completion with a small completion popup
 (use-package corfu
@@ -111,18 +125,18 @@
               ("<backtab>"  . corfu-previous)
               )
   :custom
-  (corfu-auto t) ; Enable auto completion
+  ;; (corfu-auto t) ; Enable auto completion
   (corfu-auto-delay  0.1)
-  (corfu-auto-prefix 1)
-  ;; (corfu-quit-no-match t)
-  ;; (corfu-quit-at-boundary t)
-
+  (corfu-auto-prefix 2)
+  (corfu-quit-no-match t)
+  (corfu-quit-at-boundary t)
+  (corfu-on-exact-match 'show)
   (corfu-cycle t) ; Allows cycling through candidates
-  (corfu-min-width 25)
-  (corfu-preview-current nil) ; Disable previewing the current candidate
+  ;; (corfu-min-width 30)
+  ;; (corfu-preview-current nil) ; Disable previewing the current candidate
   :init
   ;; (add-hook 'completion-in-region-mode-hook
-  ;; (lambda () (setq completion-in-region-mode--predicate #'always)))
+            ;; (lambda () (setq completion-in-region-mode--predicate #'always)))
 
   ;; (add-hook 'prog-mode-hook #'global-corfu-mode nil nil :transient t)
   :config
@@ -146,7 +160,6 @@
   ;; Ensure `savehist-mode' is on and add `corfu-history' to the saved variables
   (unless (bound-and-true-p savehist-mode) (savehist-mode 1))
   (add-to-list 'savehist-additional-variables 'corfu-history))
-
 
 ;; Candidate information popup for Corfu
 (use-package corfu-popupinfo
@@ -182,4 +195,27 @@
          :map minibuffer-local-completion-map
          ("C-x C-d" . consult-dir)
          ("C-x C-j" . consult-dir-jump-file)))
+
+;; a bit hacky, we want verilog-ext-capf only for verilog mode and NOT regular eglot modes
+(defun my/eglot-capf ()
+  (unless (derived-mode-p 'verilog-mode)
+    (setq-local completion-at-point-functions
+                (list (cape-capf-super
+                       #'cape-file
+                       #'yasnippet-capf
+                       ;; #'verilog-ext-capf
+                       #'eglot-completion-at-point
+                       )))))
+
+(add-hook 'eglot-managed-mode-hook #'my/eglot-capf)
+
+(defun my/verilog-capf ()
+  (setq-local completion-at-point-functions
+              (list (cape-capf-super
+                     #'cape-file
+                     #'yasnippet-capf
+                     #'verilog-ext-capf
+                     ))))
+
+(add-hook 'verilog-ext-mode-hook #'my/verilog-capf)
 

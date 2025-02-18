@@ -97,18 +97,26 @@
 
 ;; (fset 'non-greedy-capf (cape-capf-properties #'cape-file :exclusive 'no))
 
-;; (defun mi/eglot-capf-with-yasnippet () (setq-local completion-at-point-functions (list (cape-capf-super #'yasnippet-capf #'eglot-completion-at-point)))) (with-eval-after-load 'eglot (add-hook 'eglot-managed-mode-hook #'mi/eglot-capf-with-yasnippet)) 
-
-;; (defun my/eglot-capf ()
+;; (defun mi/eglot-capf-with-yasnippet ()
 ;;   (setq-local completion-at-point-functions
-;;               (list (cape-capf-super
-;;                      #'cape-file
-;;                      #'eglot-completion-at-point
-;;                      #'verilog-ext-capf
-;;                      #'yasnippet-capf
-;;                      ))))
+;;               (list
+;;                (cape-capf-super
+;;                 #'yasnippet-capf
+;;                 #'eglot-completion-at-point))))
 
-;; (add-hook 'eglot-managed-mode-hook #'my/eglot-capf)
+;; (with-eval-after-load 'eglot
+;;   (add-hook 'eglot-managed-mode-hook #'mi/eglot-capf-with-yasnippet)) 
+
+(defun my/eglot-capf ()
+  (setq-local completion-at-point-functions
+              (list (cape-capf-super
+                     #'verilog-ext-capf
+                     #'cape-file
+                     #'eglot-completion-at-point
+                     #'yasnippet-capf
+                     ))))
+
+(add-hook 'eglot-managed-mode-hook #'my/eglot-capf)
 
 ;; (setq yasnippet-capf-lookup-by 'name) ;; Prefer the name of the snippet instead
 (setq yas-indent-line 'fixed)
@@ -167,7 +175,6 @@
   (kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly
   :config
   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
-
 
 (use-package cape
   :ensure t
