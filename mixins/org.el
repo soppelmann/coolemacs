@@ -47,10 +47,9 @@
 ;; )
 
 ;; Agenda variables
-(setq org-directory "~/Nextcloud/Notebooks/") ; Non-absolute paths for agenda and
-                                        ; capture templates will look here.
+(setq org-directory "~/Nextcloud/org/") ; Non-absolute paths for agenda and
 
-;(setq org-agenda-files '("inbox.org" "work.org"))
+(setq org-agenda-files '("inbox.org" "work.org"))
 
 ;; Default tags
 (setq org-tag-alist '(
@@ -95,27 +94,27 @@
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(use-package org
-  :hook ((org-mode . visual-line-mode)  ; wrap lines at word breaks
-         (org-mode . flyspell-mode)    ; spell checking!
-         (org-mode . org-modern-mode))    ; spell checking!
+;; (use-package org
+;;   :hook ((org-mode . visual-line-mode)  ; wrap lines at word breaks
+;;          (org-mode . flyspell-mode)    ; spell checking!
+;;          (org-mode . org-modern-mode))    ; spell checking!
 
-  :bind (:map global-map
-              ("C-c l s" . org-store-link)          ; Mnemonic: link → store
-              ("C-c l i" . org-insert-link-global)) ; Mnemonic: link → insert
-  :config
-  (require 'oc-csl)                     ; citation support
-  (add-to-list 'org-export-backends 'md)
+;;   :bind (:map global-map
+;;               ("C-c l s" . org-store-link)          ; Mnemonic: link → store
+;;               ("C-c l i" . org-insert-link-global)) ; Mnemonic: link → insert
+;;   :config
+;;   (require 'oc-csl)                     ; citation support
+;;   (add-to-list 'org-export-backends 'md)
 
-  ;; Make org-open-at-point follow file links in the same window
-  (setf (cdr (assoc 'file org-link-frame-setup)) 'find-file)
+;;   ;; Make org-open-at-point follow file links in the same window
+;;   (setf (cdr (assoc 'file org-link-frame-setup)) 'find-file)
 
-  ;; Make exporting quotes better
-  (setq org-export-with-smart-quotes t)
+;;   ;; Make exporting quotes better
+;;   (setq org-export-with-smart-quotes t)
 
-  ;; Support shift select
-  (setq org-support-shift-select t)
-  )
+;;   ;; Support shift select
+;;   (setq org-support-shift-select t)
+;;   )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
