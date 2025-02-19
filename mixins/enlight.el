@@ -78,7 +78,8 @@
        ("Org-Agenda (today)" (org-agenda nil "a") "a")
        ("Org directory" (dired org-directory) "o"))
       ("Projects"
-       ("Switch to project" project-switch-project "p"))
+       ("Switch to project" project-switch-project "p")
+       ("Thesis directory" (dired "~/Documents/Courses/thesis") "t"))
       ("Files"
          ("Recent" (consult-recent-file) "f"))
       ("Desktop / Session"
