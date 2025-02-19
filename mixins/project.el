@@ -40,8 +40,6 @@
          (if action (funcall action result) result))))))
 
 
-
-
 (setq project-switch-commands
       '((?f "Find file" project-find-file)
         (?b "Switch to buffer" project-switch-to-buffer)
@@ -61,10 +59,9 @@
 
 
 ;; project-x using straight to github
-
-(use-package project-x
-  :straight (project-x :type git :host github :repo "karthink/project-x")
-  :after project
-  :config
-  (setq project-x-save-interval 600)    ;Save project state every 10 min
-  (project-x-mode 1))
+;; (use-package project-x
+;;   :straight (project-x :type git :host github :repo "karthink/project-x")
+;;   :after project
+;;   :config
+;;   (setq project-x-save-interval 600)    ;Save project state every 10 min
+;;   (project-x-mode 1))
