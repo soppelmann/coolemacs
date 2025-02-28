@@ -19,11 +19,11 @@
 ;;   ;; :mode (("\\.s?vh?\\'" . verilog-ts-mode))
 ;;   )
 ;; (add-to-list 'auto-mode-alist '("\\.s?vh?\\'" . verilog-ts-mode))
-(add-to-list 'auto-mode-alist '("\\.s?vh?\\'" . verilog-mode))
+;; (add-to-list 'major-mode-remap-alist '(verilog-mode . verilog-ts-mode))
 ;; (unless (treesit-language-available-p 'verilog)
   ;; (verilog-ts-install-grammar)
   ;; )
-
+(add-to-list 'auto-mode-alist '("\\.s?vh?\\'" . verilog-mode))
 (eval-after-load 'verilog-mode
   '(progn
      ;; same for all the electric-verilog-* commands in                
