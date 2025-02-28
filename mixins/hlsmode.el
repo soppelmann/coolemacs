@@ -50,8 +50,8 @@
          xref
          capf
          hierarchy
-         eglot
-         ;; lsp
+         ;eglot
+         lsp
          ;; flycheck
          ;; beautify
          navigation
@@ -153,6 +153,3 @@
   :straight t
   :init
   (setq fpga-feature-list '(xilinx yosys)))
-
-
-

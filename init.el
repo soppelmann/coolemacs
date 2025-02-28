@@ -82,6 +82,9 @@
 
 (straight-use-package 'el-patch)
 
+(straight-use-package '(project :type built-in))
+(straight-use-package '(xref :type built-in))
+
 ;; Enable defer and ensure by default for use-package
 ;; (setq use-package-always-defer t
      ;; use-package-always-ensure t)
