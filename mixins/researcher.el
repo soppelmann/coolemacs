@@ -220,7 +220,8 @@
 (use-package org
   :hook ((org-mode . visual-line-mode)  ; wrap lines at word breaks
          (org-mode . org-modern-mode)    ; Look nice
-         (org-mode . flyspell-mode))    ; Look nice
+         (org-mode . flyspell-mode)    ; Look nice
+         (org-mode . corfu-mode))    ; Corfu
 
   :bind (:map global-map
               ("C-c l s" . org-store-link)          ; Mnemonic: link → store
@@ -263,6 +264,8 @@
        (latex . t)
        (js . t)
        (haskell . t)
+       (octave . t)
+       (matlab . t)
        ;; (http . t)
        (perl . t)
        (python . t)
