@@ -61,6 +61,7 @@
   :straight t
   :init
   (add-hook 'completion-at-point-functions #'cape-file)
+  (add-to-list 'completion-at-point-functions #'cape-file)
   (add-hook 'completion-at-point-functions #'yasnippet-capf)
   ;; (add-hook 'completion-at-point-functions #'cape-tex)
   ;; (add-hook 'completion-at-point-functions #'verilog-ext-capf)
@@ -163,23 +164,23 @@
   (add-to-list 'savehist-additional-variables 'corfu-history))
 
 ;; Candidate information popup for Corfu
-(use-package corfu-popupinfo
-  :hook (corfu-mode . corfu-popupinfo-mode)
-  :bind ( ; Bind these to toggle/scroll documentation
-         :map corfu-map
-         ("M-p" . corfu-popupinfo-scroll-down)
-         ("M-n" . corfu-popupinfo-scroll-up)
-         ("M-d" . corfu-popupinfo-toggle))
-  :custom
-  (corfu-popupinfo-delay nil)
-  (corfu-popupinfo-max-height 15)
-  :config
-  ;; Otherwise, the popupinfo will stay open on ESC or `C-g'!
-  (add-hook
-   'completion-in-region-mode-hook
-   (defun +corfu--hide-popupinfo-h ()
-     (when (and (not completion-in-region-mode) (boundp 'corfu-popupinfo--hide))
-       (corfu-popupinfo--hide)))))
+;; (use-package corfu-popupinfo
+;;   :hook (corfu-mode . corfu-popupinfo-mode)
+;;   :bind ( ; Bind these to toggle/scroll documentation
+;;          :map corfu-map
+;;          ("M-p" . corfu-popupinfo-scroll-down)
+;;          ("M-n" . corfu-popupinfo-scroll-up)
+;;          ("M-d" . corfu-popupinfo-toggle))
+;;   :custom
+;;   (corfu-popupinfo-delay nil)
+;;   (corfu-popupinfo-max-height 15)
+;;   :config
+;;   ;; Otherwise, the popupinfo will stay open on ESC or `C-g'!
+;;   (add-hook
+;;    'completion-in-region-mode-hook
+;;    (defun +corfu--hide-popupinfo-h ()
+;;      (when (and (not completion-in-region-mode) (boundp 'corfu-popupinfo--hide))
+;;        (corfu-popupinfo--hide)))))
 
 ;; Icons for Corfu using `nerd-icons'
 ;; (use-package nerd-icons-corfu
