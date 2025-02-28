@@ -126,3 +126,29 @@
 ;; Consult integration with Eglot
 (use-package consult-eglot
   :straight t)
+
+
+;; a bit hacky, we want verilog-ext-capf only for verilog mode and NOT regular eglot modes
+(defun my/eglot-capf ()
+  (unless (derived-mode-p 'verilog-mode)
+    (setq-local completion-at-point-functions
+                (list (cape-capf-super
+                       #'cape-file
+                       #'yasnippet-capf
+                       ;; #'verilog-ext-capf
+                       #'eglot-completion-at-point
+                       )))))
+
+(add-hook 'eglot-managed-mode-hook #'my/eglot-capf)
+
+(defun my/verilog-capf ()
+  (setq-local completion-at-point-functions
+              (list (cape-capf-super
+                     #'cape-file
+                     #'yasnippet-capf
+                     #'verilog-ext-capf
+                     ))))
+
+(add-hook 'verilog-ext-mode-hook #'my/verilog-capf)
+(add-hook 'verilog-ts-mode-hook #'my/verilog-capf)
+

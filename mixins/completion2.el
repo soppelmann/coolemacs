@@ -23,6 +23,9 @@
   :config
   (yas-reload-all))
 
+(define-key yas-minor-mode-map (kbd "<tab>") nil)
+(define-key yas-minor-mode-map (kbd "TAB") nil)
+
 (use-package yasnippet-snippets
   :ensure t
   )
@@ -58,7 +61,6 @@
   :straight t
   :init
   (add-hook 'completion-at-point-functions #'cape-file)
-  ;; (add-hook 'completion-at-point-functions #'eglot-completion-at-point)
   (add-hook 'completion-at-point-functions #'yasnippet-capf)
   ;; (add-hook 'completion-at-point-functions #'cape-tex)
   ;; (add-hook 'completion-at-point-functions #'verilog-ext-capf)
@@ -66,7 +68,7 @@
          ("C-c p t" . complete-tag) ; etags
          ("C-c p d" . cape-dabbrev) ; or dabbrev-completion
          ("C-c p h" . cape-history)
-         ;; ("C-c p f" . cape-file)
+         ("C-c p f" . cape-file)
          ("C-c p k" . cape-keyword)
          ;; ("C-c p s" . cape-elisp-symbol)
          ("C-c p e" . cape-elisp-block)
@@ -83,20 +85,16 @@
   ;; Silence the pcomplete capf, no errors or messages! Important for corfu!
   (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-silent)
 
-  ;; Make these capfs composable
-  ;; (advice-add
-  ;;  '(comint-completion-at-point eglot-completion-at-point pcomplete-completions-at-point)
-  ;;  :around #'cape-wrap-nonexclusive)
-
   ;; (add-hook
-   ;; 'completion-at-point-functions
-   ;; BUG+TEMP: `cape-dict' is causing problems on Emacs 31
-   ;; (append '(cape-file cape-keyword) (when (< emacs-major-version 31) '(cape-dict))))
-   ;; (append '(cape-file yasnippet-capf) (when (< emacs-major-version 31) '(cape-dict))))
+   ;; '(emacs-lisp-mode-hook git-commit-mode-hook)
+   ;; (lambda () (add-hook 'completion-at-point-functions #'cape-elisp-symbol nil t)))
 
   (add-hook
    '(emacs-lisp-mode-hook git-commit-mode-hook)
-   (lambda () (add-hook 'completion-at-point-functions #'cape-elisp-symbol nil t)))
+   (lambda () (add-hook 'completion-at-point-functions (list (cape-capf-super
+                                                              #'cape-file
+                                                              #'cape-elisp-symbol
+                                                              #'cape-elisp-block)))))
 
   ;; (add-hook
   ;;  'org-mode-hook
@@ -198,28 +196,4 @@
          :map minibuffer-local-completion-map
          ("C-x C-d" . consult-dir)
          ("C-x C-j" . consult-dir-jump-file)))
-
-;; a bit hacky, we want verilog-ext-capf only for verilog mode and NOT regular eglot modes
-;; (defun my/eglot-capf ()
-;;   (unless (derived-mode-p 'verilog-mode)
-;;     (setq-local completion-at-point-functions
-;;                 (list (cape-capf-super
-;;                        #'cape-file
-;;                        #'yasnippet-capf
-;;                        ;; #'verilog-ext-capf
-;;                        #'eglot-completion-at-point
-;;                        )))))
-
-;; (add-hook 'eglot-managed-mode-hook #'my/eglot-capf)
-
-;; (defun my/verilog-capf ()
-;;   (setq-local completion-at-point-functions
-;;               (list (cape-capf-super
-;;                      #'cape-file
-;;                      #'yasnippet-capf
-;;                      #'verilog-ext-capf
-;;                      ))))
-
-;; (add-hook 'verilog-ext-mode-hook #'my/verilog-capf)
-;; (add-hook 'verilog-ts-mode-hook #'my/verilog-capf)
 

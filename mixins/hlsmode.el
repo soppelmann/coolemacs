@@ -13,12 +13,13 @@
   ;; (setq verilog-auto-newline t)
   )
 
-(use-package verilog-ts-mode
-  :straight t
-  :hook ((verilog-ts-mode . verilog-ext-mode))
-  ;; :mode (("\\.s?vh?\\'" . verilog-ts-mode))
-  )
-(add-to-list 'auto-mode-alist '("\\.s?vh?\\'" . verilog-ts-mode))
+;; (use-package verilog-ts-mode
+;;   :straight t
+;;   :hook ((verilog-ts-mode . verilog-ext-mode))
+;;   ;; :mode (("\\.s?vh?\\'" . verilog-ts-mode))
+;;   )
+;; (add-to-list 'auto-mode-alist '("\\.s?vh?\\'" . verilog-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.s?vh?\\'" . verilog-mode))
 ;; (unless (treesit-language-available-p 'verilog)
   ;; (verilog-ts-install-grammar)
   ;; )
@@ -29,11 +30,11 @@
      ;; the mode's map (see verilog-mode.el)                      
      (define-key verilog-mode-map (kbd "RET") 'electric-newline-and-maybe-indent)))
 
-(eval-after-load 'verilog-ts-mode
-  '(progn
-     ;; same for all the electric-verilog-* commands in                
-     ;; the mode's map (see verilog-mode.el)                      
-     (define-key verilog-ts-mode-map (kbd "RET") 'electric-newline-and-maybe-indent)))
+;; (eval-after-load 'verilog-ts-mode
+;;   '(progn
+;;      ;; same for all the electric-verilog-* commands in                
+;;      ;; the mode's map (see verilog-mode.el)                      
+;;      (define-key verilog-ts-mode-map (kbd "RET") 'electric-newline-and-maybe-indent)))
 
 (use-package verilog-ext
   ;; :straight t
@@ -71,6 +72,7 @@
 
 (require 'verilog-ext)
 
+(verilog-ext-lsp-set-server 've-svls) ;`eglot' config
 ;; (verilog-ext-eglot-set-server 've-svls) ;`eglot' config
 ;; (verilog-ext-eglot-set-server 've-svlangserver) ;`eglot' config
 
@@ -90,8 +92,8 @@
 ; set variable verilog-ext-flycheck-linter to slang
 ;; (setq verilog-ext-flycheck-linter 'slang)
 
-(setq verilog-ext-tags-backend 'tree-sitter)
-;; (setq verilog-ext-tags-backend 'builtin)
+;; (setq verilog-ext-tags-backend 'tree-sitter)
+(setq verilog-ext-tags-backend 'builtin)
 
 (setq verilog-ext-project-alist
       `(("icp2" ; Project name
@@ -147,7 +149,6 @@
 ;; (use-package outshine
   ;; :straight (outshine :fetcher github :repo "alphapapa/outshine")
   ;; :ensure t)
-
 
 (use-package fpga
   :straight t

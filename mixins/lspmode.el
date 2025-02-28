@@ -1,24 +1,11 @@
 ;https://emacs-lsp.github.io/lsp-mode/tutorials/how-to-turn-off/
 
-;; (use-package treesit-auto
-;;   :custom
-;;   (treesit-auto-install 'prompt)
-;;   :config
-;;   (treesit-auto-add-to-auto-mode-alist 'all)
-;;   (global-treesit-auto-mode))
-
-    ;; (add-to-list 'major-mode-remap-alist '(c-mode . c-ts-mode))
-    ;; (add-to-list 'major-mode-remap-alist '(c++-mode . c++-ts-mode))
-    ;; (add-to-list 'major-mode-remap-alist
-    ;;              '(c-or-c++-mode . c-or-c++-ts-mode))
-
-
 (use-package lsp-mode
   :custom
   (lsp-completion-provider :none) ;; we use Corfu!
   :init
-  (defun my/orderless-dispatch-flex-first (_pattern index _total)
-    (and (eq index 0) 'orderless-flex))
+  ;; (defun my/orderless-dispatch-flex-first (_pattern index _total)
+    ;; (and (eq index 0) 'orderless-flex))
 
   (defun my/lsp-mode-setup-completion ()
     ;; (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
@@ -26,25 +13,37 @@
 
     ;; Optionally configure the first word as flex filtered.
     ;; (add-hook 'orderless-style-dispatchers #'my/orderless-dispatch-flex-first nil 'local)
-      (setq-local completion-at-point-functions
-              (list (cape-capf-super
-                     #'lsp-completion-at-point
-                     #'yasnippet-capf
-                     #'cape-file)))
+    ;; (setq-local completion-at-point-functions
+    ;;             (list (cape-capf-super
+    ;;                    #'lsp-completion-at-point
+    ;;                    #'yasnippet-capf
+    ;;                    ;; #'verilog-ext-capf
+    ;;                    #'cape-file
+    ;;                    )))
 
+    (setq-local completion-at-point-functions
+	        (list
+	         (cape-capf-buster
+                  (cape-capf-super
+                   #'lsp-completion-at-point
+                   #'yasnippet-capf
+                   ;; #'verilog-ext-capf
+                   #'cape-file
+                   )
+                  'equal)
+	         ))
+    
     ;; Optionally configure the cape-capf-buster. Add more here
       ;; (setq-local completion-at-point-functions (list (cape-capf-buster #'lsp-completion-at-point)))
       )
 
-  ;lsp-completion-at-point
-  
   ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
   (setq lsp-inhibit-message t)
   (setq lsp-message-project-root-warning t)
   (setq lsp-keymap-prefix "C-c l")
 
   ;; this tends to mess up lenses
-  (setq lsp-auto-guess-root t)
+  ;; (setq lsp-auto-guess-root t)
 
   ;; avoid having the doc box pop up all the time
   (setq lsp-ui-doc-enable nil)
@@ -65,11 +64,13 @@
   (setq lsp-ui-sideline-show-hover nil)
   ; dont show function signature in echo bar
   (setq lsp-eldoc-enable-hover nil)
-  (global-set-key (kbd "C-c l e") 'lsp-workspace-restart)
+
+  (global-set-key (kbd "C-c l e") 'lsp)
+  ;; (global-set-key (kbd "C-c l e") 'lsp-workspace-restart)
 
   ;completion
-  (setq lsp-completion-show-kind nil)
-  (setq lsp-completion-show-detail nil)
+  ;; (setq lsp-completion-show-kind nil)
+  ;; (setq lsp-completion-show-detail nil)
   (setq lsp-ui-doc-position 'at-point)
 
   (setq lsp-enable-symbol-highlighting nil)

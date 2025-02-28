@@ -650,8 +650,8 @@
 ;; (use-package dumb-jump
 ;;   :straight t
 ;;   :after xref
-;;   :custom
-;;   (dumb-jump-selector 'completing-read)
+;;   ;; :custom
+;;   ;; (dumb-jump-selector 'completing-read)
 ;;   :init
 ;;   ;; Use `dumb-jump' as `xref' backend
 ;;   (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
@@ -769,145 +769,6 @@
 ;;                      (nerd-icons-icon-for-mode major-mode)))))))
 
 
-(setq treesit-available (and (fboundp 'treesit-available-p) (treesit-available-p)))
-
-;; Automatically manage `treesit' grammars
-(use-package treesit-auto
-  :straight (:host github :repo "renzmann/treesit-auto")
-  :init
-  ;; (treesit-auto-install-all)
-  (global-treesit-auto-mode)
-  :custom
-  (treesit-auto-install 'prompt)
-  :config
-  ;; Add extra grammars
-  ;; BUG+FIX: Remove the Markdown grammar to install it correctly (renzmann/treesit-auto#102)
-  (let* ((extra-recipes
-          (list (make-treesit-auto-recipe
-                 :lang 'xml
-                 :ts-mode 'xml-ts-mode
-                 :remap '(nxml-mode xml-mode)
-                 :url "https://github.com/tree-sitter-grammars/tree-sitter-xml"
-                 :source-dir "xml/src"
-                 :ext "\\.xml\\'")
-                (make-treesit-auto-recipe
-                 :lang 'hurl
-                 :ts-mode 'hurl-ts-mode
-                 :remap 'hurl-mode
-                 :url "https://github.com/pfeiferj/tree-sitter-hurl"
-                 :ext "\\.hurl\\'")
-                (make-treesit-auto-recipe
-                 :lang 'markdown
-                 :ts-mode 'markdown-ts-mode
-                 :remap '(poly-markdown-mode markdown-mode)
-                 :requires 'markdown-inline
-                 :url "https://github.com/tree-sitter-grammars/tree-sitter-markdown"
-                 :revision "split_parser"
-                 :source-dir "tree-sitter-markdown/src"
-                 :ext "\\.md\\'")
-                (make-treesit-auto-recipe
-                 :lang 'markdown-inline
-                 :ts-mode 'markdown-inline-mode ; Fake mode to make `treesit-auto' happy
-                 :remap 'markdown-inline-ts-mode
-                 :requires 'markdown
-                 :url "https://github.com/tree-sitter-grammars/tree-sitter-markdown"
-                 :revision "split_parser"
-                 :source-dir "tree-sitter-markdown-inline/src")
-                (make-treesit-auto-recipe
-                 :lang 'llvm
-                 :ts-mode 'llvm-ts-mode
-                 :remap 'llvm-mode
-                 :url "https://github.com/benwilliamgraham/tree-sitter-llvm"
-                 :ext "\\.ll\\'")
-                (make-treesit-auto-recipe
-                 :lang 'elisp
-                 :ts-mode 'emacs-lisp-ts-mode
-                 :remap 'emacs-lisp-mode
-                 :url "https://github.com/Wilfred/tree-sitter-elisp"
-                 :ext "\\.eld?\\'")
-                (make-treesit-auto-recipe
-                 :lang 'bitbake
-                 :ts-mode 'bitbake-ts-mode
-                 :remap 'bitbake-mode
-                 :url "https://github.com/tree-sitter-grammars/tree-sitter-bitbake"
-                 :ext "\\.bb\\(append\\)?\\'")
-                (make-treesit-auto-recipe
-                 :lang 'zig
-                 :ts-mode 'zig-ts-mode
-                 :remap 'zig-mode
-                 :url "https://github.com/GrayJack/tree-sitter-zig"
-                 :ext "\\.\\(zig\\|zon\\)\\'"))))
-    ;; First, delete the duplicate recipes already present in the list, if any
-    (cl-callf2 cl-delete-if
-        (lambda (lang) (memq (treesit-auto-recipe-lang lang) (mapcar #'treesit-auto-recipe-lang extra-recipes)))
-        treesit-auto-recipe-list)
-    ;; Then, add the extra recipes to the list
-    (cl-callf append treesit-auto-recipe-list extra-recipes)
-    (setq treesit-auto-langs (mapcar #'treesit-auto-recipe-lang treesit-auto-recipe-list)))
-
-  ;; Ensure that installed tree-sitter languages have their corresponding `x-ts-mode' added to `auto-mode-alist'
-  (treesit-auto-add-to-auto-mode-alist 'all)
-
-  (defvar +treesit-auto-create-parser-modes-deny '(org-mode))
-
-  ;; Create `treesit' parsers when they are available even in non-treesit modes.
-  ;; This is useful for packages like `virtual-format', `treesit-fold', `expreg'
-  ;; and `ts-movement'.
-  (defun +treesit-auto-create-parser-in-buffer (&optional buffer)
-    "Create `treesit' in BUFF-NAME, even if the mode isn't a ts-mode."
-    (interactive (list (when current-prefix-arg (get-buffer (read-buffer "Create treesit parser in buffer: ")))))
-    (let ((buffer (or buffer (current-buffer)))
-          (interact-p (called-interactively-p 'interactive)))
-      (if (treesit-available-p)
-          (when (or (not (derived-mode-p +treesit-auto-create-parser-modes-deny))
-                    (and interact-p (y-or-n-p "Creating parsers for `%S' is blacklisted in `+treesit-auto-create-parser-modes-deny', continue?")))
-            (with-current-buffer buffer
-              (if-let* ((lang-recipe (cl-find-if (lambda (recipe) (eq major-mode (treesit-auto-recipe-remap recipe)))
-                                                 treesit-auto-recipe-list))
-                        (lang (treesit-auto-recipe-lang lang-recipe))
-                        (lang (and (treesit-language-available-p lang) lang)))
-                  (when (or (not (treesit-parser-list buffer lang))
-                            (and interact-p (y-or-n-p (format "The %S buffer already have a %S language parser, continue?" buffer lang))))
-                    (treesit-parser-create lang)
-                    (when interact-p (message "Created a %S language parser in %S" lang buffer)))
-                (when interact-p (user-error "No installed tree-sitter grammar for mode `%s'" major-mode)))))
-        (when interact-p (user-error "Tree-sitter isn't available in this Emacs build")))))
-
-  (add-hook 'after-change-major-mode-hook '+treesit-auto-create-parser-in-buffer))
-
-;; Move and edit code blocks based on tree-sitter AST
-(use-package ts-movement
-  :straight (:host github :repo "psibi/ts-movement")
-  :hook ((prog-mode conf-mode) . +ts-movement-maybe)
-  :init
-  (defun +ts-movement-maybe ()
-    "Enable `ts-movement-mode' when if `major-mode' is a trees-sitter mode."
-    (run-with-timer 1.0 nil (lambda () (when (treesit-parser-list) (ts-movement-mode 1)))))
-  :config
-  (with-eval-after-load 'transient
-    (transient-define-prefix +ts-movement-transient ()
-      "Transient for ts-movement."
-      [[("d" "delete-overlay-at-point" tsm/delete-overlay-at-point :transient t)
-        ("D" "clear-overlays-of-type" tsm/clear-overlays-of-type :transient t)
-        ("C-b" "backward-overlay" tsm/backward-overlay :transient t)
-        ("C-f" "forward-overlay" tsm/forward-overlay :transient t)
-        ("c" "tsm/mc/mark-all-overlays" tsm/mc/mark-all-overlays :transient t)]
-       [("a" "node-start" tsm/node-start :transient t)
-        ("e" "node-end" tsm/node-end :transient t)
-        ("b" "node-prev" tsm/node-prev :transient t)
-        ("f" "node-next" tsm/node-next :transient t)]
-       [("p" "node-parent" tsm/node-parent :transient t)
-        ("n" "node-child" tsm/node-child :transient t)
-        ("N" "node-children" tsm/node-children :transient t)
-        ("s" "node-children-of-type" tsm/node-children-of-type :transient t)
-        ("m" "node-mark" tsm/node-mark :transient t)]]
-      [("Q" "Quit" ignore :transient t)])))
-
-
-;; Tree-sitter based code folding
-(use-package treesit-fold
-  :straight (:host github :repo "emacs-tree-sitter/treesit-fold")
-  )
 
 ;; Emacs text actions using LSP symbol information
 (use-package gambol

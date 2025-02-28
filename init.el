@@ -84,6 +84,8 @@
 
 (straight-use-package '(project :type built-in))
 (straight-use-package '(xref :type built-in))
+(straight-use-package '(flymake :type built-in))
+(straight-use-package '(eldoc :type built-in))
 
 ;; Enable defer and ensure by default for use-package
 ;; (setq use-package-always-defer t
@@ -526,7 +528,11 @@
 
 (load-file (expand-file-name "mixins/themes.el" user-emacs-directory))
 
+;; (load-file (expand-file-name "mixins/treesit.el" user-emacs-directory))
+
 ;; (load-file (expand-file-name "mixins/new.el" user-emacs-directory))
+;; verilog config
+(load-file (expand-file-name "mixins/hlsmode.el" user-emacs-directory))
 
 ;; Completion settings (corfu capf cape)
 ;; (load-file (expand-file-name "mixins/completion.el" user-emacs-directory))
@@ -547,8 +553,6 @@
 ;; (load-file (expand-file-name "mixins/company.el" user-emacs-directory))
 
 
-;; verilog config
-(load-file (expand-file-name "mixins/hlsmode.el" user-emacs-directory))
 
 ;; Cargo config
 ;(load-file (expand-file-name "mixins/cargo.el" user-emacs-directory))
