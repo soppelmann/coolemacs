@@ -274,7 +274,10 @@
   (doom-modeline-checker-simple-format t)
   (doom-modeline-vcs-max-length 12)
   (doom-modeline-env-version t)
-  (doom-modeline-irc-stylize 'identity)
+  (doom-modeline-irc t)
+  (doom-modeline-irc-stylize 'doom-modeline-shorten-irc)
+  ;; (doom-modeline-irc-stylize 'ignore)
+  ;; (doom-modeline-irc-stylize 'identity)
   (doom-modeline-github-timer nil)
   (doom-modeline-gnus-timer nil))
 
@@ -473,10 +476,10 @@
 (load-file (expand-file-name "mixins/tramp.el" user-emacs-directory))
 
 ;; Use project.el for managing projects
-(load-file (expand-file-name "mixins/project.el" user-emacs-directory))
+;; (load-file (expand-file-name "mixins/project.el" user-emacs-directory))
 
 ;; Use projectile.el for managing projects
-;(load-file (expand-file-name "mixins/projectile.el" user-emacs-directory))
+(load-file (expand-file-name "mixins/projectile.el" user-emacs-directory))
 
 ;; Packages for software development here
 (load-file (expand-file-name "mixins/dev.el" user-emacs-directory))
@@ -506,7 +509,7 @@
   :ensure t)
 (setq nyan-bar-length 30)
 (setq nyan-minimum-window-width 100)
-(nyan-mode)
+;; (nyan-mode)
 
 ;; (defun disable-all-themes ()
   ;; "disable all active themes."
@@ -527,8 +530,11 @@
 ;; (load-file (expand-file-name "mixins/completion.el" user-emacs-directory))
 (load-file (expand-file-name "mixins/completion2.el" user-emacs-directory))
 
+;; lspmode config
+(load-file (expand-file-name "mixins/lspmode.el" user-emacs-directory))
+
 ;; Eglot config
-(load-file (expand-file-name "mixins/eglot.el" user-emacs-directory))
+;; (load-file (expand-file-name "mixins/eglot.el" user-emacs-directory))
 
 ;; lsp-bridge config
 ;; (load-file (expand-file-name "mixins/lsp-bridge.el" user-emacs-directory))
@@ -553,8 +559,8 @@
 ;; Set up copilot AI assistant
 (load-file (expand-file-name "mixins/copilot.el" user-emacs-directory))
 
-;; lspmode config
-;; (load-file (expand-file-name "mixins/lspmode.el" user-emacs-directory))
+;; Set up help menus
+(load-file (expand-file-name "mixins/hydra.el" user-emacs-directory))
 
 ;; Org-mode configuration
 ;; WARNING: need to customize things inside the mixin file before use! See
@@ -571,3 +577,6 @@
 
 ;; Multi cursor support
 (load-file (expand-file-name "mixins/multi-cursors.el" user-emacs-directory))
+
+;; IRC config
+;; (load-file (expand-file-name "mixins/irc.el" user-emacs-directory))
