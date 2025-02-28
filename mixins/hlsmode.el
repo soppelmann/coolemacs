@@ -36,7 +36,9 @@
      (define-key verilog-ts-mode-map (kbd "RET") 'electric-newline-and-maybe-indent)))
 
 (use-package verilog-ext
-  :straight t
+  ;; :straight t
+  :ensure t
+  ;; :straight (:repo "veripool/verilog-mode")
   :after verilog-mode
   :demand
   :hook ((verilog-mode . verilog-ext-mode))
@@ -67,9 +69,9 @@
  :config
  (verilog-ext-mode-setup))
 
-(require 'verilog-ext)
+;; (require 'verilog-ext)
 
-(verilog-ext-eglot-set-server 've-svls) ;`eglot' config
+;; (verilog-ext-eglot-set-server 've-svls) ;`eglot' config
 ;; (verilog-ext-eglot-set-server 've-svlangserver) ;`eglot' config
 
 (setq verilog-ext-flycheck-verible-rules '("-line-length"
