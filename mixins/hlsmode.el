@@ -69,7 +69,7 @@
  :config
  (verilog-ext-mode-setup))
 
-;; (require 'verilog-ext)
+(require 'verilog-ext)
 
 ;; (verilog-ext-eglot-set-server 've-svls) ;`eglot' config
 ;; (verilog-ext-eglot-set-server 've-svlangserver) ;`eglot' config
