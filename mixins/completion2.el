@@ -50,7 +50,7 @@
 (use-package doom-snippets
   :straight (:host github :repo "hlissner/doom-snippets" :files ("*.el" "*")))
 
-(setq yasnippet-capf-lookup-by 'name) ;; Prefer the name of the snippet instead
+;; (setq yasnippet-capf-lookup-by 'name) ;; Prefer the name of the snippet instead
 (setq yas-indent-line 'fixed)
 
 ;; Completion at point extensions which can be used in combination with Corfu, Company or the default completion UI
@@ -59,7 +59,7 @@
   :init
   (add-hook 'completion-at-point-functions #'cape-file)
   ;; (add-hook 'completion-at-point-functions #'eglot-completion-at-point)
-  ;; (add-hook 'completion-at-point-functions #'yasnippet-capf)
+  (add-hook 'completion-at-point-functions #'yasnippet-capf)
   ;; (add-hook 'completion-at-point-functions #'cape-tex)
   ;; (add-hook 'completion-at-point-functions #'verilog-ext-capf)
   :bind (("C-c p p" . completion-at-point) ; capf
@@ -84,9 +84,9 @@
   (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-silent)
 
   ;; Make these capfs composable
-  (advice-add
-   '(comint-completion-at-point eglot-completion-at-point pcomplete-completions-at-point)
-   :around #'cape-wrap-nonexclusive)
+  ;; (advice-add
+  ;;  '(comint-completion-at-point eglot-completion-at-point pcomplete-completions-at-point)
+  ;;  :around #'cape-wrap-nonexclusive)
 
   ;; (add-hook
    ;; 'completion-at-point-functions
@@ -98,9 +98,9 @@
    '(emacs-lisp-mode-hook git-commit-mode-hook)
    (lambda () (add-hook 'completion-at-point-functions #'cape-elisp-symbol nil t)))
 
-  (add-hook
-   'org-mode-hook
-   (lambda () (add-hook 'completion-at-point-functions #'cape-elisp-block nil t)))
+  ;; (add-hook
+  ;;  'org-mode-hook
+  ;;  (lambda () (add-hook 'completion-at-point-functions #'cape-elisp-block nil t)))
 
   (add-hook
    '(TeX-mode-hook LaTeX-mode-hook)
@@ -117,19 +117,22 @@
   :hook (minibuffer-setup . +corfu-enable-in-minibuffer-h)
   :hook (corfu-mode . corfu-history-mode)
   :hook ((prog-mode . corfu-mode))
+  :hook ((circe-mode . corfu-mode))
   :bind (:map corfu-map
               ("M-TAB"      . corfu-next)
-              ("M-<tab>"      . corfu-next)
+              ("M-<tab>"    . corfu-next)
               ("S-TAB"      . corfu-previous)
               ([backtab]    . corfu-previous)
+              ;; ("SPC"        . corfu-insert-separator)
               ("<backtab>"  . corfu-previous)
               )
   :custom
-  ;; (corfu-auto t) ; Enable auto completion
+  (corfu-auto t) ; Enable auto completion
   (corfu-auto-delay  0.1)
   (corfu-auto-prefix 2)
   (corfu-quit-no-match t)
-  (corfu-quit-at-boundary t)
+  ;; (corfu-quit-at-boundary t)
+  ;; (corfu-quit-no-match t)
   (corfu-on-exact-match 'show)
   (corfu-cycle t) ; Allows cycling through candidates
   ;; (corfu-min-width 30)
@@ -197,26 +200,26 @@
          ("C-x C-j" . consult-dir-jump-file)))
 
 ;; a bit hacky, we want verilog-ext-capf only for verilog mode and NOT regular eglot modes
-(defun my/eglot-capf ()
-  (unless (derived-mode-p 'verilog-mode)
-    (setq-local completion-at-point-functions
-                (list (cape-capf-super
-                       #'cape-file
-                       #'yasnippet-capf
-                       ;; #'verilog-ext-capf
-                       #'eglot-completion-at-point
-                       )))))
+;; (defun my/eglot-capf ()
+;;   (unless (derived-mode-p 'verilog-mode)
+;;     (setq-local completion-at-point-functions
+;;                 (list (cape-capf-super
+;;                        #'cape-file
+;;                        #'yasnippet-capf
+;;                        ;; #'verilog-ext-capf
+;;                        #'eglot-completion-at-point
+;;                        )))))
 
-(add-hook 'eglot-managed-mode-hook #'my/eglot-capf)
+;; (add-hook 'eglot-managed-mode-hook #'my/eglot-capf)
 
-(defun my/verilog-capf ()
-  (setq-local completion-at-point-functions
-              (list (cape-capf-super
-                     #'cape-file
-                     #'yasnippet-capf
-                     #'verilog-ext-capf
-                     ))))
+;; (defun my/verilog-capf ()
+;;   (setq-local completion-at-point-functions
+;;               (list (cape-capf-super
+;;                      #'cape-file
+;;                      #'yasnippet-capf
+;;                      #'verilog-ext-capf
+;;                      ))))
 
-(add-hook 'verilog-ext-mode-hook #'my/verilog-capf)
-(add-hook 'verilog-ts-mode-hook #'my/verilog-capf)
+;; (add-hook 'verilog-ext-mode-hook #'my/verilog-capf)
+;; (add-hook 'verilog-ts-mode-hook #'my/verilog-capf)
 

@@ -657,42 +657,42 @@
 ;;   (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
 
 
-(use-package dumb-jump
-  :ensure t
-  :config
-  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
+;; (use-package dumb-jump
+;;   :ensure t
+;;   :config
+;;   (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
 
-(use-package xref-union
-  :straight t
-  :after (eglot dumb-jump)
-  :hook (eglot-managed-mode . xref-union-mode)
-  :commands (xref-union-mode)
-  :config
+;; (use-package xref-union
+;;   :straight t
+;;   :after (eglot dumb-jump)
+;;   :hook (eglot-managed-mode . xref-union-mode)
+;;   :commands (xref-union-mode)
+;;   :config
 
-  ;; (defun +xref-union--exclude-backends-predicate (backend)
-    ;; (memq backend '(etags--xref-backend)))
+;;   ;; (defun +xref-union--exclude-backends-predicate (backend)
+;;     ;; (memq backend '(etags--xref-backend)))
 
-  (cl-defmethod xref-backend-identifier-at-point ((_backend (eql eglot)))
-    :extra "remove-lsp-identifier-at-point" :around
-    "Force the eglot backend to return nil, so it falls back to other xref backends"
-    (let ((id (cl-call-next-method)))
-      (if (string= id "LSP identifier at point") nil id)))
+;;   (cl-defmethod xref-backend-identifier-at-point ((_backend (eql eglot)))
+;;     :extra "remove-lsp-identifier-at-point" :around
+;;     "Force the eglot backend to return nil, so it falls back to other xref backends"
+;;     (let ((id (cl-call-next-method)))
+;;       (if (string= id "LSP identifier at point") nil id)))
 
-  (defun xref-union-same-p (l1 l2)
-    "More lenient version that only compares file and line number of xref location"
-    (cl-flet ((file-and-line (l) (list (xref-file-location-file (xref-item-location l))
-                                       (xref-file-location-line (xref-item-location l)))))
-      (equal (file-and-line l1) (file-and-line l2))))
+;;   (defun xref-union-same-p (l1 l2)
+;;     "More lenient version that only compares file and line number of xref location"
+;;     (cl-flet ((file-and-line (l) (list (xref-file-location-file (xref-item-location l))
+;;                                        (xref-file-location-line (xref-item-location l)))))
+;;       (equal (file-and-line l1) (file-and-line l2))))
 
-  (defun xref-union-ignore-etags (backend)
-    (eq backend 'etags--xref-backend))
+;;   (defun xref-union-ignore-etags (backend)
+;;     (eq backend 'etags--xref-backend))
 
-  :custom
-  ;; (xref-union-excluded-backends #'+xref-union--exclude-backends-predicate)
+;;   :custom
+;;   ;; (xref-union-excluded-backends #'+xref-union--exclude-backends-predicate)
 
-  (xref-union-excluded-backends #'xref-union-ignore-etags)
+;;   (xref-union-excluded-backends #'xref-union-ignore-etags)
 
-  )
+;;   )
 
 ;; (use-package dumb-jump
 ;;   :ensure t)
@@ -767,8 +767,6 @@
 ;;        (concat " " (if-let* ((file buffer-file-name))
 ;;                        (nerd-icons-icon-for-file file)
 ;;                      (nerd-icons-icon-for-mode major-mode)))))))
-
-
 
 
 (setq treesit-available (and (fboundp 'treesit-available-p) (treesit-available-p)))
@@ -877,9 +875,7 @@
 
   (add-hook 'after-change-major-mode-hook '+treesit-auto-create-parser-in-buffer))
 
-
 ;; Move and edit code blocks based on tree-sitter AST
-
 (use-package ts-movement
   :straight (:host github :repo "psibi/ts-movement")
   :hook ((prog-mode conf-mode) . +ts-movement-maybe)
