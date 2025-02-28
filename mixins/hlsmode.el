@@ -19,9 +19,9 @@
   ;; :mode (("\\.s?vh?\\'" . verilog-ts-mode))
   )
 (add-to-list 'auto-mode-alist '("\\.s?vh?\\'" . verilog-ts-mode))
-(unless (treesit-language-available-p 'verilog)
-  (verilog-ts-install-grammar)
-  )
+;; (unless (treesit-language-available-p 'verilog)
+  ;; (verilog-ts-install-grammar)
+  ;; )
 
 (eval-after-load 'verilog-mode
   '(progn
