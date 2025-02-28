@@ -494,7 +494,6 @@
 ;; (load-file (expand-file-name "mixins/dashboard.el" user-emacs-directory))
 
 ;; Enlight dashboard for emacs
-(load-file (expand-file-name "mixins/enlight.el" user-emacs-directory))
 
 ;; Nice fonts for emacs
 (when (or (daemonp) (display-graphic-p))
@@ -560,7 +559,7 @@
 (load-file (expand-file-name "mixins/copilot.el" user-emacs-directory))
 
 ;; Set up help menus
-(load-file (expand-file-name "mixins/hydra.el" user-emacs-directory))
+;; (load-file (expand-file-name "mixins/hydra.el" user-emacs-directory))
 
 ;; Org-mode configuration
 ;; WARNING: need to customize things inside the mixin file before use! See
@@ -577,6 +576,8 @@
 
 ;; Multi cursor support
 (load-file (expand-file-name "mixins/multi-cursors.el" user-emacs-directory))
+
+(load-file (expand-file-name "mixins/enlight.el" user-emacs-directory))
 
 ;; IRC config
 ;; (load-file (expand-file-name "mixins/irc.el" user-emacs-directory))

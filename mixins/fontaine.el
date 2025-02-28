@@ -401,8 +401,8 @@
 
 ;; Persist font configurations while switching themes (doing it with
 ;; my `modus-themes' and `ef-themes' via the hooks they provide).
-(dolist (hook '(modus-themes-after-load-theme-hook ef-themes-post-load-hook))
-  (add-hook hook #'fontaine-apply-current-preset))
+;; (dolist (hook '(modus-themes-after-load-theme-hook ef-themes-post-load-hook))
+  ;; (add-hook hook #'fontaine-apply-current-preset))
 
 ;;;; Show Font (preview fonts)
 ;; Read the manual: <https://protesilaos.com/emacs/show-font>
