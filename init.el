@@ -259,6 +259,7 @@
 
 ;; (setq doom-modeline-icon t)
 ;; (setq doom-modeline-support-imenu t)
+;; (setq uniquify-buffer-name-style 'nil)
 
 (use-package doom-modeline
   :ensure t
@@ -269,7 +270,8 @@
   (doom-modeline-icon t)
   (doom-modeline-major-mode-icon t)
   (doom-modeline-major-mode-color-icon t)
-  (doom-modeline-buffer-file-name-style 'truncate-upto-project)
+  ;; (doom-modeline-buffer-file-name-style 'truncate-upto-project)
+  (doom-modeline-buffer-file-name-style 'file-name-with-project)
   (doom-modeline-buffer-state-icon t)
   (doom-modeline-buffer-modification-icon t)
   (doom-modeline-minor-modes nil)
@@ -552,12 +554,9 @@
 ;; Company config
 ;; (load-file (expand-file-name "mixins/company.el" user-emacs-directory))
 
-
-
 ;; Cargo config
 ;(load-file (expand-file-name "mixins/cargo.el" user-emacs-directory))
 ;(add-to-list 'load-path "~/.emacs.d/elisp/cargo-transient.el")
-
 
 ;; Set up codeium AI assistant
 ;; (load-file (expand-file-name "mixins/codeium.el" user-emacs-directory))

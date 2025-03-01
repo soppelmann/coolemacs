@@ -723,9 +723,9 @@
   ;; :ensure t  
   ;; :config (move-text-default-bindings))
 
-(use-package auto-header
-  :ensure t)
-(add-hook 'c-mode-hook #'auto-header-mode)
+;; (use-package auto-header
+;;   :ensure t)
+;; (add-hook 'c-mode-hook #'auto-header-mode)
 
 (use-package go-mode
   :ensure t)
