@@ -104,3 +104,13 @@
 
 ;; (autoload 'projectile-project-root "projectile")
 ;; (setq consult-project-function (lambda (_) (projectile-project-root)))
+
+
+(defun my/ad-projectile-project-root (orig-fun &optional dir)
+  "This should disable projectile when visiting files with ftp tramp."
+  (let ((dir (file-truename (or dir default-directory))))
+    (unless (file-remote-p dir)
+      (funcall orig-fun dir))))
+(advice-add 'projectile-project-root :around #'my/ad-projectile-project-root)
+
+(setq projectile-mode-line "Projectile")
