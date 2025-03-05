@@ -50,7 +50,7 @@
  (
   (prog-mode . electric-pair-mode)
   (prog-mode . rainbow-delimiters-mode)
-  (prog-mode . which-function-mode)
+  ;; (prog-mode . which-function-mode) ;; show current function in modeline
   )
   )
 
