@@ -16,6 +16,11 @@
 (remove-hook 'find-file-hook 'vc-find-file-hook)
 (setq tramp-default-method "scpx")
 
+;; speed up projectile
+(advice-add 'projectile-project-root :before-while
+  (lambda (&optional dir)
+    (not (file-remote-p (or dir default-directory)))))
+
 
 ;; Required for eglot to find lsp servers on remote
 (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
