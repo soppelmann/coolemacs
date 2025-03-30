@@ -153,9 +153,13 @@
         (LaTeX-math-mode t)
         (tex-fold-mode 1)
         ;; Set Latexmk to be the default compiler
-        (setq TeX-command-default "LatexMk")))))
+        (setq TeX-command-default "LatexMk")
+        ;; (setq tex-start-options "--shell-escape")
+        ;; (setq TeX-command-extra-options "--shell-escape")
+        ))))
 
 ;; (setq LaTeX-command "latex --synctex=1") ;; optional: enable synctex
+;; (setq LaTeX-command "latexmk --shell-escape") ;; optional: enable synctex
 (setq reftex-extra-bindings t)
 (use-package reftex
   :ensure t
