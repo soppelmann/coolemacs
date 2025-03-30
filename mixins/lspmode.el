@@ -27,7 +27,7 @@
                   (cape-capf-super
                    #'lsp-completion-at-point
                    #'yasnippet-capf
-                   ;; #'verilog-ext-capf
+                   #'verilog-ext-capf
                    #'cape-file
                    )
                   'equal)
@@ -165,8 +165,6 @@
     (funcall start-file-process-shell-command name buffer command)))
 
 (advice-add 'start-file-process-shell-command :around #'start-file-process-shell-command@around)
-
-
 
 (defun lsp-booster--advice-json-parse (old-fn &rest args)
   "Try to parse bytecode instead of json."
