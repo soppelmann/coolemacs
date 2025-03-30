@@ -32,10 +32,6 @@
 
 (use-package emacs
   :config
-  ;; Treesitter config
-
-  ;; Tell Emacs to prefer the treesitter mode
-  ;; You'll want to run the command `M-x treesit-install-language-grammar' before editing.
   (setq major-mode-remap-alist
         '((yaml-mode . yaml-ts-mode)
           (bash-mode . bash-ts-mode)
@@ -56,70 +52,9 @@
 
 (setq which-func-unknown "n/a")
 
-;; (setq which-func-modes '(prog-mode))
-;; (setq which-func-display-in-header-line t)
-;; (which-function-mode)
-;; (add-hook 'prog-mode-hook
-          ;; (defun which-function-header-line-enable ()
-            ;; (require 'which-func)
-            ;; (setq header-line-format
-                  ;; '((:eval (which-function))))))
-
-;; (use-package fancy-narrow
-;;   :ensure t
-;;   :hook ((prog-mode . fancy-narrow-mode))
-;; )
-;; ;;(add-hook 'prog-mode-hook 'fancy-narrow-mode)
-
-;; (use-package blacken
-  ;; :ensure t
-  ;; :hook ((python-mode . blacken-mode)))
-
-;;;
-;;; debug
-;;;
-
-
-;; (use-package dape
-;;   :preface
-;;   ;; By default dape shares the same keybinding prefix as `gud'
-;;   ;; If you do not want to use any prefix, set it to nil.
-;;   ;; (setq dape-key-prefix "\C-x\C-a")
-
-;;   :hook
-;;   ;; Save breakpoints on quit
-;;   ;; ((kill-emacs . dape-breakpoint-save)
-;;   ;; Load breakpoints on startup
-;;   ;;  (after-init . dape-breakpoint-load))
-
-;;   :init
-;;   ;; To use window configuration like gud (gdb-mi)
-;;   ;; (setq dape-buffer-window-arrangement 'gud)
-
-;;   :config
-;;   ;; Info buffers to the right
-;;   (setq dape-buffer-window-arrangement 'right)
-;;   (setq dape-request-timeout 30)
-;;   ;; Global bindings for setting breakpoints with mouse
-;;   (dape-breakpoint-global-mode)
-
-;;   ;; To not display info and/or buffers on startup
-;;   ;; (remove-hook 'dape-on-start-hooks 'dape-info)
-;;   ;; (remove-hook 'dape-on-start-hooks 'dape-repl)
-
-;;   ;; To display info and/or repl buffers on stopped
-;;   ;; (add-hook 'dape-on-stopped-hooks 'dape-info)
-;;   ;; (add-hook 'dape-on-stopped-hooks 'dape-repl)
-
-;;   ;; Kill compile buffer on build success
-;;   (add-hook 'dape-compile-compile-hooks 'kill-buffer)
-
-;;   ;; Save buffers on startup, useful for interpreted languages
-;;   ;; (add-hook 'dape-on-start-hooks (lambda () (save-some-buffers t t)))
-
-;;   ;; Projectile users
-;;   (setq dape-cwd-fn 'projectile-project-root)
-;;   )
+(use-package blacken
+  :ensure t
+  :hook ((python-mode . blacken-mode)))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -152,26 +87,6 @@
   ;;  ("C-x C-a l" . bufler-list))
   (setq bufler-reverse t))
 
-;; (use-package activities
-;;   :ensure t
-;;   :init
-;;   (activities-mode)
-;;   ;; (activities-tabs-mode)
-;;   ;; Prevent `edebug' default bindings from interfering.
-;;   (setq edebug-inhibit-emacs-lisp-mode-bindings t)
-;;   :hook (tab-bar-mode 'activities-tabs-mode)
-;;   :bind
-;;   (("C-x C-a C-n" . activities-new)
-;;    ("C-x C-a C-d" . activities-define)
-;;    ("C-x C-a C-a" . activities-resume)
-;;    ("C-x C-a C-s" . activities-suspend)
-;;    ("C-x C-a C-k" . activities-kill)
-;;    ("C-x C-a RET" . activities-switch)
-;;    ("C-x C-a b" . activities-switch-buffer)
-;;    ("C-x C-a g" . activities-revert)
-;;    ("C-x C-a l" . activities-list)))
-;; (add-hook 'tab-bar-mode-hook 'activities-tabs-mode)
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;;   Version Control
@@ -182,117 +97,12 @@
 (use-package magit
   :ensure t
   :bind (
-         ;; ("s-g" . magit-status)
          ("C-c g" . magit-status)))
 
-;(use-package libgit
-;  :ensure t
-;  :after magit)
-;
-;(use-package magit-libgit
-;  :ensure t
-;  :after (magit libgit))
-
-;(use-package forge
-;  :ensure t
-;  :after magit)
-;
-;(use-package code-review
-;  :after magit
-;  :bind (:map forge-topic-mode-map ("C-c r" . #'code-review-forge-pr-at-point))
-;  :bind (:map code-review-mode-map (("C-c n" . #'code-review-comment-jump-next)
-;                                    ("C-c p" . #'code-review-comment-jump-previous))))
-
-;; hack to eliminate weirdness
-;(unless (boundp 'bug-reference-auto-setup-functions)
-;  (defvar bug-reference-auto-setup-functions '()))
-
-;; Use git-timemachine to browse historic versions of files
-;; Bind it to C-c t
-;; Make sure git timemachine toggles evil-local-mode and
-;; display-line-numbers-mode
-;; (use-package git-timemachine
-;;   :ensure t
-;;   :bind (("C-c t" . git-timemachine-toggle))
-;;   :hook
-;;  (git-timemachine-mode . evil-local-mode)
-;;   ;; (git-timemachine-mode . meow-normal-mode)
-;;   (git-timemachine-mode . display-line-numbers-mode)
-;;   )
-
-;; ;; @see https://bitbucket.org/lyro/evil/issue/511/let-certain-minor-modes-key-bindings
-;; ;; http://blog.binchen.org/posts/use-git-timemachine-with-evil.html
-;; (with-eval-after-load 'git-timemachine
-;;  (evil-make-overriding-map git-timemachine-mode-map 'normal)
-;;   force update evil keymaps after git-timemachine-mode loaded
-;;  (add-hook 'git-timemachine-mode-hook #'evil-normalize-keymaps))
-
-
-;; Define buffer-local variable
-;; (defvar-local my-meow-desired-state 'motion
-  ;; "Buffer-local variable to specify the desired Meow state.")
-
-;; Function to set the buffer-local value of my-meow-desired-state
-;; (defun my-meow-set-desired-state (state)
-  ;; "Set the buffer-local variable 'my-meow-desired-state' to the specified state."
-  ;; (setq-local my-meow-desired-state state))
-
-;; Advice function to modify 'meow--mode-get-state' based on 'my-meow-desired-state'
-;; (defun my-meow-mode-get-state-advice (orig-func &rest args)
-  ;; "Advice function to modify 'meow--mode-get-state' based on 'my-meow-desired-state'."
-  ;; (if my-meow-desired-state
-      ;; my-meow-desired-state
-    ;; (apply orig-func args)))
-
-;; Apply advice to 'meow--mode-get-state'
-;(advice-add 'meow--mode-get-state :around #'my-meow-mode-get-state-advice)
-
-;; Hook to set my-meow-desired-state to 'motion' when entering git-timemachine mode
-;; (defun my-meow-git-timemachine-hook ()
-  ;; "Hook to set my-meow-desired-state to 'motion' when entering git-timemachine mode."
-  ;; (my-meow-set-desired-state 'motion))
-
-;; Check if git-timemachine is loaded and add the hook
-;(when (featurep 'git-timemachine)
-;  (add-hook 'git-timemachine-mode-hook 'my-meow-git-timemachine-hook))
-
-
-;(use-package diff-hl :ensure t)
-;(add-hook 'prog-mode-hook 'diff-hl-mode)
-;; (setf (cdr (assq 'continuation fringe-indicator-alist))
-      ;; '(nil nil) ;; no continuation indicators
-      ;; '(nil right-curly-arrow) ;; right indicator only
-      ;; '(left-curly-arrow nil) ;; left indicator only
-      ;; '(left-curly-arrow right-curly-arrow) ;; default
-      ;; )
-;; https://ianyepan.github.io/posts/emacs-git-gutter/
-
-;(fringe-mode '(1 . 1))
-;(fringe-mode '(3 . 0))
 (fringe-mode '(0 . 0))
 
-;;(use-package git-gutter
-;;  :ensure t
-;;  :hook (prog-mode . git-gutter-mode)
-;;  :config
-;;  (setq git-gutter:update-interval 0.02)
-;;  )
-;;
-;;(use-package git-gutter-fringe
-;;  :ensure t
-;;  :config
-;;  (define-fringe-bitmap 'git-gutter-fr:added [0] nil nil '(center repeated))
-;;  (define-fringe-bitmap 'git-gutter-fr:modified [0] nil nil '(center repeated))
-;;  (define-fringe-bitmap 'git-gutter-fr:deleted [0] nil nil 'bottom)
-;;  )
-;;
-;;(custom-set-variables
-;; '(git-gutter:modified-sign "  ") ;; two space
-;; '(git-gutter:added-sign "++")    ;; multiple character is OK
-;; '(git-gutter:deleted-sign "--"))
-
 ;; Get rid of flycheck in the gutter and margins
-;(setq flycheck-indication-mode nil)
+;; (setq flycheck-indication-mode nil)
 
 ;; Left fringe flycheck-indication-mode
 
@@ -327,16 +137,6 @@
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;(use-package markdown-mode
-;;  :ensure t)
-;;  :hook ((markdown-mode . visual-line-mode)))
-
-;; (use-package yaml-mode
-;;   :ensure t)
-
-;; (use-package json-mode
-;;   :ensure t)
-
 
 ;; https://old.reddit.com/r/emacs/comments/audffp/tip_how_to_use_a_stable_and_fast_environment_to/
 (use-package google-c-style
@@ -348,79 +148,8 @@
  (add-hook 'c-mode-hook (lambda () (c-toggle-comment-style -1)))
  (add-hook 'c++-mode-hook (lambda () (c-toggle-comment-style -1)))
 
-;; Torvalds Linux-style from Documentation/CodingStyle
-;; (defun c-lineup-arglist-tabs-only (ignored)
-;;   "Line up argument lists by tabs, not spaces"
-;;   (let* ((anchor (c-langelem-pos c-syntactic-element))
-;; 	 (column (c-langelem-2nd-pos c-syntactic-element))
-;; 	 (offset (- (1+ column) anchor))
-;; 	 (steps (floor offset c-basic-offset)))
-;;     (* (max steps 1)
-;;        c-basic-offset)))
-
-;; (add-hook 'c-mode-common-hook
-;;           (lambda ()
-;;             ;; Add kernel style
-;;             (c-add-style
-;;              "linux-tabs-only"
-;;              '("linux" (c-offsets-alist
-;;                         (arglist-cont-nonempty
-;;                          c-lineup-gcc-asm-reg
-;;                          c-lineup-arglist-tabs-only))))))
-
-;; (add-hook 'c-mode-hook
-;;           (lambda ()
-;;             (setq indent-tabs-mode t)
-;;             (c-set-style "linux-tabs-only")))
-
-;; (add-hook 'c-mode-hook
-;;           (lambda ()
-;;             (let ((filename (buffer-file-name)))
-;;               ;; Enable kernel mode for the appropriate files
-;;               (when (and filename
-;;                          (string-match (expand-file-name "~/src/linux-trees")
-;;                                        filename))
-;;                 (setq indent-tabs-mode t)
-;;                 (c-set-style "linux-tabs-only")))))
-
-;; (add-hook 'c-mode-hook
-;;           (lambda ()
-;;             (let ((filename (buffer-file-name)))
-;;               ;; Enable kernel mode for the appropriate files
-;;               (when (and filename
-;;                          (string-match (expand-file-name "/var/linus")
-;;                                        filename))
-;;                 (setq indent-tabs-mode t)
-;;                 (c-set-style "linux-tabs-only")))))
-
-
-;; (defun my/c-mode-common-hook ()
-;; ;  (c-set-style "Linux")
-;;   (c-set-style "linux-tabs-only")
-;;   (setq
-;;    indent-tabs-mode nil
-;;    ;indent-tabs-mode t
-;;    c-basic-offset 4))
-
-;; (defun my/c-ts-mode-common-hook ()
-;; ;  (c-set-style "Linux")
-;;   (c-ts-mode-set-style "linux-tabs-only")
-;;   (setq
-;;    indent-tabs-mode nil
-;;    ;indent-tabs-mode t
-;;    c-basic-offset 4))
-
-;(add-hook 'c-mode-common-hook 'my/c-mode-common-hook)
-;(add-hook 'c-ts-mode-hook 'my/c-ts-mode-common-hook)
-
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 8)
-
-;; C-c C-C is a worthless binding for comments, so unbind it
-;; Use C-x C-; instead or M-; for line comments
-;; (define-key c-mode-base-map (kbd "C-c C-c") nil)
-;(define-key c-ts-mode-map (kbd "C-c C-c") nil)
-;; (define-key prog-mode-map (kbd "C-c C-c") nil)
 
 (use-package smart-compile
   :ensure t)
@@ -434,7 +163,6 @@
 ;; Emacs ships with a lot of popular programming language modes. If it's not
 ;; built in, you're almost certain to find a mode for the language you're
 ;; looking for with a quick Internet search.
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;;   Lsp stuff
@@ -451,7 +179,6 @@
   (interactive)
   (funcall my/format-buffer-function))
 (bind-key "C-c f f" 'my/format-buffer)
-
 
 ;; (use-package consult-flycheck
 ;;   :ensure t)
@@ -480,12 +207,6 @@
 ;; (setq lsp-eldoc-enable-hover nil)
 (setq eldoc-echo-area-prefer-doc-buffer t)
 
-;; LSP RUST
-;; (use-package rust-mode :ensure t)
-;(add-hook 'rust-mode-hook 'eglot-ensure)
-;; (add-hook 'rust-mode-hook (lambda () (setq indent-tabs-mode nil)))
-
-;(setq lsp-rust-analyzer-server-display-inlay-hints t)
 
 (use-package php-mode
   :ensure t
@@ -525,45 +246,6 @@
 (global-set-key (kbd "C-c e") 'eat)
 (global-set-key (kbd "C-c s") 'eshell)
 
-;; (define-key global-map (kbd "<f4>") #'vterm-toggle)
-
-;(define-key vterm)
-;(define-key vterm-mode-map [?\C-c] nil)
-;; (define-key vterm-mode-map (kbd "<f4>") 'vterm-toggle)
-;; (define-key vterm-mode-map (kbd "<f5>") 'ef-themes-toggle)
-
-;; (use-package cmake-mode
-  ;; :ensure t)
-
-;; (use-package cmake-project
-  ;; :ensure t)
-
-;; (autoload 'cmake-project-mode "cmake-project" nil t)
-
-;; (defun maybe-cmake-project-mode ()
-  ;; (if (or (file-exists-p "CMakeLists.txt")
-          ;; (file-exists-p (expand-file-name "CMakeLists.txt" (car (project-roots (project-current))))))
-      ;; (cmake-project-mode)))
-
-;; (add-hook 'c-mode-hook 'maybe-cmake-project-mode)
-;; (add-hook 'c++-mode-hook 'maybe-cmake-project-mode)
-
-;; (setq spice-simulator "Ngspice"
-;;       spice-waveform-viewer "ngplot")
-;; (load "~/.emacs.d/spice-mode.el")
-
-;; ;; ngspice -b file.ng
-
-;; (use-package spice-mode
-;;   :ensure t
-;;   :config
-;;   (setq spice-simulator "Ngspice"
-;;       spice-waveform-viewer "ngplot"))
-
-;; ;; :mode "\\.\\(js\\|jsx\\)\\'"
-;; (add-to-list 'auto-mode-alist '("\\.ng\\'" . spice-mode))
-
-
 ;;;;;;;;;;;
 ;; EDIFF ;;
 ;;;;;;;;;;;
@@ -599,7 +281,6 @@
 
 
 ;; install phi-search and phi-search-mc using use-package
-
 (use-package phi-search
   :ensure t)
 
@@ -647,99 +328,33 @@
   ;; :hook ((prog-mode) . indent-bars-mode)) ; or whichever modes you prefer
 
 ;; An Emacs "jump to definition" package for 50+ languages
-;; (use-package dumb-jump
-;;   :straight t
-;;   :after xref
-;;   ;; :custom
-;;   ;; (dumb-jump-selector 'completing-read)
-;;   :init
-;;   ;; Use `dumb-jump' as `xref' backend
-;;   (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
+(use-package dumb-jump
+  :straight t
+  :after xref
+  ;; :custom
+  ;; (dumb-jump-selector 'completing-read)
+  :init
+  ;; Use `dumb-jump' as `xref' backend
+  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
 
 
-;; (use-package dumb-jump
-;;   :ensure t
-;;   :config
-;;   (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
+(use-package dumb-jump
+  :ensure t
+  :config
+  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
 
-;; (use-package xref-union
-;;   :straight t
-;;   :after (eglot dumb-jump)
-;;   :hook (eglot-managed-mode . xref-union-mode)
-;;   :commands (xref-union-mode)
-;;   :config
-
-;;   ;; (defun +xref-union--exclude-backends-predicate (backend)
-;;     ;; (memq backend '(etags--xref-backend)))
-
-;;   (cl-defmethod xref-backend-identifier-at-point ((_backend (eql eglot)))
-;;     :extra "remove-lsp-identifier-at-point" :around
-;;     "Force the eglot backend to return nil, so it falls back to other xref backends"
-;;     (let ((id (cl-call-next-method)))
-;;       (if (string= id "LSP identifier at point") nil id)))
-
-;;   (defun xref-union-same-p (l1 l2)
-;;     "More lenient version that only compares file and line number of xref location"
-;;     (cl-flet ((file-and-line (l) (list (xref-file-location-file (xref-item-location l))
-;;                                        (xref-file-location-line (xref-item-location l)))))
-;;       (equal (file-and-line l1) (file-and-line l2))))
-
-;;   (defun xref-union-ignore-etags (backend)
-;;     (eq backend 'etags--xref-backend))
-
-;;   :custom
-;;   ;; (xref-union-excluded-backends #'+xref-union--exclude-backends-predicate)
-
-;;   (xref-union-excluded-backends #'xref-union-ignore-etags)
-
-;;   )
-
-;; (use-package dumb-jump
-;;   :ensure t)
-
-;; (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
-;; (setq dumb-jump-quiet t)
-
-;; (use-package dumb-jump
-  ;; :ensure t
-  ;; :bind (("M-g o" . dumb-jump-go-other-window)
-         ;; ("M-g j" . dumb-jump-go)
-         ;; ("M-g b" . dumb-jump-back)
-         ;; ("M-g q" . dumb-jump-quick-look)
-         ;; ("M-g x" . dumb-jump-go-prefer-external)
-         ;; ("M-g z" . dumb-jump-go-prefer-external-other-window))
-  ;; :config (setq dumb-jump-selector 'ivy))
-
-;; (use-package indent-bars
-  ;; :ensure t
-  ;; :hook ((prog-mode) . indent-bars-mode)) ; or whichever modes you prefer
+(setq dumb-jump-force-searcher 'rg)
 
 (use-package drag-stuff
   :ensure t)
 (drag-stuff-global-mode 1)
 (drag-stuff-define-keys)
 
-;; (use-package move-text 
-  ;; :ensure t  
-  ;; :config (move-text-default-bindings))
-
-;; (use-package auto-header
-;;   :ensure t)
-;; (add-hook 'c-mode-hook #'auto-header-mode)
-
 (use-package go-mode
   :ensure t)
 
-;; (use-package smartparens
-  ;; :ensure t
-  ;; :hook ((prog-mode . smartparens-mode))
-  ;; :config
-  ;; (require 'smartparens-config))
-
 
 ;; fix python
-
-
 (use-package python
 :config
 (defun python-info-current-defun () nil)
@@ -768,8 +383,6 @@
 ;;                        (nerd-icons-icon-for-file file)
 ;;                      (nerd-icons-icon-for-mode major-mode)))))))
 
-
-
 ;; Emacs text actions using LSP symbol information
 (use-package gambol
   :straight (:host codeberg :repo "woolsweater/gambol.el")
@@ -791,7 +404,6 @@
     (interactive)
     (unless (and (featurep 'eglot) (eglot-managed-p) (ignore-errors (gambol:occur) t))
       (call-interactively #'occur))))
-
 
 ;; Structured editing and navigation in Emacs with Tree-Sitter
 (use-package combobulate-setup
@@ -821,3 +433,18 @@
   (keymap-set combobulate-key-map "M-S-<right>" #'combobulate-splice-parent))
 
 
+(defun reverse-selection (beg end)
+ "Reverse characters between BEG and END."
+ (interactive "r")
+ (let ((region (buffer-substring beg end)))
+   (delete-region beg end)
+   (insert (nreverse region))))
+
+;; Insert paths into the minibuffer prompt
+(use-package consult-dir
+  :straight t
+  :bind (("C-x C-d" . consult-dir)
+         :package vertico
+         :map minibuffer-local-completion-map
+         ("C-x C-d" . consult-dir)
+         ("C-x C-j" . consult-dir-jump-file)))

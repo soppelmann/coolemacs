@@ -15,11 +15,7 @@
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; Show the help buffer after startup
-;(add-hook 'after-init-hook 'help-quick)
-
 ;; which-key: shows a popup of available keybindings when typing a long key
-;; sequence (e.g. C-x ...)
 (use-package which-key
   :ensure t
   :config
@@ -27,14 +23,14 @@
 
 (use-package nerd-icons
   :ensure t
-  ;; :custom
-  ;; The Nerd Font you want to use in GUI
-  ;; "Symbols Nerd Font Mono" is the default and is recommended
-  ;; but you can use any other Nerd Font if you want
-  ;; (nerd-icons-font-family "Symbols Nerd Font Mono")
   )
-
-
+;; icons with completion
+(use-package nerd-icons-completion
+  :ensure t
+  :after (marginalia nerd-icons)
+  :hook (marginalia-mode . nerd-icons-completion-marginalia-setup)
+  )
+(nerd-icons-completion-mode)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;;   Motion aids
@@ -86,22 +82,6 @@
   :config
   (marginalia-mode))
 
-
-;;;;; nerd-icons-completion
-;; icons with completion
-;; https://github.com/rainstormstudio/nerd-icons-completion
-(use-package nerd-icons-completion
-  :ensure t
-  :after (marginalia nerd-icons)
-  :hook (marginalia-mode . nerd-icons-completion-marginalia-setup)
-  )
-
-(nerd-icons-completion-mode)
-
-
-;; (use-package eshell
-;;   :bind (("C-r" . consult-history)))
-
 ;; Orderless: powerful completion style
 (use-package orderless
   :ensure t
@@ -123,35 +103,6 @@
 (setq ranger-show-hidden t)
 (setq ranger-cleanup-on-disable t)
 
-;; Dim windows
-;; (use-package dimmer
-;;  :ensure t
-;;  :config
-;;  (setq dimmer-fraction 0.1)
-;;  (setq dimmer-adjustment-mode :foreground)
-;;  (setq dimmer-use-colorspace :rgb)
-;;  (dimmer-configure-which-key)
-;;  (dimmer-configure-helm)
-;;  (dimmer-mode 1))
-
-;; (use-package dired-sidebar
-;;  :ensure t
-;;  :commands (dired-sidebar-toggle-sidebar)
-;;  :init
-;;  (add-hook
-;;   'dired-sidebar-mode-hook
-;;   (lambda ()
-;;     (unless (file-remote-p default-directory)
-;;       (auto-revert-mode))))
-;;  :config
-;;  (push 'toggle-window-split dired-sidebar-toggle-hidden-commands)
-;;  (push 'rotate-windows dired-sidebar-toggle-hidden-commands)
-;;  (setq dired-sidebar-use-one-instance t)
-;;  (setq dired-sidebar-subtree-line-prefix "__")
-;;  (setq dired-sidebar-use-term-integration t)
-;;  (setq dired-use-ls-dired nil))
-
-
 (defun local/dired-mode-hook ()
   (local-set-key (kbd "<tab>") nil) ; Unbind Tab first
   (local-set-key (kbd "<tab>") 'dired-subtree-toggle))
@@ -160,7 +111,6 @@
 
 (global-set-key (kbd "C-x C-d") 'dired)
 (global-set-key (kbd "C-x C-b") 'switch-to-buffer)
-
 
 ;; ;; Dont open hundreds of dired buffers
 (setf dired-kill-when-opening-new-dired-buffer t)
@@ -238,64 +188,11 @@
                          ("scpx" . "/bin/bash")
                          ("ssh" . "/bin/bash")))
 
-
-;; (use-package eat
-  ;; :ensure t
-;; )
-;; For `eat-eshell-mode'.
-;; (add-hook 'eshell-load-hook #'eat-eshell-mode)
-
-;; (with-eval-after-load 'eshell
-  ;; (eat-eshell-mode +1)
-  ;; (eat-eshell-mode +1)
-  ;; (eat-eshell-visual-command-mode +1)
-  ;; )
-
-;; For `eat-eshell-visual-command-mode'.
-;; (add-hook 'eshell-load-hook #'eat-eshell-visual-command-mode)
-
 (defun eshell/clear ()
   "Clear the eshell buffer."
   (let ((inhibit-read-only t))
     (erase-buffer)
     (eshell-send-input)))
-
-;;(use-package direx
-;;  :ensure t)
-;;
-;;(use-package popwin
-;;  :ensure t)
-;;
-;;(push '(direx:direx-mode :position left :width 25 :dedicated t)
-;;      popwin:special-display-config)
-;;(global-set-key (kbd "C-x C-j") 'direx:jump-to-directory-other-window)
-
-;(use-package ibuffer-sidebar
-;  :ensure t
-;  :commands (ibuffer-sidebar-toggle-sidebar)
-;  :config
-;  (setq ibuffer-sidebar-use-custom-font t)
-;  )
-
-
-;; (defvar +sidebar-toggle-flag t
-;;   "Flag to toggle whether to run `ibuffer-update'.")
-
-;; (defun +sidebar-toggle ()
-;;   "Toggle both `dired-sidebar' and `ibuffer-sidebar'."
-;;   (interactive)
-;;   (dired-sidebar-toggle-with-current-directory)
-;;   (ibuffer-sidebar-toggle-sidebar)
-;;   (when +sidebar-toggle-flag
-;;     (ibuffer-update nil t))
-;;   (setq +sidebar-toggle-flag (not +sidebar-toggle-flag))
-;;   (other-window 2)
-;;   )
-
-;; (global-set-key (kbd "C-c d") 'dired-sidebar-toggle-with-current-directory)
-;(global-set-key (kbd "C-c d") 'dired-sidebar-toggle-sidebar)
-;(global-set-key (kbd "C-c d") '+sidebar-toggle)
-
 
 ;; Omit files in dired
 (setq dired-omit-files
@@ -305,19 +202,6 @@
            (seq "~" eol) ;; backup-files
            (seq bol "CVS" eol) ;; CVS dirs
            )))
-
-;; Toggle on hide by default
-;(add-hook 'dired-mode-hook 'dired-omit-mode)
-
-
-;; (setq winner-dont-bind-my-keys t)
-;; ;(setq winner-mode-map (make-sparse-keymap))
-;; (winner-mode 1)
-;; (setq winner-dont-bind-my-keys t)
-
-;; (global-set-key (kbd "C-x C-z") 'winner-undo)
-;; (global-set-key (kbd "C-x C-r") 'winner-redo)
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
@@ -405,19 +289,12 @@
 
 (define-key embark-general-map (kbd "C-SPC") 'embark-select)
 
-;; (define-key embark-region-map (kbd "b") nil)
-;; (define-key embark-region-map (kbd "b") 'consult-bookmark)
-
 ;; Add consult-bookmark as an action to embark bound to kb "b"
-
 (define-key embark-region-map (kbd "b") 'consult-bookmark)
 (define-key embark-defun-map (kbd "b") 'consult-bookmark)
 (define-key embark-symbol-map (kbd "b") 'consult-bookmark)
-;(define-key embark-file-map (kbd "b") 'consult-bookmark)
-;(define-key embark-general-map (kbd "b") 'consult-bookmark)
 
 ;; Use which key for embark
-
 (defun embark-which-key-indicator ()
   "An embark indicator that displays keymaps using which-key.
 The which-key help message will show the type and value of the
@@ -457,7 +334,6 @@ targets."
             :around #'embark-hide-which-key-indicator)
 
 ;; End of which key for embark
-
 (use-package ace-window
   :ensure t
   :init
@@ -499,7 +375,6 @@ targets."
 (require 'centaur-tabs)
 ;; without this centaur tabs blocks tramp according to profiler
 (centaur-tabs-group-by-projectile-project)
-
 
 (defun tdr/fix-centaur-tabs ()
   "Reset Centaur Tabs."
@@ -576,8 +451,6 @@ targets."
           suffix
           (file-name-extension (buffer-name) t)))
 
-
-
 (setq scpaste-http-destination "https://dflund.se/~getz/pastes"
       scpaste-scp-destination "brutus.df.lth.se:~/public_html/pastes/"
       scpaste-make-name-function 'scpaste-make-name-combined
@@ -602,7 +475,6 @@ targets."
        ";; ╔═╗┌─┐┬─┐┌─┐┌┬┐┌─┐┬ ┬\n"
        ";; ╚═╗│  ├┬┘├─┤ │ │  ├─┤\n"
        ";; ╚═╝└─┘┴└─┴ ┴ ┴ └─┘┴ ┴\n\n"))
-
 
 ;; Pulse highlight on demand or after select functions
 (use-package pulsar
