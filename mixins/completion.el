@@ -34,7 +34,7 @@
 
   :config
   (setq corfu-quit-at-boundary t)
-  (setq corfu-quit-no-match 'separator)
+  (setq corfu-quit-no-match t)
   ;; Free the RET key for less intrusive behavior.
   (when (>= emacs-major-version 30)
     (setq text-mode-ispell-word-completion nil))

@@ -4,11 +4,6 @@
   :bind
   ("C-," . eldoc-box-help-at-point)
 
-  ;;:hook (
-  ;;;;       ;;(rust-mode . eglot-ensure)
-  ;;       ;;(eglot-managed-mode-hook . flycheck-mode)
-  ;;       )
-
   ;; these caused verilog to not work
   :custom
   ;; (eglot-send-changes-idle-time 0.1)
@@ -24,6 +19,7 @@
       ))
 
   :config
+  ;; (add-to-list 'eglot-stay-out-of 'flymake)
   (fset #'jsonrpc--log-event #'ignore)  ; massive perf boost---don't log every event
   ;; Sometimes you need to tell Eglot where to find the language server
   ;;(add-hook 'eglot-managed-mode-hook #'eldoc-box-hover-at-point-mode t)
@@ -36,7 +32,6 @@
 
   ;(global-set-key (kbd "C-,") #'eldoc-box-help-at-point)
 
-  ;; (add-to-list 'eglot-stay-out-of 'flymake)
 
   (add-to-list 'eglot-server-programs '(nix-mode . ("rnix-lsp")))
 
@@ -48,11 +43,12 @@
 
 (setq eglot-sync-connect nil)
 
-;; (use-package flycheck-eglot
-  ;; :ensure t
-  ;; :after (flycheck eglot)
-  ;; :config
-  ;; (global-flycheck-eglot-mode 1))
+(use-package flycheck-eglot
+  :ensure t
+  :after (flycheck eglot)
+  :config
+  (add-to-list 'eglot-stay-out-of 'flymake)
+  (global-flycheck-eglot-mode 1))
 
 ;; Enable LSP support by default in programming buffers
 ;(add-hook 'prog-mode-hook #'eglot-ensure)
@@ -114,8 +110,8 @@
     ;; (add-hook 'orderless-style-dispatchers #'my/orderless-dispatch-flex-first nil 'local)
     (setq-local completion-at-point-functions
 		(list (cape-capf-super
-		       #'eglot-completion-at-point
                        #'verilog-ext-capf
+		       #'eglot-completion-at-point
 		       #'yasnippet-capf
 		       #'cape-file))))
 
