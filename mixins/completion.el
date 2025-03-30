@@ -1,40 +1,44 @@
-;; Popup completion-at-point
+;; TAB-only configuration
 (use-package corfu
-  :straight
-  (:type git
-         :host github
-         :repo "minad/corfu")
-  :ensure t
-  ;; :hook (lsp-completion-mode . kb/corfu-setup-lsp) ; Use corfu for lsp completion
-  :hook ((eshell-mode shell-mode) . +corfu-less-intrusive-h)
-  :hook (minibuffer-setup . +corfu-enable-in-minibuffer-h)
-  :custom
-  ;; (corfu-preselect 'prompt) ;; Always preselect the prompt
- ; (corfu-preview-current t)
-  (corfu-cycle t)
-  (corfu-on-exact-match 'show)
-  :init
-  ;; (add-hook 'prog-mode-hook #'global-corfu-mode nil nil :transient t)
-  ;; (corfu-prescient-mode 1)
-  ;; (corfu-history-mode)
-  (global-corfu-mode)
-
-  ;; Optionally use TAB for cycling, default is `corfu-complete'.
+  :straight (:files (:defaults "extensions/*.el"))
   :bind (:map corfu-map
               ("M-SPC"      . corfu-insert-separator)
-              ("SPC"        . corfu-insert-separator)
+              ;; ("SPC"        . corfu-quit)
               ("M-TAB"      . corfu-next)
               ("M-<tab>"      . corfu-next)
-              ("M-TAB"      . corfu-next)
-              ("M-<tab>"      . corfu-next)
-              ;; ("TAB"        . corfu-complete)
-              ;; ([tab]        . corfu-complete)
+              ("M-TAB"      . corfu-complete)
+              ("M-<tab>"      . corfu-complete)
+              ("TAB"        . corfu-next)
+              ([tab]        . corfu-next)
               ("S-TAB"      . corfu-previous)
               ([backtab]    . corfu-previous)
-              ("<backtab>"  . corfu-previous)
-              ("S-<return>" . corfu-complete)
-              ("RET"        . corfu-complete))
+              ("S-<return>" . corfu-insert)
+              ("<backtab>"  . corfu-insert)
+              ("RET"        . corfu-insert))
+
+  :hook ((eshell-mode shell-mode) . +corfu-less-intrusive-h)
+  :hook (minibuffer-setup . +corfu-enable-in-minibuffer-h)
+  :hook (corfu-mode . corfu-history-mode)
+  :hook ((prog-mode . corfu-mode))
+  :hook ((circe-mode . corfu-mode))
+  :custom
+  (corfu-auto t)               ;; Enable auto completion
+  (corfu-auto-delay  0.1)
+  (corfu-auto-prefix 2)
+  ;; (corfu-preselect 'directory) ;; Select the first candidate, except for directories
+  (corfu-on-exact-match 'show)
+  (corfu-cycle t) ; Allows cycling through candidates
+
+  :init
+  (global-corfu-mode)
+
   :config
+  (setq corfu-quit-at-boundary t)
+  (setq corfu-quit-no-match 'separator)
+  ;; Free the RET key for less intrusive behavior.
+  (when (>= emacs-major-version 30)
+    (setq text-mode-ispell-word-completion nil))
+
   (defun +corfu-enable-in-minibuffer-h ()
     "Enable Corfu in the minibuffer if `completion-at-point' is bound."
     (when (local-variable-p 'completion-at-point-functions)
@@ -48,28 +52,103 @@
                 corfu-auto nil)
     (corfu-mode 1))
 
-  ;; Setup lsp to use corfu for lsp completion
-  (defun kb/corfu-setup-lsp ()
-   ;; "Use orderless completion style with lsp-capf instead of the
-;; default lsp-passthrough."
-    (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
-          '(orderless)))
+  (unless (bound-and-true-p savehist-mode) (savehist-mode 1))
+  (add-to-list 'savehist-additional-variables 'corfu-history)
+
+  ;; Option 1: Unbind RET completely
+  ;; (keymap-unset corfu-map "RET")
+  ;; Option 2: Use RET only in shell modes
+  ;; (keymap-set corfu-map "RET" `( menu-item "" nil :filter
+  ;;                                ,(lambda (&optional _)
+  ;;                                   (and (derived-mode-p 'eshell-mode 'comint-mode)
+  ;;                                        #'corfu-send))))
   )
 
-(use-package
- yasnippet
- :demand t
- :init
- (load "yasnippet.el") ; get rid of weird invalid function issue
- )
-(use-package
- yasnippet-snippets
- :demand t
- :straight
- '(yasnippet-snippets
-   :type git
-   :host github
-   :repo "jsigman/yasnippet-snippets"))
+
+(use-package cape
+  :straight t
+  :init
+  (add-hook 'completion-at-point-functions #'cape-file)
+  (add-hook 'completion-at-point-functions #'yasnippet-capf)
+ 
+  (add-to-list 'completion-at-point-functions #'cape-file)
+  (add-to-list 'completion-at-point-functions #'yasnippet-capf)  
+  ;; (add-to-list 'completion-at-point-functions #'cape-tex)
+  ;; (add-hook 'completion-at-point-functions #'cape-tex)
+  ;; (add-hook 'completion-at-point-functions #'verilog-ext-capf)
+  ;; :hook
+  ;; (eglot-managed-mode . my/eglot-capf)
+
+  :config
+  (transient-define-prefix sn/cape ()
+    "explicit Completion type"
+    [[
+      ("d" "Dabbrev" cape-dabbrev)
+      ("s" "Spelling" cape-dict)
+      ("k" "Keyword" cape-keyword)
+      ("l" "Line" cape-line)]
+     [
+      ("f" "File" cape-file)
+      ("h" "History" cape-history)
+      ("a" "Abbrev" cape-abbrev)
+      ("q" "Quit" transient-quit-one)]
+     [
+      ("e" "Elisp Symbol" cape-elisp-symbol)
+      ("E" "Elisp Block" cape-elisp-block)
+      ("t" "Tags" complete-tag)
+      ("y" "yasnippet" yasnippet-capf)
+      ("v" "verilog" verilog-ext-capf)
+      ]])
+  :bind (("C-c p p" . completion-at-point) ; capf
+         ("C-c p t" . complete-tag) ; etags
+         ("C-c p d" . cape-dabbrev) ; or dabbrev-completion
+         ("C-c p h" . cape-history)
+         ("C-c p f" . cape-file)
+         ("C-c p k" . cape-keyword)
+         ;; ("C-c p s" . cape-elisp-symbol)
+         ("C-c p e" . cape-elisp-block)
+         ("C-c p a" . cape-abbrev)
+         ;; ("C-c p l" . cape-line)
+         ("C-c p w" . cape-dict)
+         ("C-c p :" . cape-emoji)
+         ("C-c p \\" . cape-tex)
+         ("C-c p _" . cape-tex)
+         ("C-c p ^" . cape-tex)
+         ("C-c p &" . cape-sgml)
+         ("C-c p r" . cape-rfc1345)
+         ("C-c /" . sn/cape)
+         ("s-q" . sn/cape)
+         )
+  ;; :config
+  ;;   (defun my/cape-in-code ()
+  ;;       (cape-wrap-nonexclusive
+  ;;         (cape-capf-inside-code
+  ;;       	(cape-capf-super
+  ;;       	  #'eglot-completion-at-point
+  ;;       	  #'yasnippet-capf
+  ;;       	  #'cape-dabbrev))))
+  :init
+  ;; Silence the pcomplete capf, no errors or messages! Important for corfu!
+  (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-silent)
+  ;; (add-hook
+   ;; '(emacs-lisp-mode-hook git-commit-mode-hook)
+   ;; (lambda () (add-hook 'completion-at-point-functions #'cape-elisp-symbol nil t)))
+  (add-hook
+   '(emacs-lisp-mode-hook git-commit-mode-hook)
+   (lambda () (add-hook 'completion-at-point-functions (list (cape-capf-super
+                                                              #'cape-file
+                                                              #'cape-elisp-symbol
+                                                              #'cape-elisp-block)))))
+  ;; (add-hook
+  ;;  'org-mode-hook
+  ;;  (lambda () (add-hook 'completion-at-point-functions #'cape-elisp-block nil t)))
+  (add-hook
+   '(TeX-mode-hook LaTeX-mode-hook)
+   (lambda () (add-hook 'completion-at-point-functions #'cape-tex nil t)))
+  ;; quit completion
+  (add-hook 'completion-in-region-mode-hook
+            (lambda () (setq completion-in-region-mode--predicate #'always)))
+)
 
 ;; A few more useful configurations...
 (use-package emacs
@@ -79,7 +158,8 @@
 
   ;; Enable indentation+completion using the TAB key.
   ;; `completion-at-point' is often bound to M-TAB.
-  (tab-always-indent 'complete) ; dont bind corfu-complete, bind this
+  ;; (tab-always-indent 'complete)
+  (tab-always-indent nil)
 
   ;; Emacs 30 and newer: Disable Ispell completion function.
   ;; Try `cape-dict' as an alternative.
@@ -89,82 +169,6 @@
   ;; commands are hidden, since they are not used via M-x. This setting is
   ;; useful beyond Corfu.
   (read-extended-command-predicate #'command-completion-default-include-p))
-
-;; to enable yasnippet-capf everywhere (optional) (add-to-list 'completion-at-point-functions #'yasnippet-capf)
-
-;; to integrate yasnippet-capf with eglot completion
-;; https://github.com/minad/corfu/wiki#making-a-cape-super-capf-for-eglot
-
-;; (fset 'non-greedy-capf (cape-capf-properties #'cape-file :exclusive 'no))
-
-;; (defun mi/eglot-capf-with-yasnippet ()
-;;   (setq-local completion-at-point-functions
-;;               (list
-;;                (cape-capf-super
-;;                 #'yasnippet-capf
-;;                 #'eglot-completion-at-point))))
-
-;; (with-eval-after-load 'eglot
-;;   (add-hook 'eglot-managed-mode-hook #'mi/eglot-capf-with-yasnippet)) 
-
-(defun my/eglot-capf ()
-  (setq-local completion-at-point-functions
-              (list (cape-capf-super
-                     #'verilog-ext-capf
-                     #'cape-file
-                     #'eglot-completion-at-point
-                     #'yasnippet-capf
-                     ))))
-
-(add-hook 'eglot-managed-mode-hook #'my/eglot-capf)
-
-;; (setq yasnippet-capf-lookup-by 'name) ;; Prefer the name of the snippet instead
-(setq yas-indent-line 'fixed)
-(add-hook 'eglot-managed-mode-hook #'yas-minor-mode)
-
-;; ;; Strangely, just redefining one of the variations below won't work.
-;; ;; All rebinds seem to be needed.
-(define-key yas-minor-mode-map [(tab)]        nil)
-(define-key yas-minor-mode-map (kbd "TAB")    nil)
-(define-key yas-minor-mode-map (kbd "<tab>")  nil)
-
-;; Optionally use the `orderless' completion style.
-(use-package orderless
-  :ensure t
-  :init
-  ;; Configure a custom style dispatcher (see the Consult wiki)
-  ;; (setq orderless-style-dispatchers '(+orderless-consult-dispatch orderless-affix-dispatch)
-  ;;       orderless-component-separator #'orderless-escapable-split-on-space)
-  (setq completion-styles '(orderless basic)
-        completion-category-defaults nil
-        ;; completion-category-overrides '((file (styles basic partial-completion)))))
-        completion-category-overrides '((file (styles . (partial-completion))))))
-
-(defun orderless-fast-dispatch (word index total)
-  (and (= index 0) (= total 1) (length< word 4)
-       (cons 'orderless-literal-prefix word)))
-
-(orderless-define-completion-style orderless-fast
-  (orderless-style-dispatchers '(orderless-fast-dispatch))
-  (orderless-matching-styles '(orderless-literal orderless-regexp)))
-
-(setq corfu-auto        t
-      corfu-auto-delay  0.1  ;; TOO SMALL IS NOT RECOMMENDED!
-      corfu-auto-prefix 1
-      corfu-quit-no-match t
-      corfu-quit-at-boundary t)
-      ;; corfu-quit-no-match 'separator)
-
-;; make corfu stop completing when no match
-(add-hook 'completion-in-region-mode-hook
-  (lambda () (setq completion-in-region-mode--predicate #'always)))
-
-(add-hook 'corfu-mode-hook
-          (lambda ()
-            ;; Settings only for Corfu
-            (setq-local completion-styles '(basic)
-                        completion-category-overrides nil
-                        completion-category-defaults nil)))
 
 ;; Pretty icons for corfu
 (use-package kind-icon
@@ -176,54 +180,13 @@
   :config
   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
-(use-package cape
-  :ensure t
-  ;; :hook
-  ;; (eglot-managed-mode . (lambda ()
-  ;;                         (setq-local completion-at-point-functions
-  ;;                                     (list (cape-capf-super
-  ;;                                            #'cape-file
-  ;;                                            #'eglot-completion-at-point
-  ;;                                            #'yasnippet-capf
-  ;;                                            ;; #'tempel-complete
-  ;;                                            ;; (cape-company-to-capf #'company-yasnippet)
-  ;;                                            )
-  ;;                                           t))))
-  ;; :config
-  ;; (add-to-list 'completion-at-point-functions
-               ;; (cape-capf-super
-                ;; #'cape-file
-                ;; (cape-capf-prefix-length #'cape-dabbrev 3)))
-  ;; (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
-  ;; (advice-add 'eglot-completion-at-point :around #'cape-wrap-noninterruptible)
-  :init
-  ;; Add to the global default value of `completion-at-point-functions' which is
-  ;; used by `completion-at-point'.  The order of the functions matters, the
-  ;; first function returning a result wins.  Note that the list of buffer-local
-  ;; completion functions takes precedence over the global list.
-  ;; (add-to-list 'completion-at-point-functions #'cape-dabbrev)
-  (add-to-list 'completion-at-point-functions #'cape-file)
-  ;; (add-to-list 'completion-at-point-functions #'verilog-ext-capf)
-  ;; (add-to-list 'completion-at-point-functions #'cape-elisp-block)
-  (add-to-list 'completion-at-point-functions #'yasnippet-capf)  
-  ;; (add-to-list 'completion-at-point-functions #'tempel-complete)
-  ;; (add-to-list 'completion-at-point-functions #'cape-abbrev)
-  ;; (add-to-list 'completion-at-point-functions #'cape-keyword)
-  ;;(add-to-list 'completion-at-point-functions #'cape-history)
-  (add-to-list 'completion-at-point-functions #'cape-tex)
-  ;;(add-to-list 'completion-at-point-functions #'cape-sgml)
-  ;;(add-to-list 'completion-at-point-functions #'cape-rfc1345)
-  ;;(add-to-list 'completion-at-point-functions #'cape-dict)
-  ;;(add-to-list 'completion-at-point-functions #'cape-elisp-symbol)
-  ;;(add-to-list 'completion-at-point-functions #'cape-line)
-)
-
-;; (add-hook 'eshell-mode-hook #'capf-autosuggest-mode)
-
 (use-package yasnippet
   :ensure t
   :config
   (yas-reload-all))
+
+(define-key yas-minor-mode-map (kbd "<tab>") nil)
+(define-key yas-minor-mode-map (kbd "TAB") nil)
 
 (use-package yasnippet-snippets
   :ensure t
@@ -238,51 +201,19 @@
 (yas-reload-all)
 (yas-global-mode 1)
 
+;; Completion-At-Point Extension for YASnippet
 (use-package yasnippet-capf
-  :ensure t
-  :after cape
-  :config
-  (add-to-list 'completion-at-point-functions #'yasnippet-capf)
-  )
+  :straight t
+  :hook ((prog-mode text-mode conf-mode) . +cape-yasnippet--setup-h)
+  :bind (("C-c p y" . yasnippet-capf))
+  :init
+  (defun +cape-yasnippet--setup-h ()
+    (when (bound-and-true-p yas-minor-mode)
+      (add-to-list 'completion-at-point-functions #'yasnippet-capf))))
 
-;; Configure Tempel
+;; The Doom Emacs snippets library
+(use-package doom-snippets
+  :straight (:host github :repo "hlissner/doom-snippets" :files ("*.el" "*")))
 
-;; (use-package tempel
-;;   ;; Require trigger prefix before template name when completing.
-;;   ;; :custom
-;;   ;; (tempel-trigger-prefix "<")
-
-;;   :init
-;;   ;; Setup completion at point
-;;   (defun tempel-setup-capf ()
-;;     ;; Add the Tempel Capf to `completion-at-point-functions'.
-;;     ;; `tempel-expand' only triggers on exact matches. Alternatively use
-;;     ;; `tempel-complete' if you want to see all matches, but then you
-;;     ;; should also configure `tempel-trigger-prefix', such that Tempel
-;;     ;; does not trigger too often when you don't expect it. NOTE: We add
-;;     ;; `tempel-expand' *before* the main programming mode Capf, such
-;;     ;; that it will be tried first.
-;;     (setq-local completion-at-point-functions
-;;                 (cons #'tempel-expand
-;;                       completion-at-point-functions)))
-
-;;   (add-hook 'conf-mode-hook 'tempel-setup-capf)
-;;   (add-hook 'prog-mode-hook 'tempel-setup-capf)
-;;   (add-hook 'text-mode-hook 'tempel-setup-capf)
-
-;;   ;; Optionally make the Tempel templates available to Abbrev,
-;;   ;; either locally or globally. `expand-abbrev' is bound to C-x '.
-;;   (add-hook 'prog-mode-hook #'tempel-abbrev-mode)
-;;   (global-tempel-abbrev-mode)
-;; )
-
-;; ;; Optional: Add tempel-collection.
-;; ;; The package is young and doesn't have comprehensive coverage.
-;; (use-package tempel-collection)
-
-;; (use-package eglot-tempel
-;;   :preface (eglot-tempel-mode)
-;;   :init
-;;   (eglot-tempel-mode t))
-
-
+;; (setq yasnippet-capf-lookup-by 'name) ;; Prefer the name of the snippet instead
+(setq yas-indent-line 'fixed)

@@ -1,9 +1,4 @@
 (use-package eglot
-  ;; no :ensure t here because it's built-in
-
-  ;; Configure hooks to automatically turn-on eglot for selected modes
-  ; :hook
-  ; (((python-mode ruby-mode elixir-mode) . eglot))
 
   ;; Use :bind to have C-, run eldoc-box-help-at-point
   :bind
@@ -71,46 +66,6 @@
 ;; bind key C-c l r to eglot fix
 (global-set-key (kbd "C-c l l") 'eglot-code-actions)
 
-
-
-;; (defun my/eglot-capf ()
-;;   (setq-local completion-at-point-functions
-;;               (list (cape-capf-super
-;;                      #'eglot-completion-at-point
-;;                      #'cape-file
-;;                      (cape-company-to-capf #'company-yasnippet)))))
-
-;; (add-hook 'eglot-managed-mode-hook #'my/eglot-capf)
-
-;; Option 1: Specify explicitly to use Orderless for Eglot
-;; (setq completion-category-overrides '((eglot (styles orderless))))
-
-;; Option 2: Undo the Eglot modification of completion-category-defaults
-;(with-eval-after-load 'eglot
-;   (setq completion-category-defaults nil))
-
-
-;; LSP RUST
-;(use-package rust-mode :ensure t)
-;(add-hook 'rust-mode-hook 'eglot-ensure)
-;(add-hook 'rust-mode-hook (lambda () (setq indent-tabs-mode nil)))
-;
-;(setq lsp-rust-analyzer-server-display-inlay-hints t)
-
-;; (unless (package-installed-p 'eglot)
-;;   (package-install 'eglot))
-; (setq eldoc-echo-area-use-multiline-p nil)
-;;
-;; (setq lsp-eldoc-enable-hover nil)
-;(setq eldoc-echo-area-prefer-doc-buffer t)
-;; (setq lsp-signature-auto-activate nil)
-
-;(add-to-list 'load-path "~/.emacs.d/elisp/eglot-x.el")
-;
-;(with-eval-after-load 'eglot
-;  (require 'eglot-x)
-;  (eglot-x-setup))
-
 (use-package flymake-collection 
   :ensure t 
   :hook ((after-init . flymake-collection-hook-setup) 
@@ -123,32 +78,46 @@
   (when (executable-find "emacs-lsp-booster")
     (eglot-booster-mode 1)))
 
+  ;; (defun my/orderless-dispatch-flex-first (_pattern index _total)
+    ;; (and (eq index 0) 'orderless-flex))
 ;; Consult integration with Eglot
 (use-package consult-eglot
   :straight t)
 
-
 ;; a bit hacky, we want verilog-ext-capf only for verilog mode and NOT regular eglot modes
-(defun my/eglot-capf ()
-  (unless (derived-mode-p 'verilog-mode)
+;; (defun my/eglot-capf ()
+;;   (unless (derived-mode-p 'verilog-mode)
+;;     (setq-local completion-at-point-functions
+;;                 (list (cape-capf-super
+;;                        #'cape-file
+;;                        #'yasnippet-capf
+;;                        ;; #'verilog-ext-capf
+;;                        #'eglot-completion-at-point
+;;                        )))))
+
+;; (add-hook 'eglot-managed-mode-hook #'my/eglot-capf)
+
+;; (defun my/verilog-capf ()
+;;   (setq-local completion-at-point-functions
+;;               (list (cape-capf-super
+;;                      #'cape-file
+;;                      #'yasnippet-capf
+;;                      #'verilog-ext-capf
+;;                      ))))
+
+;; (add-hook 'verilog-ext-mode-hook #'my/verilog-capf)
+;; (add-hook 'verilog-ts-mode-hook #'my/verilog-capf)
+
+
+(with-eval-after-load 'eglot
+  (defun my/eglot-capf ()
+    ;; (add-hook 'orderless-style-dispatchers #'my/orderless-dispatch-flex-first nil 'local)
     (setq-local completion-at-point-functions
-                (list (cape-capf-super
-                       #'cape-file
-                       #'yasnippet-capf
-                       ;; #'verilog-ext-capf
-                       #'eglot-completion-at-point
-                       )))))
+		(list (cape-capf-super
+		       #'eglot-completion-at-point
+                       #'verilog-ext-capf
+		       #'yasnippet-capf
+		       #'cape-file))))
 
+)
 (add-hook 'eglot-managed-mode-hook #'my/eglot-capf)
-
-(defun my/verilog-capf ()
-  (setq-local completion-at-point-functions
-              (list (cape-capf-super
-                     #'cape-file
-                     #'yasnippet-capf
-                     #'verilog-ext-capf
-                     ))))
-
-(add-hook 'verilog-ext-mode-hook #'my/verilog-capf)
-(add-hook 'verilog-ts-mode-hook #'my/verilog-capf)
-

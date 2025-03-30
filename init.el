@@ -537,14 +537,14 @@
 (load-file (expand-file-name "mixins/hlsmode.el" user-emacs-directory))
 
 ;; Completion settings (corfu capf cape)
-;; (load-file (expand-file-name "mixins/completion.el" user-emacs-directory))
-(load-file (expand-file-name "mixins/completion2.el" user-emacs-directory))
+(load-file (expand-file-name "mixins/completion.el" user-emacs-directory))
+;; (load-file (expand-file-name "mixins/completion2.el" user-emacs-directory))
 
 ;; lspmode config
-(load-file (expand-file-name "mixins/lspmode.el" user-emacs-directory))
+;; (load-file (expand-file-name "mixins/lspmode.el" user-emacs-directory))
 
 ;; Eglot config
-;; (load-file (expand-file-name "mixins/eglot.el" user-emacs-directory))
+(load-file (expand-file-name "mixins/eglot.el" user-emacs-directory))
 
 ;; lsp-bridge config
 ;; (load-file (expand-file-name "mixins/lsp-bridge.el" user-emacs-directory))
