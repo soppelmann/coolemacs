@@ -1,4 +1,6 @@
 ;(straight-use-package '(far :type git :repo "https://github.com/soppelmann/far.el"))
+(use-package swiper
+  :ensure t)
 
 (use-package far
   :straight (far :type git :host github :repo "soppelmann/far.el")
@@ -32,6 +34,7 @@
   (meow-motion-overwrite-define-key
    '("j" . meow-next)
    '("k" . meow-prev)
+   '("y" . meow-save)
    '("<escape>" . ignore)
    )
   (meow-leader-define-key
@@ -52,6 +55,8 @@
    '("/" . meow-keypad-describe-key)
    '("?" . meow-cheatsheet))
   (meow-normal-define-key
+   '("=" . avy-goto-word-1)
+   '("+" . swiper)
    '("`" . far-fill-paragraph)
    '("%" . evilmi-jump-items-native)
    '("0" . meow-expand-0)
