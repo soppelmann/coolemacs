@@ -99,6 +99,17 @@
   :bind (
          ("C-c g" . magit-status)))
 
+(with-eval-after-load 'magit-mode
+  (add-hook 'after-save-hook 'magit-after-save-refresh-status t))
+
+(use-package forge
+  :after magit
+  :ensure t
+  :config
+  (setq auth-sources '("~/.authinfo"))
+  (setq ghub-graphql-items-per-request 50)
+  (setq forge-topic-list-limit  -1))
+
 (fringe-mode '(0 . 0))
 
 ;; Get rid of flycheck in the gutter and margins
