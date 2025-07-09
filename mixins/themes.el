@@ -157,9 +157,9 @@
    (read-only-mode)
 
    (scroll-bar-mode 0)
-   (ef-themes-select 'ef-maris-dark)
+   ;; (ef-themes-select 'ef-maris-dark)
    ;; (load-theme 'doom-gruvbox)
-;   (load-theme 'doom-monokai-machine-private)
+  (load-theme 'doom-monokai-machine-private)
    ;(ef-themes-select 'ef-maris-dark)
    ;;(modus-themes-select 'modus-operandi)
    ;(modus-themes-select 'modus-vivendi-deuteranopia)
@@ -168,9 +168,9 @@
    ))
 
 ;;(load-theme 'modus-vivendi)
-(ef-themes-select 'ef-maris-dark)
+;; (ef-themes-select 'ef-maris-dark)
 ;; (load-theme 'doom-gruvbox)
-;(load-theme 'doom-monokai-machine-private)
+(load-theme 'doom-monokai-machine-private)
                                         ;(ef-themes-select 'ef-maris-dark)
 ;;(modus-themes-select 'modus-operandi)
 ;(modus-themes-select 'modus-vivendi-deuteranopia)
