@@ -102,9 +102,19 @@
 
 ;;   (org-roam-db-autosync-mode))
 
+;; spellcheck
+
+(use-package jinx
+  :ensure t
+  ;; :hook (emacs-startup . global-jinx-mode)
+)
+
+;; Alternative 2: Enable Jinx per mode
+(dolist (hook '(text-mode-hook latex-mode-hook org-mode-hook conf-mode-hook))
+  (add-hook hook #'jinx-mode))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
-;;;   Note Taking: Denote
+;;;   latex
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -147,7 +157,8 @@
     (add-hook 'LaTeX-mode-hook
           (lambda ()
         (reftex-mode t)
-        (flyspell-mode t)
+        ;; (flyspell-mode t)
+        ;; (jinx-mode t)
         (corfu-mode t)
         (yas-minor-mode t)
         (LaTeX-math-mode t)
@@ -224,7 +235,8 @@
 (use-package org
   :hook ((org-mode . visual-line-mode)  ; wrap lines at word breaks
          (org-mode . org-modern-mode)    ; Look nice
-         (org-mode . flyspell-mode)    ; Look nice
+         ;; (org-mode . flyspell-mode)    ; Look nice
+         ;; (org-mode . jinx-mode)    ; Look nice
          (org-mode . corfu-mode))    ; Corfu
 
   :bind (:map global-map
@@ -251,7 +263,7 @@
   ;; (add-hook 'hack-local-variables-hook #'flyspell-buffer))
   ;; (add-hook 'hack-local-variables #'flyspell-buffer nil 'local))
 
-(add-hook 'flyspell-mode-hook #'flyspell-buffer)
+;; (add-hook 'flyspell-mode-hook #'flyspell-buffer)
 
 (use-package org-babel
   :no-require
