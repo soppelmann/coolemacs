@@ -12,6 +12,7 @@
 ;;;  - Built-in customization framework
 (setq warning-minimum-level :emergency)
 
+
 ;; TODO:
 ;;
 ;; keybinds for consult-tramp
@@ -385,7 +386,7 @@
 ;;   (smooth-scrolling-mode 1))
 
 ;; Use common keystrokes by default
-;(cua-mode)
+(cua-mode)
 
 ;; Display line numbers in programming mode
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)

@@ -9,7 +9,8 @@
 ; :config (define-key global-map (kbd "<f5>") #'modus-themes-toggle))
 
 (use-package ef-themes
-  :straight (:host github :repo "protesilaos/ef-themes" :branch "main")
+  :straight (:host github :repo "soppelmann/ef-themes" :branch "main")
+  :ensure t
   :config
   (define-key global-map (kbd "<f6>") #'ef-themes-toggle)
   (setq ef-bio-palette-overrides '((variable fg-main)
@@ -17,7 +18,7 @@
   (setq ef-cyprus-palette-overrides '((variable fg-main)
                                       (bg-main bg-dim)
                                       (string green-faint)))
-  (load-theme sss-emacs-theme t)
+  ;; (load-theme sss-emacs-theme t)
   )
 
 (setq
@@ -35,7 +36,7 @@
    (t . (regular 1.15))))
 
 (setq
- ef-themes-to-toggle '(ef-maris-dark ef-deuteranopia-light)
+ ef-themes-to-toggle '(ef-black ef-deuteranopia-light)
 )
 
 ;;(setq
@@ -138,6 +139,10 @@
 ;; you are using the default mode line and not an extra package).
 ;; (custom-set-faces
 ;;  '(mode-line ((t :box (:style released-button)))))
+;; (custom-set-faces
+ ;; '(mode-line ((t :box nil))))
+;; (custom-set-faces
+ ;; '(mode-line-inactive ((t :box nil))))
 
 
 ;(defun my-modus-themes-custom-faces ()
@@ -157,9 +162,9 @@
    (read-only-mode)
 
    (scroll-bar-mode 0)
-   ;; (ef-themes-select 'ef-maris-dark)
+   (ef-themes-select 'ef-black)
    ;; (load-theme 'doom-gruvbox)
-  (load-theme 'doom-monokai-machine-private)
+  ;; (load-theme 'doom-monokai-machine-private)
    ;(ef-themes-select 'ef-maris-dark)
    ;;(modus-themes-select 'modus-operandi)
    ;(modus-themes-select 'modus-vivendi-deuteranopia)
@@ -168,9 +173,9 @@
    ))
 
 ;;(load-theme 'modus-vivendi)
-;; (ef-themes-select 'ef-maris-dark)
+(ef-themes-select 'ef-black)
 ;; (load-theme 'doom-gruvbox)
-(load-theme 'doom-monokai-machine-private)
+;; (load-theme 'doom-monokai-machine-private)
                                         ;(ef-themes-select 'ef-maris-dark)
 ;;(modus-themes-select 'modus-operandi)
 ;(modus-themes-select 'modus-vivendi-deuteranopia)

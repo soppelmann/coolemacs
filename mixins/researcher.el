@@ -188,6 +188,8 @@
 (use-package pdf-tools
   :ensure t
   :mode (("\\.pdf\\'" . pdf-view-mode))
+  :init
+  (pdf-tools-install)
   :custom
   (pdf-view-display-size 'fit-width)
   (pdf-annot-activate-created-annotations t "automatically annotate highlights")

@@ -158,15 +158,6 @@
 ;;   :ensure t)
 
 (use-package eat
-  :straight (eat
-             :type git
-             :host codeberg
-             :repo "akib/emacs-eat"
-             :files ("*.el" ("term" "term/*.el") "*.texi"
-                     "*.ti" ("terminfo/e" "terminfo/e/*")
-                     ("terminfo/65" "terminfo/65/*")
-                     ("integration" "integration/*")
-                     (:exclude ".dir-locals.el" "*-tests.el")))
   :ensure t
   :config
   (eat-eshell-mode +1)
@@ -180,8 +171,9 @@
 
 (setq eat-minimum-latency 0.002)
 
-  ;; Eat settings
-(setq eat-kill-buffer-on-exit t
+;; Eat settings
+(setq
+      ;; eat-kill-buffer-on-exit t
       eat-term-name "xterm-256color"  ;; easier than tryin to hack eat-term to work
       eat-shell "/bin/bash"
       eat-tramp-shells '(("docker" . "/bin/sh")
@@ -341,6 +333,7 @@ targets."
   :bind (("C-x o" . ace-window)
          ;("C-o" . ace-window)
 ;         ("C-p" . ace-window)
+          ("C-x w" . ace-swap-window)
          ))
 ;; Nice tabs
 (use-package centaur-tabs

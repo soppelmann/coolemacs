@@ -70,7 +70,7 @@
  ;;    \\:\\__\\         /:/  /        /:/  /       \\:\\__\\        \\::/  /
  ;;     \\/__/         \\/__/         \\/__/         \\/__/         \\/__/    "
  ;;                       'face 'modus-themes-fg-yellow-intense)))
-    (grid-get-box
+    (grid-make-box
      `( :align center
         :width 40
         :content ,(enlight-menu
@@ -88,7 +88,7 @@
        ("Restore session from file" +desktop-read-session "r"))))))
     "\n"
 
-    (grid-get-box
+    (grid-make-box
      `( :align center
         :width 40
         :content ,(with-temp-buffer

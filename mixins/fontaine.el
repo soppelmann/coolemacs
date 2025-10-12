@@ -274,7 +274,7 @@
         (TriplicateT4c
          :default-family "Triplicate T4c"
          :default-weight normal
-         :default-height 140
+         :default-height 120
          :fixed-pitch-family nil ; falls back to :default-family
          :fixed-pitch-weight nil ; falls back to :default-weight
          :fixed-pitch-height 1.0
