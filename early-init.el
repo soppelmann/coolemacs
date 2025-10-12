@@ -21,6 +21,7 @@
 (setq frame-resize-pixelwise t)
 
 (tool-bar-mode -1)                      ; All these tools are in the menu-bar anyway
+(menu-bar-mode -1)                      ; All these tools are in the menu-bar anyway
 
 (setenv "LSP_USE_PLISTS" "true")
 
@@ -32,7 +33,7 @@
     ;; You can turn off scroll bars by uncommenting these lines:
     (vertical-scroll-bars . nil)
     (horizontal-scroll-bars . nil)
-    (undecorated-round . t)
+    (undecorated . t)
     ;; Setting the face in here prevents flashes of
     ;; color as the theme gets activated
    (background-color . "#000000")
