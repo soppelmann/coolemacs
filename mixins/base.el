@@ -135,7 +135,8 @@
 
               ;; Auto-refresh dired on file change
               (auto-revert-mode)
-              (setq-default auto-revert-interval 1)
+              ;; Increase interval from 1s to 5s for better performance
+              (setq-default auto-revert-interval 5)
               (auto-revert-set-timer))))
 
 

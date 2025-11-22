@@ -23,7 +23,8 @@
   :hook ((circe-mode . corfu-mode))
   :custom
   (corfu-auto t)               ;; Enable auto completion
-  (corfu-auto-delay  0.1)
+  ;; Increase delay from 0.1 to 0.2 for better performance
+  (corfu-auto-delay  0.2)
   (corfu-auto-prefix 2)
   ;; (corfu-preselect 'directory) ;; Select the first candidate, except for directories
   (corfu-on-exact-match 'show)

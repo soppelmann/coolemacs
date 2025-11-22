@@ -22,10 +22,25 @@
 ;; completion
 
 ;; This is at the top of the file to ensure that
-;; it benfits startup time of stuff later on.
+;; it benefits startup time of stuff later on.
 
-(setq gc-cons-threshold (* 100 1024 1024)
-      read-process-output-max (* 1024 1024))
+;; Optimize process communication (3MB buffer for LSP/external processes)
+(setq read-process-output-max (* 3 1024 1024))
+
+;; Set reasonable GC threshold (100MB) - will be applied after startup
+(setq gc-cons-threshold (* 100 1024 1024))
+(setq gc-cons-percentage 0.1)
+
+;; Reset GC after startup for better runtime performance
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (setq gc-cons-threshold (* 100 1024 1024))
+            (setq gc-cons-percentage 0.1)
+            (message "Startup time: %s with %d garbage collections."
+                     (format "%.2f seconds"
+                             (float-time
+                              (time-subtract after-init-time before-init-time)))
+                     gcs-done)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
@@ -92,17 +107,12 @@
 ;; (setq use-package-always-defer t
      ;; use-package-always-ensure t)
 
-;; exec-path-from-shell
+;; exec-path-from-shell - only initialize once
 (use-package exec-path-from-shell
   :ensure
-  :init (exec-path-from-shell-initialize))
-
-;; Path for daemon
-(when (daemonp)
-  (exec-path-from-shell-initialize))
-
-(when (memq window-system '(mac ns x))
-  (exec-path-from-shell-initialize))
+  :init
+  (when (or (daemonp) (memq window-system '(mac ns x)))
+    (exec-path-from-shell-initialize)))
 
 (setq initial-major-mode 'fundamental-mode)  ; default mode for the *scratch* buffer
 (setq display-time-default-load-average nil) ; this information is useless for most
@@ -134,10 +144,14 @@
  create-lockfiles nil)
 
 ;; Automatically reread from disk if the underlying file changes
+;; Optimized for better performance
 
 (setopt auto-revert-avoid-polling t)
-(setq auto-revert-interval 1)
-(setq auto-revert-check-vc-info t)
+;; Increase interval from 1s to 5s for better performance
+(setq auto-revert-interval 5)
+;; Disable VC info checking in auto-revert (slow)
+(setq auto-revert-check-vc-info nil)
+;; Keep global auto-revert enabled (but remote files will be excluded via tramp.el)
 (setq global-auto-revert-mode t)
 
 ;; newline final
@@ -264,6 +278,7 @@
 
 (use-package doom-modeline
   :ensure t
+  :defer 0.1  ; Defer loading by 0.1s for faster startup
   :hook (after-init . doom-modeline-mode)
   :custom
   (doom-modeline-height 25)
@@ -445,7 +460,8 @@
 
 (setq display-time-format "%T")
 ;; (setq display-time-format "%a %F %T")
-(setq display-time-interval 1)
+;; Update time every 60 seconds instead of 1 (improves performance)
+(setq display-time-interval 60)
 (display-time-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

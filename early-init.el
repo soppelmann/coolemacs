@@ -10,7 +10,9 @@
 ;(add-to-list 'default-frame-alist '(undecorated-round . t))
 
 ;; Startup speed, annoyance suppression
-(setq gc-cons-threshold 10000000)
+;; Maximize GC threshold during startup (will be reset in init.el)
+(setq gc-cons-threshold most-positive-fixnum)
+(setq gc-cons-percentage 0.6)
 (setq byte-compile-warnings '(not obsolete))
 (setq warning-suppress-log-types '((comp) (bytecomp)))
 
