@@ -105,15 +105,29 @@
 ;; (add-hook 'verilog-ts-mode-hook #'my/verilog-capf)
 
 
+;; Wrap verilog-ext-capf with cape-wrap-buster for proper cache busting
+;; This ensures completions update correctly when the buffer changes
+(with-eval-after-load 'verilog-ext
+  (advice-add 'verilog-ext-capf :around #'cape-wrap-buster))
+
 (with-eval-after-load 'eglot
   (defun my/eglot-capf ()
-    ;; (add-hook 'orderless-style-dispatchers #'my/orderless-dispatch-flex-first nil 'local)
-    (setq-local completion-at-point-functions
-		(list (cape-capf-super
-                       #'verilog-ext-capf
-		       #'eglot-completion-at-point
-		       #'yasnippet-capf
-		       #'cape-file))))
+    "Setup completion-at-point-functions for eglot with proper verilog-ext integration."
+    (if (derived-mode-p 'verilog-mode 'verilog-ts-mode)
+        ;; For verilog modes: include verilog-ext-capf with proper wrapping
+        (setq-local completion-at-point-functions
+                    (list (cape-capf-buster
+                           (cape-capf-super
+                            #'eglot-completion-at-point
+                            #'verilog-ext-capf
+                            #'yasnippet-capf
+                            #'cape-file)
+                           'equal)))
+      ;; For other eglot-managed modes: standard setup without verilog-ext
+      (setq-local completion-at-point-functions
+                  (list (cape-capf-super
+                         #'eglot-completion-at-point
+                         #'yasnippet-capf
+                         #'cape-file))))))
 
-)
 (add-hook 'eglot-managed-mode-hook #'my/eglot-capf)

@@ -51,8 +51,7 @@
          xref
          capf
          hierarchy
-         eglot
-         lsp
+         eglot           ;; Use eglot (not lsp-mode)
          flycheck
          beautify
          navigation
@@ -65,16 +64,17 @@
          typedefs
          time-stamp
          block-end-comments
-         company-keywords
          ports))
  :config
  (verilog-ext-mode-setup))
 
 (require 'verilog-ext)
 
-(verilog-ext-lsp-set-server 've-svls) ;`eglot' config
-;; (verilog-ext-eglot-set-server 've-svls) ;`eglot' config
-;; (verilog-ext-eglot-set-server 've-svlangserver) ;`eglot' config
+;; Use eglot-specific server configuration (not lsp-mode)
+(verilog-ext-eglot-set-server 've-svls) ;`eglot' config
+;; Alternative servers (uncomment to use):
+;; (verilog-ext-eglot-set-server 've-svlangserver)
+;; (verilog-ext-eglot-set-server 've-verible)
 
 (setq verilog-ext-flycheck-verible-rules '("-line-length"
                                            "+parameter-type-name-style"))
