@@ -1,4 +1,4 @@
-;;; Minimal init.el
+;;; Minimal init.el  -*- lexical-binding: t; -*-
 ;;; (benchmark-init/activate)
 ;;; Contents:
 ;;;
@@ -493,10 +493,10 @@
 (load-file (expand-file-name "mixins/dev.el" user-emacs-directory))
 
 ;; Vim-bindings in Emacs (evil-mode configuration)
-;; (load-file (expand-file-name "mixins/vim-like.el" user-emacs-directory))
+(load-file (expand-file-name "mixins/vim-like.el" user-emacs-directory))
 
 ;; meow setup for emacs
-(load-file (expand-file-name "mixins/meow.el" user-emacs-directory))
+;; (load-file (expand-file-name "mixins/meow.el" user-emacs-directory))
 
 ;; Dashboard for emacs
 ;; (load-file (expand-file-name "mixins/dashboard.el" user-emacs-directory))

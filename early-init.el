@@ -1,4 +1,4 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;  -*- lexical-binding: t; -*-
 ;;;
 ;;;   Basic settings for quick startup and convenience
 ;;;
@@ -6,9 +6,9 @@
 
 (setq load-prefer-newer t)
 
-(add-to-list 'default-frame-alist '(undecorated . t))
-;(add-to-list 'default-frame-alist '(undecorated-round . t))
-
+;; (add-to-list 'default-frame-alist '(undecorated . t))
+;; (add-to-list 'default-frame-alist '(undecorated-round . t))
+;; (setq package-enable-at-startup nil)
 ;; Startup speed, annoyance suppression
 (setq gc-cons-threshold 10000000)
 (setq byte-compile-warnings '(not obsolete))

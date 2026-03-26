@@ -162,10 +162,9 @@
    (read-only-mode)
 
    (scroll-bar-mode 0)
-   (ef-themes-select 'ef-black)
+   ;; (ef-themes-load-theme 'ef-black)
    ;; (load-theme 'doom-gruvbox)
   ;; (load-theme 'doom-monokai-machine-private)
-   ;(ef-themes-select 'ef-maris-dark)
    ;;(modus-themes-select 'modus-operandi)
    ;(modus-themes-select 'modus-vivendi-deuteranopia)
    ;(load-theme 'grb256)
@@ -173,7 +172,7 @@
    ))
 
 ;;(load-theme 'modus-vivendi)
-(ef-themes-select 'ef-black)
+(ef-themes-load-theme 'ef-black)
 ;; (load-theme 'doom-gruvbox)
 ;; (load-theme 'doom-monokai-machine-private)
                                         ;(ef-themes-select 'ef-maris-dark)

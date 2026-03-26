@@ -271,6 +271,21 @@
          :italic-family nil
          :italic-slant italic
          :line-spacing nil)
+        (TriplicateT4cLarge
+         :default-family "Triplicate T4c"
+         :default-weight normal
+         :default-height 140
+         :fixed-pitch-family nil ; falls back to :default-family
+         :fixed-pitch-weight nil ; falls back to :default-weight
+         :fixed-pitch-height 1.0
+         :variable-pitch-family "Triplicate T4c"
+         :variable-pitch-weight normal
+         :variable-pitch-height 1.05
+         :bold-family nil ; use whatever the underlying face has
+         :bold-weight normal
+         :italic-family nil
+         :italic-slant italic
+         :line-spacing nil)
         (TriplicateT4c
          :default-family "Triplicate T4c"
          :default-weight normal

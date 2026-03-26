@@ -143,7 +143,7 @@
   (desktop-path (list "~/.emacs.d/desktop/"))
   ;; :commands (+desktop-read-session)
   :init
-  (setq desktop-dirname "~/.emacs.d/desktop/"
+  (setq desktop-dirname "~/.emacs.d/desktop/")
 
   :config
   ;; HACK: When saving the session, we set the file name to the timestamp. Then
@@ -151,7 +151,7 @@
   ;; will read the last session when called while keeping the previous one.
 
   (advice-add 'desktop-save :around #'+desktop-save--timestamp-file:around-a)
-  ))
+  )
 
 
 ;; (desktop-save-mode)

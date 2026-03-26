@@ -1,4 +1,4 @@
-;;; Emacs Bedrock
+;;; Emacs Bedrock  -*- lexical-binding: t; -*-
 ;;;
 ;;; Mixin: Researcher
 
@@ -289,7 +289,7 @@
        (python . t)
        (R . t)
        (scheme . t)
-       (sh . t)
+       ;; (sh . t)
        ;; (sql . t)
        )))
 
