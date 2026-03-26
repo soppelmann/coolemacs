@@ -103,17 +103,3 @@
 
 ;; (add-hook 'verilog-ext-mode-hook #'my/verilog-capf)
 ;; (add-hook 'verilog-ts-mode-hook #'my/verilog-capf)
-
-
-(with-eval-after-load 'eglot
-  (defun my/eglot-capf ()
-    ;; (add-hook 'orderless-style-dispatchers #'my/orderless-dispatch-flex-first nil 'local)
-    (setq-local completion-at-point-functions
-		(list (cape-capf-super
-                       #'verilog-ext-capf
-		       #'eglot-completion-at-point
-		       #'yasnippet-capf
-		       #'cape-file))))
-
-)
-(add-hook 'eglot-managed-mode-hook #'my/eglot-capf)
