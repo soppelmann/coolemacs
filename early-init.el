@@ -23,6 +23,10 @@
 (tool-bar-mode -1)                      ; All these tools are in the menu-bar anyway
 (menu-bar-mode -1)                      ; All these tools are in the menu-bar anyway
 
+(setq mac-command-modifier      'super
+      mac-option-modifier       'meta
+      mac-right-option-modifier 'alt
+)
 (setenv "LSP_USE_PLISTS" "true")
 
 
