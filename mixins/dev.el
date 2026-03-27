@@ -298,14 +298,6 @@
 (use-package phi-search-mc
   :ensure t)
 
-;; install multiple-cursor
-
-(use-package multiple-cursors
-  :ensure t)
-
-(use-package mc-extras
-  :ensure t)
-
 
 (define-key phi-search-default-map (kbd "C-, C-,") 'phi-search-mc/mark-here)
 
@@ -333,7 +325,6 @@
 (phi-search-mc/setup-keys)
 (add-hook 'isearch-mode-hook 'phi-search-from-isearch-mc/setup-keys)
 
-
 ;; (use-package indent-bars
   ;; :ensure t
   ;; :hook ((prog-mode) . indent-bars-mode)) ; or whichever modes you prefer
@@ -347,7 +338,6 @@
   :init
   ;; Use `dumb-jump' as `xref' backend
   (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
-
 
 (use-package dumb-jump
   :ensure t
@@ -363,7 +353,6 @@
 
 (use-package go-mode
   :ensure t)
-
 
 ;; fix python
 (use-package python
@@ -394,27 +383,6 @@
 ;;                        (nerd-icons-icon-for-file file)
 ;;                      (nerd-icons-icon-for-mode major-mode)))))))
 
-;; Emacs text actions using LSP symbol information
-(use-package gambol
-  :straight (:host codeberg :repo "woolsweater/gambol.el")
-  :hook (eglot-managed-mode . gambol-mode)
-  :bind
-  (("M-g ," . gambol:go-to-previous)
-   ("M-g ." . gambol:go-to-next)
-   ([remap mc/mark-all-dwim] . gambol:edit-all)
-   ([remap occur] . +gambol:occur-dwim)
-   :map gambol-repeat-map
-   ("," . gambol:go-to-previous)
-   ("." . gambol:go-to-next)
-   ("e" . gambol:edit-all)
-   ("o" . gambol:occur))
-  :init
-  (with-eval-after-load 'embark (gambol:install-embark-integration)) ; Integrate with `embark'
-  (defun +gambol:occur-dwim ()
-    "Call `gambol:occur' if in an Eglot managed buffer, fallback to `occur'."
-    (interactive)
-    (unless (and (featurep 'eglot) (eglot-managed-p) (ignore-errors (gambol:occur) t))
-      (call-interactively #'occur))))
 
 ;; Structured editing and navigation in Emacs with Tree-Sitter
 (use-package combobulate-setup
@@ -442,7 +410,6 @@
   (keymap-set combobulate-key-map "M-S-<down>" #'combobulate-splice-down)
   (keymap-set combobulate-key-map "M-S-<left>" #'combobulate-splice-self)
   (keymap-set combobulate-key-map "M-S-<right>" #'combobulate-splice-parent))
-
 
 (defun reverse-selection (beg end)
  "Reverse characters between BEG and END."
