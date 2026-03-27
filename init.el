@@ -273,7 +273,8 @@
 ;; (setq uniquify-buffer-name-style 'nil)
 
 (use-package doom-modeline
-  :ensure t
+  :load-path "~/.emacs.d/elisp/doom-modeline"
+  ;; :ensure t
   :hook (after-init . doom-modeline-mode)
   :custom
   (doom-modeline-height 25)
@@ -293,11 +294,15 @@
   (doom-modeline-vcs-max-length 12)
   (doom-modeline-env-version t)
   (doom-modeline-irc t)
+  ;; (doom-modeline-irc-buffers t)
   (doom-modeline-irc-stylize 'doom-modeline-shorten-irc)
   ;; (doom-modeline-irc-stylize 'ignore)
   ;; (doom-modeline-irc-stylize 'identity)
   (doom-modeline-github-timer nil)
-  (doom-modeline-gnus-timer nil))
+  (doom-modeline-gnus-timer nil)
+  ;; (doom-modeline-irc-priority-only nil)
+  (doom-modeline-irc-priority-only t)
+  )
 
 (display-battery-mode)
 
@@ -481,6 +486,12 @@
 
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/elisp"))
 
+(defun disable-all-themes ()
+  "disable all active themes."
+  (interactive)
+  (dolist (i custom-enabled-themes)
+    (disable-theme i)))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;;   Optional mixins
@@ -528,28 +539,12 @@
 (setq nyan-minimum-window-width 100)
 ;; (nyan-mode)
 
-;; (defun disable-all-themes ()
-  ;; "disable all active themes."
-  ;; (dolist (i custom-enabled-themes)
-    ;; (disable-theme i)))
-
-;; (defadvice load-theme (before disable-themes-first activate)
-  ;; (disable-all-themes))
-
-;; (load-theme 'doom-monokai-machine-private t)
-;; (load-theme 'doom-tomorrow-day-private t)
-
 (load-file (expand-file-name "mixins/themes.el" user-emacs-directory))
 
-;; (load-file (expand-file-name "mixins/treesit.el" user-emacs-directory))
-
-;; (load-file (expand-file-name "mixins/new.el" user-emacs-directory))
 ;; verilog config
 ;; (load-file (expand-file-name "mixins/hlsmode.el" user-emacs-directory))
 
 ;; Completion settings (corfu capf cape)
-;; (load-file (expand-file-name "mixins/completion.el" user-emacs-directory))
-;; (load-file (expand-file-name "mixins/completion2.el" user-emacs-directory))
 (load-file (expand-file-name "mixins/completion3.el" user-emacs-directory))
 
 ;; lspmode config
@@ -563,8 +558,6 @@
 
 ;; Rust config
 ;(load-file (expand-file-name "mixins/rust.el" user-emacs-directory))
-;; Company config
-;; (load-file (expand-file-name "mixins/company.el" user-emacs-directory))
 
 ;; Cargo config
 ;(load-file (expand-file-name "mixins/cargo.el" user-emacs-directory))
@@ -584,11 +577,6 @@
 ;; the file mixins/org-intro.txt for help.
 ;; (load-file (expand-file-name "mixins/org.el" user-emacs-directory))
 
-;; Email configuration in Emacs
-;; WARNING: needs the `mu' program installed; see the mixin file for more
-;; details.
-;(load-file (expand-file-name "mixins/email.el" user-emacs-directory))
-
 ;; Tools for academic researchers
 ;; (load-file (expand-file-name "mixins/researcher.el" user-emacs-directory))
 
@@ -598,4 +586,7 @@
 (load-file (expand-file-name "mixins/enlight.el" user-emacs-directory))
 
 ;; IRC config
-;; (load-file (expand-file-name "mixins/irc.el" user-emacs-directory))
+(load-file (expand-file-name "mixins/irc.el" user-emacs-directory))
+
+;; Note taking config
+(load-file (expand-file-name "mixins/notes.el" user-emacs-directory))
