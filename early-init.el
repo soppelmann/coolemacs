@@ -7,7 +7,7 @@
 (setq load-prefer-newer t)
 
 ;; (add-to-list 'default-frame-alist '(undecorated . t))
-;; (add-to-list 'default-frame-alist '(undecorated-round . t))
+(add-to-list 'default-frame-alist '(undecorated-round . t))
 ;; (setq package-enable-at-startup nil)
 ;; Startup speed, annoyance suppression
 (setq gc-cons-threshold 10000000)
@@ -37,11 +37,11 @@
     ;; You can turn off scroll bars by uncommenting these lines:
     (vertical-scroll-bars . nil)
     (horizontal-scroll-bars . nil)
-    (undecorated . t)
+    ;; (undecorated . t)
     ;; Setting the face in here prevents flashes of
     ;; color as the theme gets activated
    (background-color . "#000000")
    (ns-appearance . dark)
-    (ns-transparent-titlebar . t)
+    ;; (ns-transparent-titlebar . t)
     )
 )
