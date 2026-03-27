@@ -1,5 +1,22 @@
 ;;; completion.el --- Corfu + Cape + YASnippet completion stack -*- lexical-binding: t; -*-
 
+(defun +corfu-smart-ret ()
+  "Confirm candidate if selected, otherwise pass RET through."
+  (interactive)
+    (message "corfu-insert fired, index: %d" corfu--index)
+  (if (>= corfu--index 0)
+      (corfu-insert))
+    (corfu-quit)
+    (message "corfu-insert fired, index: %d" corfu--index)
+    (call-interactively (or (command-remapping #'newline)
+                            (key-binding (kbd "RET")))))
+
+;; Orderless: powerful completion style
+(use-package orderless
+  :ensure t
+  :config
+  (setq completion-styles '(orderless)))
+
 ;; ─── Corfu ────────────────────────────────────────────────────────────────────
 
 (use-package corfu
@@ -8,10 +25,15 @@
   (corfu-auto           t)
   (corfu-auto-delay     0)
   (corfu-auto-prefix    2)
-  (corfu-on-exact-match 'show)
+  (corfu-on-exact-match 'quit)
+  (corfu-preselect      'prompt)
   (corfu-cycle          t)
   (corfu-quit-at-boundary t)
   (corfu-quit-no-match    t)
+  ;; (corfu-quit-no-match    'separator)
+  ;; (corfu-separator ?\s)
+  ;; (corfu-separator ?_)
+  ;; (corfu-separator (string-to-char "⊂"))
 
   :bind (:map corfu-map
          ("TAB"        . corfu-next)
@@ -22,7 +44,9 @@
          ("M-<tab>"    . corfu-complete)
          ("M-SPC"      . corfu-insert-separator)
          ("S-<return>" . corfu-insert)
-         ("RET"        . corfu-insert))
+         ;; ("RET"        . +corfu-smart-ret)
+         ;; ("RET"        . corfu-insert)
+         )
 
   :hook
   ((prog-mode circe-mode)   . corfu-mode)
@@ -30,13 +54,20 @@
   ((eshell-mode shell-mode) . +corfu-less-intrusive-h)
   (minibuffer-setup         . +corfu-enable-in-minibuffer-h)
 
-  :init
   (global-corfu-mode)
 
   :config
   (when (>= emacs-major-version 30)
     (setq text-mode-ispell-word-completion nil))
 
+  (keymap-set corfu-map "RET"
+  `(menu-item "" nil :filter
+     ,(lambda (&optional _)
+        (and (derived-mode-p 'eshell-mode 'comint-mode
+                             'prog-mode 'tex-mode 'latex-mode)
+             #'corfu-insert))))
+
+  
   (defun +corfu-enable-in-minibuffer-h ()
     "Enable Corfu in the minibuffer when `completion-at-point' is locally bound."
     (when (local-variable-p 'completion-at-point-functions)
@@ -98,28 +129,48 @@
   (add-hook 'completion-in-region-mode-hook
             (lambda () (setq completion-in-region-mode--predicate #'always)))
 
+  (defun +eglot-capf-h ()
+  "Setup or teardown the fused eglot capf depending on eglot state."
+  (if eglot--managed-mode
+      (progn
+        (setq +eglot-super-capf
+              (cape-capf-nonexclusive
+               (cape-capf-super
+                ;; #'cape-file
+                #'eglot-completion-at-point
+                #'yasnippet-capf)))
+        (add-to-list 'completion-at-point-functions #'cape-file)
+        (add-to-list 'completion-at-point-functions +eglot-super-capf))
+    (when +eglot-super-capf
+      (setq-local completion-at-point-functions
+                  (remove +eglot-super-capf completion-at-point-functions))
+      (setq +eglot-super-capf nil))))
+
+  (add-hook 'eglot-managed-mode-hook #'+eglot-capf-h)
+
+  
   ;; Eglot: fuse LSP + yasnippet + file into one non-exclusive capf so Corfu
   ;; doesn't stop after this entry even when it returns candidates.
-  (defun +eglot-capf-setup-h ()
-    (setq-local completion-at-point-functions
-                (cons (cape-capf-nonexclusive
-                       (cape-capf-super
-                        #'cape-file
-                        #'eglot-completion-at-point
-                        #'yasnippet-capf
-                        ))
-                      completion-at-point-functions)))
-  (add-hook 'eglot-managed-mode-hook #'+eglot-capf-setup-h)
+  ;; (defun +eglot-capf-setup-h ()
+  ;;   (setq-local completion-at-point-functions
+  ;;               (cons (cape-capf-nonexclusive
+  ;;                      (cape-capf-super
+  ;;                       #'cape-file
+  ;;                       #'eglot-completion-at-point
+  ;;                       #'yasnippet-capf
+  ;;                       ))
+  ;;                     completion-at-point-functions)))
+  ;; (add-hook 'eglot-managed-mode-hook #'+eglot-capf-setup-h)
 
   ;; Elisp modes: fuse symbol + block + file, buffer-local.
-  (dolist (hook '(emacs-lisp-mode-hook git-commit-mode-hook))
-    (add-hook hook
-              (lambda ()
-                (add-hook 'completion-at-point-functions
-                          (cape-capf-super #'cape-file
-                                           #'cape-elisp-symbol
-                                           #'cape-elisp-block)
-                          nil t))))
+  ;; (dolist (hook '(emacs-lisp-mode-hook git-commit-mode-hook))
+  ;;   (add-hook hook
+  ;;             (lambda ()
+  ;;               (add-hook 'completion-at-point-functions
+  ;;                         (cape-capf-super #'cape-file
+  ;;                                          #'cape-elisp-symbol
+  ;;                                          #'cape-elisp-block)
+  ;;                         nil t))))
 
   ;; TeX modes: add TeX capf buffer-locally.
   (dolist (hook '(TeX-mode-hook LaTeX-mode-hook))
