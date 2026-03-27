@@ -36,7 +36,7 @@
    (t . (regular 1.15))))
 
 (setq
- ef-themes-to-toggle '(ef-black ef-deuteranopia-light)
+ ef-themes-to-toggle '(ef-black ef-eagle)
 )
 
 ;;(setq
