@@ -14,10 +14,10 @@
 
 ;; Adds IRCv3 self-message support to Circe.
 ;;
-;; When a bouncer (e.g. soju, ZNC, Quassel) replays a message that
-;; WE sent from another connected client, or when a server that
-;; negotiated the echo-message capability reflects our own outgoing
-;; PRIVMSG/NOTICE back to us, the wire format looks like:
+;; When a bouncer (e.g. soju, ZNC, Quassel) replays a message that WE
+;; sent from another connected client, or when a server that negotiated
+;; the echo-message capability reflects our own outgoing PRIVMSG/NOTICE
+;; back to us, the wire format looks like:
 ;;
 ;;   :yournick!~user@host PRIVMSG someone_else :Hello world!
 ;;
@@ -27,29 +27,33 @@
 ;; handle (a) messages where WE are the target and (b) messages to
 ;; channels — they have no path for "we are the sender".
 ;;
-;; This extension adds that third path.  Every other code path in the
-;; original handlers is preserved character-for-character, so regular
-;; messages are unaffected.
+;; Deduplication design:
 ;;
-;; Installation:
+;;   The naive approach — suppress local display when a boolean
+;;   "echo-message is active" flag is set — is racy.  If the server
+;;   is slow, SAY displays the message locally before the echo arrives;
+;;   when the echo then arrives it gets displayed again.
 ;;
-;;   (require 'circe-self-message)
-;;   (circe-self-message-enable)
+;;   Instead we use a pending-echo queue (per server buffer).  Every
+;;   time circe-command-SAY or circe-command-ME sends a message it
+;;   enqueues (target . text) *and* displays locally as normal.  When
+;;   a self-message arrives from the server, the display handler checks
+;;   the queue:
 ;;
-;; echo-message capability and duplicate prevention:
+;;     • Queue has a matching entry  → this is the echo of something we
+;;       just sent.  Consume the entry and skip display (already shown).
 ;;
-;;   Calling `circe-self-message-enable' also arranges for the
-;;   "echo-message" IRCv3 capability to be requested on every new
-;;   connection.  When the server grants echo-message it reflects
-;;   every outgoing PRIVMSG/NOTICE back to us.  Circe's
-;;   `circe-command-SAY' and `circe-command-ME' already display the
-;;   message locally before sending, so without intervention you
-;;   would see every message twice.
+;;     • No matching entry  → this is a replay from another client
+;;       connected to the same bouncer.  Display it normally.
 ;;
-;;   This extension solves that by suppressing the local display in
-;;   SAY and ME when echo-message is active — the server reflection
-;;   becomes the one and only display.  When echo-message was NOT
-;;   granted by the server, SAY and ME display normally as before.
+;;   This means:
+;;     - No race condition.  Local display happens immediately at send
+;;       time.  The echo is suppressed whenever it arrives.
+;;     - No dependency on any cap negotiation flag or irc.el internal
+;;       API.  Works equally for echo-message and bouncer replay.
+;;     - Queue entries that never get echoed (server without
+;;       echo-message, or the echo was lost) are cleaned up after a
+;;       short timeout so memory does not grow unboundedly.
 ;;
 ;; CTCP / ACTION:
 ;;
@@ -58,7 +62,10 @@
 ;;   they reach the "irc.message" handler.  The existing
 ;;   `circe-display-ctcp-action' handler already handles the channel
 ;;   and query cases correctly, so self-message /me replays work
-;;   automatically with no extra code here.
+;;   automatically with no extra code here.  Echo-message reflections
+;;   of /me also go through irc.ctcp.ACTION, and circe-display-ctcp-action
+;;   already handles the self-send case (nick == our nick → self-action
+;;   format), so /me echo deduplication is not needed.
 
 ;;; Code:
 
@@ -69,157 +76,126 @@
 ;;;; User options
 ;;;; ─────────────────────────────────────────────────────────────────────────
 
-(defcustom circe-self-message-show-echo t
-  "When non-nil, display self-messages received from the server.
+(defcustom circe-self-message-queue-ttl 30
+  "Seconds to keep an unmatched pending-echo entry before discarding it.
 
-A self-message is a PRIVMSG or NOTICE where the sender nick is
-our own nick.  This happens in two situations:
-
-  1. A bouncer (soju, ZNC, …) replays a message sent by another
-     one of our connected clients.
-  2. A server that granted the echo-message capability reflects
-     every outgoing PRIVMSG/NOTICE back to us.
-
-When non-nil (the default) these are shown in the appropriate
-buffer using `circe-format-self-say' / `circe-format-self-message',
-matching the behaviour of HexChat, mIRC, WeeChat, and other
-clients in the IRCv3 self-message compatibility table.
-
-Set to nil to silently suppress them — useful if your bouncer
-deduplicates echo and you would otherwise see every message twice."
-  :type 'boolean
+When echo-message is not active on a connection, messages you
+send are enqueued but the echo never arrives.  This TTL prevents
+those entries from accumulating indefinitely.  30 seconds is
+generous — a server echo normally arrives within milliseconds."
+  :type 'integer
   :group 'circe)
+
+;;;; ─────────────────────────────────────────────────────────────────────────
+;;;; Pending-echo queue
+;;;; ─────────────────────────────────────────────────────────────────────────
+
+;; The queue is a buffer-local list in the server buffer.
+;; Each entry is a list: (TARGET TEXT TIMESTAMP)
+;; TARGET and TEXT are compared case-insensitively using the server's
+;; own case-mapping via irc-string-equal-p.
+
+(defvar-local circe-self-message--pending nil
+  "Queue of recently sent messages awaiting a possible server echo.
+Each entry is (TARGET TEXT FLOAT-TIME).
+Lives in the server buffer.")
+
+(defun circe-self-message--enqueue (target text)
+  "Record that we just sent TEXT to TARGET, expecting a possible echo."
+  (with-circe-server-buffer
+    (push (list target text (float-time))
+          circe-self-message--pending)))
+
+(defun circe-self-message--dequeue (target text)
+  "Return non-nil and remove the entry if TARGET+TEXT are in the queue.
+
+Also evicts stale entries older than `circe-self-message-queue-ttl'."
+  (with-circe-server-buffer
+    (let* ((now (float-time))
+           (ttl circe-self-message-queue-ttl)
+           (proc (circe-server-process))
+           found
+           kept)
+      (dolist (entry circe-self-message--pending)
+        (cl-destructuring-bind (etarget etext etime) entry
+          (cond
+           ;; Expired — drop silently
+           ((> (- now etime) ttl))
+           ;; Matched — consume (only the first match)
+           ((and (not found)
+                 (irc-string-equal-p proc etarget target)
+                 (string= etext text))
+            (setq found t))
+           ;; Keep everything else
+           (t
+            (push entry kept)))))
+      (setq circe-self-message--pending (nreverse kept))
+      found)))
+
+;;;; ─────────────────────────────────────────────────────────────────────────
+;;;; Intercept outgoing SAY and ME to enqueue them
+;;;; ─────────────────────────────────────────────────────────────────────────
+
+;; We do NOT suppress local display here.  SAY and ME display and send
+;; exactly as before.  We just also record what was sent so the display
+;; handler can recognise and suppress the server echo.
+
+(defun circe-self-message--say-after (line)
+  "After `circe-command-SAY': enqueue each sent line for echo deduplication."
+  (when circe-chat-target
+    (dolist (l (circe--split-line line))
+      (circe-self-message--enqueue circe-chat-target
+                                   (if (string= l "") " " l)))))
 
 ;;;; ─────────────────────────────────────────────────────────────────────────
 ;;;; Internal helpers
 ;;;; ─────────────────────────────────────────────────────────────────────────
 
 (defun circe-self-message--channel-p (target)
-  "Return non-nil when TARGET is a channel name on the current server.
-
-Consults the CHANTYPES ISUPPORT parameter so that networks using
-non-standard prefixes (&, +, !) are handled correctly.  Falls
-back to the common set \"#&+!\" before ISUPPORT has arrived."
+  "Return non-nil when TARGET is a channel name on the current server."
   (when (> (length target) 0)
     (let* ((proc (ignore-errors (circe-server-process)))
-           ;; CHANTYPES is a string of valid channel-prefix characters.
-           ;; Default per RFC 1459 is "#&"; IRC servers commonly add "+!"
            (chantypes (if proc
                           (or (irc-isupport proc "CHANTYPES") "#&+!")
                         "#&+!")))
-      ;; Check whether the first character of TARGET appears in CHANTYPES.
-      ;; seq-contains-p compares with equal, which works on characters.
       (seq-contains-p chantypes (aref target 0) #'eq))))
-
-;;;; ─────────────────────────────────────────────────────────────────────────
-;;;; Duplicate prevention: suppress local display when echo-message is active
-;;;; ─────────────────────────────────────────────────────────────────────────
-
-;; `circe-command-SAY' and `circe-command-ME' call `circe-display' to
-;; show the message locally *before* sending it to the server.  When
-;; echo-message is active the server immediately reflects the message
-;; back, which our display handler shows — causing every message to
-;; appear twice.
-;;
-;; Fix: advise SAY and ME to skip their local `circe-display' call when
-;; echo-message was granted on this connection.  The server reflection
-;; then becomes the sole display, exactly as in HexChat/WeeChat/mIRC.
-;;
-;; We track whether echo-message is active ourselves by listening for
-;; the "CAP" ACK event, rather than calling a function that may or may
-;; not exist in the installed version of irc.el.
-
-(defvar-local circe-self-message--echo-active nil
-  "Non-nil in a server buffer when echo-message cap is active.")
-
-(defun circe-self-message--cap-handler (_conn _event _sender _star subcommand caps)
-  "Watch for CAP ACK/NAK to track whether echo-message is active.
-Runs in the server buffer."
-  (let ((cap-list (split-string (or caps "") " " t)))
-    (cond
-     ((string= subcommand "ACK")
-      (when (member "echo-message" cap-list)
-        (setq circe-self-message--echo-active t)))
-     ((string= subcommand "NAK")
-      (when (member "echo-message" cap-list)
-        (setq circe-self-message--echo-active nil))))))
-
-(defun circe-self-message--echo-active-p ()
-  "Return non-nil if echo-message cap is active on this connection."
-  (with-circe-server-buffer
-    circe-self-message--echo-active))
-
-(defun circe-self-message--say-around (orig-fn line)
-  "Suppress local display in `circe-command-SAY' when echo-message is active."
-  (if (not (ignore-errors (circe-self-message--echo-active-p)))
-      (funcall orig-fn line)
-    ;; echo-message is active: send but skip the local circe-display call.
-    ;; Replicate only the send side of circe-command-SAY.
-    (when circe-chat-target
-      (dolist (l (circe--split-line line))
-        (irc-send-PRIVMSG (circe-server-process)
-                          circe-chat-target
-                          (if (string= l "") " " l))))))
-
-(defun circe-self-message--me-around (orig-fn line)
-  "Suppress local display in `circe-command-ME' when echo-message is active."
-  (if (not (ignore-errors (circe-self-message--echo-active-p)))
-      (funcall orig-fn line)
-    (when circe-chat-target
-      (irc-send-ctcp (circe-server-process)
-                     circe-chat-target
-                     "ACTION" line))))
 
 ;;;; ─────────────────────────────────────────────────────────────────────────
 ;;;; Display handler: irc.message  (plain PRIVMSG, non-CTCP)
 ;;;; ─────────────────────────────────────────────────────────────────────────
 
-;; irc.el fires "irc.message" only for plain PRIVMSGs.  CTCPs (including
-;; ACTION) are peeled off earlier and dispatched as "irc.ctcp.*" events,
-;; so we never see them here.  The existing circe-display-ctcp-action
-;; already handles both channel and query cases, so self-message /me
-;; replays are covered automatically.
-
 (defun circe-self-message--display-PRIVMSG (nick userhost _command target text)
   "Like `circe-display-PRIVMSG' but handles self-messages.
 
-A self-message arrives when NICK equals our own nick: the server
-(or bouncer) is telling us about a message WE sent.  TARGET is
-the recipient — a channel or another user.  We display it using
-the self-say format, matching standard client behaviour.
+When NICK is our own nick this is a self-message: either a server
+echo of something we just sent, or a replay from another client.
 
-Every other case is handled identically to the original handler
-to ensure regular messages are unaffected."
+If it matches a pending-echo queue entry it is the echo of a
+message we already displayed — skip it.  Otherwise display it as
+an outgoing message in the target buffer."
   (cond
 
-   ;; ── Case 1: self-message — WE are the sender, TARGET is the recipient ───
-   ;;
-   ;; Wire format:  :yournick!~user@host PRIVMSG target :text
-   ;;
-   ;; This cannot collide with a normal incoming message because IRC
-   ;; servers enforce nick uniqueness: no other user can have our nick.
-   ((and (circe-server-my-nick-p nick)
-         circe-self-message-show-echo)
-    (cond
-     ;; Self-message to a channel
-     ((circe-self-message--channel-p target)
-      (with-current-buffer
-          (circe-server-get-or-create-chat-buffer target 'circe-channel-mode)
-        (circe-display 'circe-format-self-say
-                       :body text
-                       :nick nick)))
-     ;; Self-message to another nick — show in their query buffer
-     (t
-      (with-current-buffer
-          (circe-server-get-or-create-chat-buffer target 'circe-query-mode)
-        (circe-display 'circe-format-self-say
-                       :body text
-                       :nick nick)))))
+   ;; ── Self-message ─────────────────────────────────────────────────────────
+   ((circe-server-my-nick-p nick)
+    ;; Check the queue.  If found, we already showed this locally — done.
+    (unless (circe-self-message--dequeue target text)
+      ;; Not in queue: replay from another client.  Display it.
+      (cond
+       ((circe-self-message--channel-p target)
+        (with-current-buffer
+            (circe-server-get-or-create-chat-buffer target 'circe-channel-mode)
+          (circe-display 'circe-format-self-say
+                         :body text
+                         :nick nick)))
+       (t
+        (with-current-buffer
+            (circe-server-get-or-create-chat-buffer target 'circe-query-mode)
+          (circe-display 'circe-format-self-say
+                         :body text
+                         :nick nick))))))
 
-   ;; ── Case 2 & 3: normal incoming message ─────────────────────────────────
-   ;; Copied verbatim from circe-display-PRIVMSG in circe.el.
+   ;; ── Normal incoming message — verbatim from circe-display-PRIVMSG ────────
 
-   ;; Message sent directly to us
    ((circe-server-my-nick-p target)
     (let ((buf (circe-query-auto-query-buffer nick)))
       (if buf
@@ -234,7 +210,6 @@ to ensure regular messages are unaffected."
                          :userhost (or userhost "server")
                          :body text)))))
 
-   ;; Message to a channel (or any other non-us target)
    (t
     (with-current-buffer
         (circe-server-get-or-create-chat-buffer target 'circe-channel-mode)
@@ -249,45 +224,35 @@ to ensure regular messages are unaffected."
 ;;;; ─────────────────────────────────────────────────────────────────────────
 
 (defun circe-self-message--display-NOTICE (nick userhost _command target text)
-  "Like `circe-display-NOTICE' but handles self-messages.
-
-When NICK equals our own nick the notice was sent BY us.  Show it
-using `circe-format-self-message' in the appropriate buffer.
-
-Every other case is handled identically to the original handler."
+  "Like `circe-display-NOTICE' but handles self-messages."
   (cond
 
-   ;; ── Case 1: self-notice — WE sent this notice ───────────────────────────
-   ((and (circe-server-my-nick-p nick)
-         circe-self-message-show-echo)
-    (cond
-     ;; Self-notice to a channel
-     ((circe-self-message--channel-p target)
-      (with-current-buffer
-          (circe-server-get-or-create-chat-buffer target 'circe-channel-mode)
-        (circe-display 'circe-format-self-message
-                       :target target
-                       :body text)))
-     ;; Self-notice to a nick
-     (t
-      (with-current-buffer
-          (or (circe-server-get-chat-buffer target)
-              (circe-server-last-active-buffer))
-        (circe-display 'circe-format-self-message
-                       :target target
-                       :body text)))))
+   ;; ── Self-notice ───────────────────────────────────────────────────────────
+   ((circe-server-my-nick-p nick)
+    (unless (circe-self-message--dequeue target text)
+      (cond
+       ((circe-self-message--channel-p target)
+        (with-current-buffer
+            (circe-server-get-or-create-chat-buffer target 'circe-channel-mode)
+          (circe-display 'circe-format-self-message
+                         :target target
+                         :body text)))
+       (t
+        (with-current-buffer
+            (or (circe-server-get-chat-buffer target)
+                (circe-server-last-active-buffer))
+          (circe-display 'circe-format-self-message
+                         :target target
+                         :body text))))))
 
-   ;; ── Cases 2-4: normal incoming notice ────────────────────────────────────
-   ;; Copied verbatim from circe-display-NOTICE in circe.el.
+   ;; ── Normal incoming notice — verbatim from circe-display-NOTICE ──────────
 
-   ;; Server notice: no userhost means it came from the server itself
    ((not userhost)
     (with-current-buffer (circe-server-last-active-buffer)
       (circe-display 'circe-format-server-notice
                      :server nick
                      :body text)))
 
-   ;; Notice addressed directly to us
    ((circe-server-my-nick-p target)
     (with-current-buffer (or (circe-server-get-chat-buffer nick)
                              (circe-server-last-active-buffer))
@@ -296,7 +261,6 @@ Every other case is handled identically to the original handler."
                      :userhost (or userhost "server")
                      :body text)))
 
-   ;; Notice to a channel or other target
    (t
     (with-current-buffer (or (circe-server-get-chat-buffer target)
                              (circe-server-last-active-buffer))
@@ -309,18 +273,8 @@ Every other case is handled identically to the original handler."
 ;;;; echo-message capability injection
 ;;;; ─────────────────────────────────────────────────────────────────────────
 
-;; `irc-connect' is called from `circe-reconnect--internal' with all
-;; connection parameters as a flat plist.  We need to append
-;; "echo-message" to the :cap-req list without touching circe.el itself.
-;;
-;; We use a :filter-args advice on `irc-connect' that is only active
-;; during the execution of `circe-reconnect--internal' (via an :around
-;; advice on that function).  This avoids leaving a permanent hook on
-;; `irc-connect' that could affect unrelated callers.
-
 (defun circe-self-message--inject-cap (args)
-  "filter-args advice: splice \"echo-message\" into ARGS for `irc-connect'.
-ARGS is the flat plist argument list."
+  "filter-args advice: splice \"echo-message\" into ARGS for `irc-connect'."
   (let ((cap-req (plist-get args :cap-req)))
     (unless (member "echo-message" cap-req)
       (plist-put args :cap-req (append cap-req (list "echo-message"))))
@@ -348,31 +302,29 @@ ARGS is the flat plist argument list."
   "Enable IRCv3 self-message support in Circe.
 
 Installs enhanced \"irc.message\" and \"irc.notice\" display
-handlers that detect when the sender is our own nick and display
-those messages using the self-say / self-message format strings,
-exactly matching the behaviour described in the IRCv3 self-message
-compatibility table (HexChat, mIRC, WeeChat, XChat column: ✓).
+handlers that handle self-messages: messages the server sends to
+us where our own nick is the sender.  These are either echoes of
+messages we sent (via the echo-message capability) or replays
+from another client connected to the same bouncer.
+
+Deduplication is handled via a pending-echo queue: every outgoing
+SAY or ME is recorded; when the server echo arrives it is matched
+against the queue and suppressed if found, since we already
+displayed it locally at send time.  This is race-free — timing
+between send and echo does not matter.
 
 Also arranges for the \"echo-message\" capability to be requested
 on every new connection.  Reconnect (\\[circe-reconnect]) to
 activate echo-message on an existing session.
 
 Safe to call multiple times — calling it again when already
-enabled is a no-op.
-
-Call `circe-self-message-disable' to undo everything."
+enabled is a no-op."
   (interactive)
-  ;; Guard against double-registration: if our handler is already in
-  ;; place, do nothing.  Without this guard, a second call (e.g. from
-  ;; re-evaluating the file in *scratch*) would save OUR handler as
-  ;; "the original", making disable restore the wrong thing.
   (when (eq (circe-get-display-handler "irc.message")
             #'circe-self-message--display-PRIVMSG)
     (when (called-interactively-p 'any)
       (message "circe-self-message: already enabled."))
     (cl-return-from circe-self-message-enable))
-  ;; Save whatever is currently registered so we can restore it exactly.
-  ;; nil is a valid saved value — it means «no custom handler registered».
   (setq circe-self-message--saved-message-handler
         (circe-get-display-handler "irc.message")
         circe-self-message--saved-notice-handler
@@ -381,25 +333,10 @@ Call `circe-self-message-disable' to undo everything."
                              #'circe-self-message--display-PRIVMSG)
   (circe-set-display-handler "irc.notice"
                              #'circe-self-message--display-NOTICE)
-  ;; Watch CAP ACK/NAK to know when echo-message is actually active.
-  ;; We add this to the global handler table so it fires on every connection.
-  (irc-handler-add (circe-irc-handler-table)
-                   "CAP" #'circe-self-message--cap-handler)
-  ;; Reset the echo-active flag when the connection drops, so that on
-  ;; reconnect we start in the "not active" state until ACK arrives.
-  (irc-handler-add (circe-irc-handler-table)
-                   "conn.disconnected"
-                   #'circe-self-message--disconnected-handler)
-  (advice-add 'circe-command-SAY :around #'circe-self-message--say-around)
-  (advice-add 'circe-command-ME  :around #'circe-self-message--me-around)
+  (advice-add 'circe-command-SAY :after #'circe-self-message--say-after)
   (advice-add 'circe-reconnect--internal :around
               #'circe-self-message--reconnect-around)
   (message "circe-self-message: enabled. Reconnect to request echo-message."))
-
-(defun circe-self-message--disconnected-handler (conn _event)
-  "Reset echo-active flag in the server buffer when disconnected."
-  (with-current-buffer (irc-connection-get conn :server-buffer)
-    (setq circe-self-message--echo-active nil)))
 
 ;;;###autoload
 (defun circe-self-message-disable ()
@@ -411,19 +348,13 @@ Call `circe-self-message-disable' to undo everything."
                              circe-self-message--saved-notice-handler)
   (setq circe-self-message--saved-message-handler nil
         circe-self-message--saved-notice-handler nil)
-  (advice-remove 'circe-command-SAY #'circe-self-message--say-around)
-  (advice-remove 'circe-command-ME  #'circe-self-message--me-around)
+  (advice-remove 'circe-command-SAY #'circe-self-message--say-after)
   (advice-remove 'circe-reconnect--internal
                  #'circe-self-message--reconnect-around)
-  ;; Note: irc-handler-table has no remove function in irc.el, so the
-  ;; CAP and conn.disconnected handlers linger but are harmless (they
-  ;; just set/clear a buffer-local variable that is no longer consulted).
   (message "circe-self-message: disabled."))
 
 (provide 'circe-self-message)
 
-;; Auto-enable when the file is loaded or eval'd, so that
-;; M-x eval-buffer in *scratch* is all you need.
 (circe-self-message-enable)
 
 ;;; circe-self-message.el ends here
