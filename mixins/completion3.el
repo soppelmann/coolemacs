@@ -53,7 +53,8 @@
   (corfu-mode               . corfu-history-mode)
   ((eshell-mode shell-mode) . +corfu-less-intrusive-h)
   (minibuffer-setup         . +corfu-enable-in-minibuffer-h)
-
+  (lui-mode		    . +corfu-less-intrusive-h)
+  
   (global-corfu-mode)
 
   :config
