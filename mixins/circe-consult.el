@@ -77,6 +77,7 @@ NARROW-KEY is the character used to narrow to this group."
     :narrow   ,narrow-key
     :category buffer
     :annotate consult-circe--annotate
+    :state    ,#'consult--buffer-state
     :action   ,(lambda (candidate) (switch-to-buffer candidate))
     :items    ,buffers-fn))
 
@@ -111,17 +112,35 @@ NARROW-KEY is the character used to narrow to this group."
   (when (get-buffer candidate)
     (kill-buffer candidate)))
 
+;;;; Connection guard
+
+(defun consult-circe--connected-p ()
+  "Return non-nil if there is at least one live circe buffer of any kind."
+  (or (consult-circe--server-buffers)
+      (consult-circe--channel-buffers)
+      (consult-circe--query-buffers)))
+
+(defun consult-circe--ensure-connected ()
+  "Return non-nil if circe is active, otherwise offer to connect.
+
+When no circe buffers exist the user is prompted to connect via
+`circe'.  Returns nil so callers can abort their own flow."
+  (or (consult-circe--connected-p)
+      (when (yes-or-no-p "No active Circe connections.  Connect now? ")
+        (call-interactively #'circe)
+        nil)))
+
 ;;;; Generic selection runner
 
 (defun consult-circe--read (prompt sources)
   "Run `consult--multi' with PROMPT over SOURCES.
 
-If a candidate is selected with a prefix argument (\\[universal-argument]),
-kill the buffer instead of switching to it."
-  (consult--multi sources
-                  :prompt prompt
-                  :require-match t
-                  :sort nil))
+If no circe connections are active, offer to run `circe' first."
+  (when (consult-circe--ensure-connected)
+    (consult--multi sources
+                    :prompt prompt
+                    :require-match t
+                    :sort nil)))
 
 ;;;; Public commands
 
@@ -198,6 +217,7 @@ switches to that channel buffer."
                  :narrow   ,key
                  :category buffer
                  :annotate consult-circe--annotate
+                 :state    ,#'consult--buffer-state
                  :action   ,(lambda (c) (switch-to-buffer c))
                  :items    ,(lambda () (or chat-bufs (list "")))))))))
     (switch-to-buffer curbuf)
@@ -206,7 +226,7 @@ switches to that channel buffer."
                         :prompt "Circe (by server): "
                         :require-match t
                         :sort nil)
-      (message "consult-circe: no circe servers found"))))
+      (consult-circe--ensure-connected))))
 
 ;;;; Embark integration (optional)
 ;;
@@ -222,6 +242,17 @@ switches to that channel buffer."
   "Part from / disconnect BUF (an Embark buffer target)."
   (interactive "bPart from buffer: ")
   (consult-circe--kill-buffer buf))
+
+;;;; Keep circe buffers out of the normal buffer list
+
+(defun consult-circe--bury ()
+  "Bury the current buffer so it is hidden from \\[switch-to-buffer]."
+  (bury-buffer (current-buffer)))
+
+(dolist (hook '(circe-server-mode-hook
+                circe-channel-mode-hook
+                circe-query-mode-hook))
+  (add-hook hook #'consult-circe--bury))
 
 (provide 'consult-circe)
 
