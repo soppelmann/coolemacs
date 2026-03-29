@@ -6,6 +6,7 @@
              :host github
   :files (:defaults "circe-pingmon.el"))
   :config
+  (load "~/.emacs.d/mixins/circe-stable-colors.el")
   (require 'circe-pingmon)
   (circe-pingmon-mode)
   )
@@ -107,3 +108,5 @@
 
 (setq tracking-faces-priorities '(circe-highlight-nick-face
                                    circe-query-face))
+
+
