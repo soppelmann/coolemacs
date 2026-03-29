@@ -587,6 +587,8 @@
 
 ;; IRC config
 (load-file (expand-file-name "mixins/irc.el" user-emacs-directory))
+(load-file (expand-file-name "mixins/circe-self-message.el" user-emacs-directory))
+(load-file (expand-file-name "mixins/circe-consult.el" user-emacs-directory))
 
 ;; Note taking config
 (load-file (expand-file-name "mixins/notes.el" user-emacs-directory))

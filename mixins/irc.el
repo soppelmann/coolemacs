@@ -1,7 +1,13 @@
 (use-package circe
   :ensure t
+  :straight (circe
+             :repo "emacs-circe/circe"
+             :type git
+             :host github
+  :files (:defaults "circe-pingmon.el"))
   :config
-  (circe-lagmon-mode)
+  (require 'circe-pingmon)
+  (circe-pingmon-mode)
   )
 
 (use-package auth-source-pass
@@ -45,6 +51,13 @@
           :server-buffer-name "⇄ Dataswamp"
 	  :port 1026
 	  :user "getz/dataswamp"
+          :pass ,(my/pass-get "znc/password"))
+	 ("ZNC/IRCnet"
+	  :tls t
+	  :host "iblis.dflund.se"
+          :server-buffer-name "⇄ IRCnet"
+	  :port 1026
+	  :user "getz/IRCnet"
           :pass ,(my/pass-get "znc/password"))
 	 )))
 
