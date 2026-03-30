@@ -57,15 +57,17 @@
 ;;
 ;; CTCP / ACTION:
 ;;
-;;   irc.el extracts CTCP messages (including /me actions) from
-;;   PRIVMSGs and fires them as "irc.ctcp.ACTION" events *before*
-;;   they reach the "irc.message" handler.  The existing
-;;   `circe-display-ctcp-action' handler already handles the channel
-;;   and query cases correctly, so self-message /me replays work
-;;   automatically with no extra code here.  Echo-message reflections
-;;   of /me also go through irc.ctcp.ACTION, and circe-display-ctcp-action
-;;   already handles the self-send case (nick == our nick → self-action
-;;   format), so /me echo deduplication is not needed.
+;;   irc.el strips the \x01ACTION ...\x01 wrapper and fires
+;;   "irc.ctcp.ACTION" with the bare body text as the final argument.
+;;   circe-display-ctcp-action has no self-awareness: it displays using
+;;   circe-format-action regardless of whether the sender is us, so an
+;;   echo-message reflection of /me shows up as a second line.
+;;
+;;   We replace the irc.ctcp.ACTION handler with one that checks the
+;;   pending-echo queue (keyed on the bare body, same as what irc.el
+;;   delivers) and suppresses the echo when found.  For replays from
+;;   another client (not in the queue) it displays using
+;;   circe-format-self-action so it looks like an outgoing action.
 
 ;;; Code:
 
@@ -147,6 +149,13 @@ Also evicts stale entries older than `circe-self-message-queue-ttl'."
       (circe-self-message--enqueue circe-chat-target
                                    (if (string= l "") " " l)))))
 
+(defun circe-self-message--me-after (line)
+  "After `circe-command-ME': enqueue the action body for echo deduplication.
+irc.el delivers the bare body (no CTCP wrapper) to the ctcp.ACTION
+handler, so we enqueue just LINE — the same string we will receive."
+  (when circe-chat-target
+    (circe-self-message--enqueue circe-chat-target line)))
+
 ;;;; ─────────────────────────────────────────────────────────────────────────
 ;;;; Internal helpers
 ;;;; ─────────────────────────────────────────────────────────────────────────
@@ -159,6 +168,58 @@ Also evicts stale entries older than `circe-self-message-queue-ttl'."
                           (or (irc-isupport proc "CHANTYPES") "#&+!")
                         "#&+!")))
       (seq-contains-p chantypes (aref target 0) #'eq))))
+
+;;;; ─────────────────────────────────────────────────────────────────────────
+;;;; Display handler: irc.ctcp.ACTION  (/me)
+;;;; ─────────────────────────────────────────────────────────────────────────
+
+;; irc.el delivers the bare body (no \x01 wrapper) as TEXT.
+;; The queue entry from me-after is also the bare body, so they match.
+
+(defun circe-self-message--display-ctcp-action (nick userhost _command target text)
+  "Like `circe-display-ctcp-action' but deduplicates self-action echoes."
+  (cond
+
+   ;; ── Self-action: we sent this /me ────────────────────────────────────────
+   ((circe-server-my-nick-p nick)
+    (unless (circe-self-message--dequeue target text)
+      ;; Replay from another client — show as outgoing action.
+      (cond
+       ((circe-server-my-nick-p target)
+        ;; Action sent to our own nick (edge case) — use query buffer.
+        (let ((buf (circe-query-auto-query-buffer nick)))
+          (with-current-buffer (or buf (circe-server-last-active-buffer))
+            (circe-display 'circe-format-self-action
+                           :nick nick
+                           :body text))))
+       (t
+        (with-current-buffer
+            (circe-server-get-or-create-chat-buffer target 'circe-channel-mode)
+          (circe-display 'circe-format-self-action
+                         :nick nick
+                         :body text))))))
+
+   ;; ── Normal incoming action — verbatim from circe-display-ctcp-action ─────
+
+   ((circe-server-my-nick-p target)
+    (let ((query-buffer (circe-query-auto-query-buffer nick)))
+      (with-current-buffer (or query-buffer
+                               (circe-server-last-active-buffer))
+        (circe-display (if query-buffer
+                           'circe-format-action
+                         'circe-format-message-action)
+                       :nick nick
+                       :userhost (or userhost "server")
+                       :body text))))
+
+   (t
+    (with-current-buffer (circe-server-get-or-create-chat-buffer
+                          target 'circe-channel-mode)
+      (circe-lurker-display-active nick userhost)
+      (circe-display 'circe-format-action
+                     :nick nick
+                     :userhost (or userhost "server")
+                     :body text)))))
 
 ;;;; ─────────────────────────────────────────────────────────────────────────
 ;;;; Display handler: irc.message  (plain PRIVMSG, non-CTCP)
@@ -297,6 +358,9 @@ an outgoing message in the target buffer."
 (defvar circe-self-message--saved-notice-handler nil
   "Saved \"irc.notice\" handler, restored by `circe-self-message-disable'.")
 
+(defvar circe-self-message--saved-action-handler nil
+  "Saved \"irc.ctcp.ACTION\" handler, restored by `circe-self-message-disable'.")
+
 ;;;###autoload
 (defun circe-self-message-enable ()
   "Enable IRCv3 self-message support in Circe.
@@ -328,12 +392,17 @@ enabled is a no-op."
   (setq circe-self-message--saved-message-handler
         (circe-get-display-handler "irc.message")
         circe-self-message--saved-notice-handler
-        (circe-get-display-handler "irc.notice"))
+        (circe-get-display-handler "irc.notice")
+        circe-self-message--saved-action-handler
+        (circe-get-display-handler "irc.ctcp.ACTION"))
   (circe-set-display-handler "irc.message"
                              #'circe-self-message--display-PRIVMSG)
   (circe-set-display-handler "irc.notice"
                              #'circe-self-message--display-NOTICE)
+  (circe-set-display-handler "irc.ctcp.ACTION"
+                             #'circe-self-message--display-ctcp-action)
   (advice-add 'circe-command-SAY :after #'circe-self-message--say-after)
+  (advice-add 'circe-command-ME  :after #'circe-self-message--me-after)
   (advice-add 'circe-reconnect--internal :around
               #'circe-self-message--reconnect-around)
   (message "circe-self-message: enabled. Reconnect to request echo-message."))
@@ -346,15 +415,21 @@ enabled is a no-op."
                              circe-self-message--saved-message-handler)
   (circe-set-display-handler "irc.notice"
                              circe-self-message--saved-notice-handler)
+  (circe-set-display-handler "irc.ctcp.ACTION"
+                             circe-self-message--saved-action-handler)
   (setq circe-self-message--saved-message-handler nil
-        circe-self-message--saved-notice-handler nil)
+        circe-self-message--saved-notice-handler nil
+        circe-self-message--saved-action-handler nil)
   (advice-remove 'circe-command-SAY #'circe-self-message--say-after)
+  (advice-remove 'circe-command-ME  #'circe-self-message--me-after)
   (advice-remove 'circe-reconnect--internal
                  #'circe-self-message--reconnect-around)
   (message "circe-self-message: disabled."))
 
 (provide 'circe-self-message)
 
+;; Auto-enable when the file is loaded or eval'd, so that
+;; M-x eval-buffer in *scratch* is all you need.
 (circe-self-message-enable)
 
 ;;; circe-self-message.el ends here
