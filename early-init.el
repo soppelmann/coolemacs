@@ -6,9 +6,7 @@
 
 (setq load-prefer-newer t)
 
-;; (add-to-list 'default-frame-alist '(undecorated . t))
 (add-to-list 'default-frame-alist '(undecorated-round . t))
-;; (setq package-enable-at-startup nil)
 ;; Startup speed, annoyance suppression
 (setq gc-cons-threshold 10000000)
 (setq byte-compile-warnings '(not obsolete))
@@ -21,7 +19,7 @@
 (setq frame-resize-pixelwise t)
 
 (tool-bar-mode -1)                      ; All these tools are in the menu-bar anyway
-(menu-bar-mode -1)                      ; All these tools are in the menu-bar anyway
+;; (menu-bar-mode -1)                      ; Breaks windowing on emacs-mac
 
 (setq mac-command-modifier      'super
       mac-option-modifier       'meta
@@ -32,7 +30,7 @@
 
 (setq default-frame-alist '(
     ;(fullscreen . maximized)
-(setenv "LSP_USE_PLISTS" "true")
+    (setenv "LSP_USE_PLISTS" "true")
 
     ;; You can turn off scroll bars by uncommenting these lines:
     (vertical-scroll-bars . nil)
