@@ -1,5 +1,6 @@
 (require 'tramp)
 
+;; https://coredumped.dev/2025/06/18/making-tramp-go-brrrr./
 ;; Load consult-tramp
 (load "~/.emacs.d/consult-tramp.el")
 
