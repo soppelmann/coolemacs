@@ -47,9 +47,9 @@
          :italic-slant italic
          :line-spacing nil)
         (regular
-         :default-family "Iosevka Comfy"
+         :default-family "Aporetic Serif Mono"
          :default-weight normal
-         :default-height 140
+         :default-height 150
          :fixed-pitch-family nil ; falls back to :default-family
          :fixed-pitch-weight nil ; falls back to :default-weight
          :fixed-pitch-height 1.0
@@ -77,7 +77,7 @@
          :italic-slant italic
          :line-spacing nil)
         (large
-         :default-family "Iosevka Comfy"
+         :default-family "Aporetic Serif"
          :default-weight semilight
          :default-height 140
          :fixed-pitch-family nil ; falls back to :default-family
@@ -271,6 +271,21 @@
          :italic-family nil
          :italic-slant italic
          :line-spacing nil)
+        (GoMono
+         :default-family "GoMono Nerd Font"
+         :default-weight normal
+         :default-height 150
+         :fixed-pitch-family nil ; falls back to :default-family
+         :fixed-pitch-weight nil ; falls back to :default-weight
+         :fixed-pitch-height 0.8
+         :variable-pitch-family "Go Mono"
+         :variable-pitch-weight normal
+         :variable-pitch-height 1.05
+         :bold-family nil ; use whatever the underlying face has
+         :bold-weight normal
+         :italic-family nil
+         :italic-slant italic
+         :line-spacing nil)
         (TriplicateT4cLarge
          :default-family "Triplicate T4c"
          :default-weight normal
@@ -392,7 +407,7 @@
          :italic-slant italic
          :line-spacing nil)
         (presentation
-         :default-family "Iosevka Comfy"
+         :default-family "Aporetic Serif"
          :default-weight semilight
          :default-height 170
          :fixed-pitch-family nil ; falls back to :default-family
