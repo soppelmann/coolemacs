@@ -97,11 +97,13 @@
   (load bootstrap-file nil 'nomessage))
 
 (straight-use-package 'el-patch)
-
 (straight-use-package '(project :type built-in))
 (straight-use-package '(xref :type built-in))
 (straight-use-package '(flymake :type built-in))
 (straight-use-package '(eldoc :type built-in))
+
+(use-package eldoc-box
+  :ensure t)
 
 ;; Enable defer and ensure by default for use-package
 ;; (setq use-package-always-defer t

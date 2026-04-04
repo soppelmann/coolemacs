@@ -42,6 +42,7 @@
 
 (define-key evil-normal-state-map (kbd "C-.") nil)
 (define-key evil-insert-state-map (kbd "C-.") nil)
+(define-key evil-insert-state-map (kbd "C-a") nil)
 
 ;; Unbind C-o from evil normal map
 ;; (define-key evil-normal-state-map (kbd "C-o") nil)

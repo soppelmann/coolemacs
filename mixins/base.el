@@ -82,12 +82,6 @@
   :config
   (marginalia-mode))
 
-;; Orderless: powerful completion style
-(use-package orderless
-  :ensure t
-  :config
-  (setq completion-styles '(orderless)))
-
 (use-package rainbow-delimiters
   :ensure t)
 
@@ -157,24 +151,25 @@
 ;; (use-package dired-hacks-utils
 ;;   :ensure t)
 
+;; Omit files in dired
+(setq dired-omit-files
+      (rx
+       (or (seq bol (?  ".") "#") ;; emacs autosave files
+           (seq bol "." (not (any "."))) ;; dot-files
+           (seq "~" eol) ;; backup-files
+           (seq bol "CVS" eol) ;; CVS dirs
+           )))
+
+
 (use-package eat
   :ensure t
   :config
   (eat-eshell-mode +1)
-  (eat-eshell-visual-command-mode +1)
-  ;; (eat-eshell-mode)
-  ;; (setq eshell-visual-commands '())
- )
+  (eat-eshell-visual-command-mode +1))
 
-;; Clear commands eshell considers visual by default.
-(setq eshell-visual-commands '()) ;; fixes tramp
-
+(setq eshell-visual-commands '())
 (setq eat-minimum-latency 0.002)
-
-;; Eat settings
-(setq
-      ;; eat-kill-buffer-on-exit t
-      eat-term-name "xterm-256color"  ;; easier than tryin to hack eat-term to work
+(setq eat-term-name "xterm-256color"
       eat-shell "/bin/bash"
       eat-tramp-shells '(("docker" . "/bin/sh")
                          ("scpx" . "/bin/bash")
@@ -186,14 +181,18 @@
     (erase-buffer)
     (eshell-send-input)))
 
-;; Omit files in dired
-(setq dired-omit-files
-      (rx
-       (or (seq bol (?  ".") "#") ;; emacs autosave files
-           (seq bol "." (not (any "."))) ;; dot-files
-           (seq "~" eol) ;; backup-files
-           (seq bol "CVS" eol) ;; CVS dirs
-           )))
+(defun my/eat ()
+  (interactive)
+  (let* ((name (file-name-nondirectory
+                (directory-file-name default-directory)))
+         (buf-name (format "*eat:%s*" name)))
+    (if (get-buffer buf-name)
+        (switch-to-buffer buf-name)
+      (eat nil buf-name))))
+
+(global-set-key (kbd "C-c e") #'my/eat)
+
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
