@@ -275,8 +275,9 @@
 ;; (setq uniquify-buffer-name-style 'nil)
 
 (use-package doom-modeline
-  :load-path "~/.emacs.d/elisp/doom-modeline"
-  ;; :ensure t
+  ;; :load-path "~/.emacs.d/elisp/doom-modeline"
+  :straight (:host github :repo "seagle0128/doom-modeline" :branch "main")
+  :ensure t
   :hook (after-init . doom-modeline-mode)
   :custom
   (doom-modeline-height 25)
