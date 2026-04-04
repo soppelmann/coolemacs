@@ -253,9 +253,9 @@
 ;)
 
 ;; add keybind C-c e for eshell and C-c s for vterm
-(global-set-key (kbd "C-c v") 'vterm)
-(global-set-key (kbd "C-c e") 'eat)
-(global-set-key (kbd "C-c s") 'eshell)
+;; (global-set-key (kbd "C-c v") 'vterm)
+;; (global-set-key (kbd "C-c e") 'eat)
+;; (global-set-key (kbd "C-c s") 'eshell)
 
 ;;;;;;;;;;;
 ;; EDIFF ;;
