@@ -276,7 +276,7 @@
 
 (use-package doom-modeline
   ;; :load-path "~/.emacs.d/elisp/doom-modeline"
-  :straight (:host github :repo "seagle0128/doom-modeline" :branch "main")
+  :straight (:host github :repo "seagle0128/doom-modeline" :branch "master")
   :ensure t
   :hook (after-init . doom-modeline-mode)
   :custom
@@ -505,7 +505,7 @@
 (load-file (expand-file-name "mixins/base.el" user-emacs-directory))
 
 ;; tramp
-(load-file (expand-file-name "mixins/tramp.el" user-emacs-directory))
+;; (load-file (expand-file-name "mixins/tramp.el" user-emacs-directory))
 
 ;; Use project.el for managing projects
 ;; (load-file (expand-file-name "mixins/project.el" user-emacs-directory))
@@ -554,7 +554,7 @@
 ;; (load-file (expand-file-name "mixins/lspmode.el" user-emacs-directory))
 
 ;; Eglot config
-(load-file (expand-file-name "mixins/eglot.el" user-emacs-directory))
+;; (load-file (expand-file-name "mixins/eglot.el" user-emacs-directory))
 
 ;; lsp-bridge config
 ;; (load-file (expand-file-name "mixins/lsp-bridge.el" user-emacs-directory))
@@ -589,9 +589,9 @@
 (load-file (expand-file-name "mixins/enlight.el" user-emacs-directory))
 
 ;; IRC config
-(load-file (expand-file-name "mixins/irc.el" user-emacs-directory))
-(load-file (expand-file-name "mixins/circe-self-message.el" user-emacs-directory))
-(load-file (expand-file-name "mixins/circe-consult.el" user-emacs-directory))
+;; (load-file (expand-file-name "mixins/irc.el" user-emacs-directory))
+;; (load-file (expand-file-name "mixins/circe-self-message.el" user-emacs-directory))
+;; (load-file (expand-file-name "mixins/circe-consult.el" user-emacs-directory))
 
 ;; Note taking config
 (load-file (expand-file-name "mixins/notes.el" user-emacs-directory))

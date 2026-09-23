@@ -138,18 +138,8 @@
   :ensure t
   :hook (dired-mode . diredfl-mode))
 
-;; (use-package dired-k
-;;   :ensure t)
-
-;; ;; always execute dired-k when dired buffer is opened
-;; (add-hook 'dired-after-readin-hook #'dired-k-no-revert)
-;; ;; (add-hook 'dired-initial-position-hook 'dired-k)
-
 (use-package dired-subtree
   :ensure t)
-
-;; (use-package dired-hacks-utils
-;;   :ensure t)
 
 ;; Omit files in dired
 (setq dired-omit-files
@@ -159,7 +149,6 @@
            (seq "~" eol) ;; backup-files
            (seq bol "CVS" eol) ;; CVS dirs
            )))
-
 
 (use-package eat
   :ensure t
@@ -192,8 +181,6 @@
 
 (global-set-key (kbd "C-c e") #'my/eat)
 
-
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;;   Power-ups: Embark and Consult
@@ -218,6 +205,8 @@
   ;; Narrowing lets you restrict results to certain groups of candidates
   ;; (setq consult-narrow-key "<"))
 )
+
+
 (use-package embark
   :ensure t
   :demand t
@@ -266,8 +255,8 @@
 ;; Upload to envs.net
 (use-package 0x0
   :ensure t
-  ;:config
-  ;(setq 0x0-default-server "envs.sh")
+  ;; :config
+  ;; (setq 0x0-default-server "envs.sh")
   )
 
 ;; Add action to embark keymap
@@ -335,81 +324,82 @@ targets."
           ("C-x w" . ace-swap-window)
          ))
 ;; Nice tabs
-(use-package centaur-tabs
-  :ensure t
-  :hook ;; centaur-tabs-local-mode disables centaur-tabs-mode
-  ;; we have it globally enabled but locally disable it
-  (dashboard-mode . centaur-tabs-local-mode)
-  (helpful-mode . centaur-tabs-local-mode)
-  (ibuffer-mode . centaur-tabs-local-mode)
-  (magit-mode . centaur-tabs-local-mode)
-  (org-agenda-mode . centaur-tabs-local-mode)
-  (org-mode . centaur-tabs-local-mode)
-  (org-journal-mode . centaur-tabs-local-mode)
-  (org-roam-mode . centaur-tabs-local-mode)
-  (pdf-view-mode . centaur-tabs-local-mode)
-  (treemacs-mode . centaur-tabs-local-mode)
-  (vterm-mode . centaur-tabs-local-mode)
-  (web-mode . centaur-tabs-local-mode)
-  (xref--xref-buffer-mode . centaur-tabs-local-mode)
-  (dired-sidebar-mode . centaur-tabs-local-mode)
-  (dired-mode . centaur-tabs-local-mode)
-  (occur-mode . centaur-tabs-local-mode)
-  (compilation-mode . centaur-tabs-local-mode)
-  (eww-mode . centaur-tabs-local-mode)
-  (apropros-mode . centaur-tabs-local-mode)
-  :config
-  (centaur-tabs-mode t)
-  :bind
-  ("C-x <left>" . centaur-tabs-backward)
-  ("C-x <right>" . centaur-tabs-forward))
 
-(require 'centaur-tabs)
-;; without this centaur tabs blocks tramp according to profiler
-(centaur-tabs-group-by-projectile-project)
-
-(defun tdr/fix-centaur-tabs ()
-  "Reset Centaur Tabs."
-  (centaur-tabs-mode -1) ; Disable Centaur Tabs
-  (centaur-tabs-mode 1)  ; Re-enable Centaur Tabs
-  (centaur-tabs-headline-match)) ; Update tabs
-
-(add-hook 'focus-in-hook 'tdr/fix-centaur-tabs)
-
-;; When the currently selected tab(A) is at the right of the last visited
-;; tab(B), move A to the right of B. When the currently selected tab(A) is
-;; at the left of the last visited tab(B), move A to the left of B
-(setq centaur-tabs-adjust-buffer-order t)
-
-;; Move the currently selected tab to the left of the the last visited tab.
-(setq centaur-tabs-adjust-buffer-order 'left)
-
-;; Move the currently selected tab to the right of the the last visited tab.
-(setq centaur-tabs-adjust-buffer-order 'right)
-
-;; Cycle through visible tabs (that is, the tabs in the current group)
-(setq centaur-tabs-cycle-scope 'tabs)
-
-;; No close button
-(setq centaur-tabs-set-close-button nil)
-
-;; Icons
-(setq centaur-tabs-set-icons t)
-;(setq centaur-tabs-plain-icons t)
-;(setq centaur-tabs-gray-out-icons 'buffer)
-
-(setq centaur-tabs-set-bar 'under)
-;(setq centaur-tabs-set-bar 'left)
-;; Note: If you're not using Spacmeacs, in order for the underline to display
-;; correctly you must add the following line:
-(setq x-underline-at-descent-line t)
-
-;; Change defvar centaur-tabs-icon-scale-factor 1.0 to 0.8
-(setq centaur-tabs-icon-scale-factor 0.8)
-;(setq centaur-tabs-icon-scale-factor 1.0)
-
-;; Style
-;(setq centaur-tabs-style "alternate")
+;;(use-package centaur-tabs
+;;  :ensure t
+;;  :hook ;; centaur-tabs-local-mode disables centaur-tabs-mode
+;;  ;; we have it globally enabled but locally disable it
+;;  (dashboard-mode . centaur-tabs-local-mode)
+;;  (helpful-mode . centaur-tabs-local-mode)
+;;  (ibuffer-mode . centaur-tabs-local-mode)
+;;  (magit-mode . centaur-tabs-local-mode)
+;;  (org-agenda-mode . centaur-tabs-local-mode)
+;;  (org-mode . centaur-tabs-local-mode)
+;;  (org-journal-mode . centaur-tabs-local-mode)
+;;  (org-roam-mode . centaur-tabs-local-mode)
+;;  (pdf-view-mode . centaur-tabs-local-mode)
+;;  (treemacs-mode . centaur-tabs-local-mode)
+;;  (vterm-mode . centaur-tabs-local-mode)
+;;  (web-mode . centaur-tabs-local-mode)
+;;  (xref--xref-buffer-mode . centaur-tabs-local-mode)
+;;  (dired-sidebar-mode . centaur-tabs-local-mode)
+;;  (dired-mode . centaur-tabs-local-mode)
+;;  (occur-mode . centaur-tabs-local-mode)
+;;  (compilation-mode . centaur-tabs-local-mode)
+;;  (eww-mode . centaur-tabs-local-mode)
+;;  (apropros-mode . centaur-tabs-local-mode)
+;;  :config
+;;  (centaur-tabs-mode t)
+;;  :bind
+;;  ("C-x <left>" . centaur-tabs-backward)
+;;  ("C-x <right>" . centaur-tabs-forward))
+;;
+;;(require 'centaur-tabs)
+;;;; without this centaur tabs blocks tramp according to profiler
+;;(centaur-tabs-group-by-projectile-project)
+;;
+;;(defun tdr/fix-centaur-tabs ()
+;;  "Reset Centaur Tabs."
+;;  (centaur-tabs-mode -1) ; Disable Centaur Tabs
+;;  (centaur-tabs-mode 1)  ; Re-enable Centaur Tabs
+;;  (centaur-tabs-headline-match)) ; Update tabs
+;;
+;;(add-hook 'focus-in-hook 'tdr/fix-centaur-tabs)
+;;
+;;;; When the currently selected tab(A) is at the right of the last visited
+;;;; tab(B), move A to the right of B. When the currently selected tab(A) is
+;;;; at the left of the last visited tab(B), move A to the left of B
+;;(setq centaur-tabs-adjust-buffer-order t)
+;;
+;;;; Move the currently selected tab to the left of the the last visited tab.
+;;(setq centaur-tabs-adjust-buffer-order 'left)
+;;
+;;;; Move the currently selected tab to the right of the the last visited tab.
+;;(setq centaur-tabs-adjust-buffer-order 'right)
+;;
+;;;; Cycle through visible tabs (that is, the tabs in the current group)
+;;(setq centaur-tabs-cycle-scope 'tabs)
+;;
+;;;; No close button
+;;(setq centaur-tabs-set-close-button nil)
+;;
+;;;; Icons
+;;(setq centaur-tabs-set-icons t)
+;;;(setq centaur-tabs-plain-icons t)
+;;;(setq centaur-tabs-gray-out-icons 'buffer)
+;;
+;;(setq centaur-tabs-set-bar 'under)
+;;;(setq centaur-tabs-set-bar 'left)
+;;;; Note: If you're not using Spacmeacs, in order for the underline to display
+;;;; correctly you must add the following line:
+;;(setq x-underline-at-descent-line t)
+;;
+;;;; Change defvar centaur-tabs-icon-scale-factor 1.0 to 0.8
+;;(setq centaur-tabs-icon-scale-factor 0.8)
+;;;(setq centaur-tabs-icon-scale-factor 1.0)
+;;
+;;;; Style
+;;;(setq centaur-tabs-style "alternate")
 
 (use-package vundo
   :ensure t)
@@ -424,7 +414,6 @@ targets."
   (interactive)
   (beginning-of-buffer)
   (eww-display-html 'utf-8 (buffer-name) nil (point-min) (current-buffer)))
-
 
 (use-package rainbow-mode
   :ensure t)
@@ -469,20 +458,20 @@ targets."
        ";; ╚═╝└─┘┴└─┴ ┴ ┴ └─┘┴ ┴\n\n"))
 
 ;; Pulse highlight on demand or after select functions
-(use-package pulsar
-  :ensure t
-  :straight (:host github :repo "protesilaos/pulsar")
-  :hook (minemacs-first-file . pulsar-global-mode)
-  :custom
-  (pulsar-iterations 6)
-  (pulsar-pulse-region t)
-  (pulsar-pulse-on-window-change t)
-  (pulsar-region-face 'pulsar-green)
-  (pulsar-highlight-face 'pulsar-cyan)
-  (pulsar-region-change-face 'pulsar-red)
-  (pulsar-window-change-face 'pulsar-yellow)
-  :config
-  (cl-callf append pulsar-pulse-functions '(what-cursor-position)))
+;; (use-package pulsar
+;;   :ensure t
+;;   :straight (:host github :repo "protesilaos/pulsar")
+;;   :hook (minemacs-first-file . pulsar-global-mode)
+;;   :custom
+;;   (pulsar-iterations 6)
+;;   (pulsar-pulse-region t)
+;;   (pulsar-pulse-on-window-change t)
+;;   (pulsar-region-face 'pulsar-green)
+;;   (pulsar-highlight-face 'pulsar-cyan)
+;;   (pulsar-region-change-face 'pulsar-red)
+;;   (pulsar-window-change-face 'pulsar-yellow)
+;;   :config
+;;   (cl-callf append pulsar-pulse-functions '(what-cursor-position)))
 
 ;; View, edit, search and compare very large files in batches, trading memory for processor time
 (use-package vlf-setup
@@ -505,3 +494,13 @@ targets."
 ;; Same functionality as `find-dired' and `find-grep-dired', using fd/rg instead
 (use-package fd-dired
   :straight t)
+
+
+;; Insert paths into the minibuffer prompt
+(use-package consult-dir
+  :straight t
+  :bind (("C-x C-d" . consult-dir)
+         :package vertico
+         :map minibuffer-local-completion-map
+         ("C-x C-d" . consult-dir)
+         ("C-x C-j" . consult-dir-jump-file)))

@@ -95,4 +95,6 @@
 ;;               tramp-file-name-regexp))
 
 ;; (setq debug-ignored-errors
-      ;; (cons 'remote-file-error debug-ignored-errors))
+;; (cons 'remote-file-error debug-ignored-errors))
+
+(setq tramp-use-ssh-controlmaster-options nil)

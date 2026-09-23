@@ -71,21 +71,21 @@
 ;; hook tab-bar-mode hook
 (add-hook 'tab-bar-mode-hook 'burly-tabs-mode)
 
-(use-package bufler
-  :straight (bufler :fetcher github :repo "alphapapa/bufler.el"
-                    :files (:defaults (:exclude "helm-bufler.el")))
-  :init (bufler-mode)
-  ;; :bind
-  ;; (("C-x C-a C-n" . bufler-new)
-  ;;  ("C-x C-a C-d" . bufler-define)
-  ;;  ("C-x C-a C-a" . bufler-resume)
-  ;;  ("C-x C-a C-s" . bufler-suspend)
-  ;;  ("C-x C-a C-k" . bufler-kill)
-  ;;  ("C-x C-a RET" . bufler-switch)
-  ;;  ("C-x C-a b" . bufler-switch-buffer)
-  ;;  ("C-x C-a g" . bufler-revert)
-  ;;  ("C-x C-a l" . bufler-list))
-  (setq bufler-reverse t))
+;; (use-package bufler
+;;   :straight (bufler :fetcher github :repo "alphapapa/bufler.el"
+;;                     :files (:defaults (:exclude "helm-bufler.el")))
+;;   :init (bufler-mode)
+;;   ;; :bind
+;;   ;; (("C-x C-a C-n" . bufler-new)
+;;   ;;  ("C-x C-a C-d" . bufler-define)
+;;   ;;  ("C-x C-a C-a" . bufler-resume)
+;;   ;;  ("C-x C-a C-s" . bufler-suspend)
+;;   ;;  ("C-x C-a C-k" . bufler-kill)
+;;   ;;  ("C-x C-a RET" . bufler-switch)
+;;   ;;  ("C-x C-a b" . bufler-switch-buffer)
+;;   ;;  ("C-x C-a g" . bufler-revert)
+;;   ;;  ("C-x C-a l" . bufler-list))
+;;   (setq bufler-reverse t))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
@@ -161,6 +161,10 @@
 
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 8)
+
+
+
+
 
 (use-package smart-compile
   :ensure t)
@@ -292,38 +296,38 @@
 
 
 ;; install phi-search and phi-search-mc using use-package
-(use-package phi-search
-  :ensure t)
+;; (use-package phi-search
+;;   :ensure t)
 
-(use-package phi-search-mc
-  :ensure t)
-
-
-(define-key phi-search-default-map (kbd "C-, C-,") 'phi-search-mc/mark-here)
+;; (use-package phi-search-mc
+;;   :ensure t)
 
 
-(define-key phi-search-default-map (kbd "C-, M-C-f") 'mc/mark-next-sexps)
-(define-key phi-search-default-map (kbd "C-, M-C-b") 'mc/mark-previous-sexps)
-(define-key phi-search-default-map (kbd "C-, <") 'mc/mark-all-above)
-(define-key phi-search-default-map (kbd "C-, >") 'mc/mark-all-below)
+;; (define-key phi-search-default-map (kbd "C-, C-,") 'phi-search-mc/mark-here)
 
-(define-key phi-search-default-map (kbd "C-, C-d") 'mc/remove-current-cursor)
-(define-key phi-search-default-map (kbd "C-, C-k") 'mc/remove-cursors-at-eol)
-(define-key phi-search-default-map (kbd "C-, d")   'mc/remove-duplicated-cursors)
-(define-key phi-search-default-map (kbd "C-, C-o") 'mc/remove-cursors-on-blank-lines)
 
-;(define-key phi-search-default-map (kbd "C-, C-,") 'mc/freeze-fake-cursors-dwim)
+;; (define-key phi-search-default-map (kbd "C-, M-C-f") 'mc/mark-next-sexps)
+;; (define-key phi-search-default-map (kbd "C-, M-C-b") 'mc/mark-previous-sexps)
+;; (define-key phi-search-default-map (kbd "C-, <") 'mc/mark-all-above)
+;; (define-key phi-search-default-map (kbd "C-, >") 'mc/mark-all-below)
 
-(define-key phi-search-default-map (kbd "C-, .")   'mc/move-to-column)
-(define-key phi-search-default-map (kbd "C-, =")   'mc/compare-chars)
+;; (define-key phi-search-default-map (kbd "C-, C-d") 'mc/remove-current-cursor)
+;; (define-key phi-search-default-map (kbd "C-, C-k") 'mc/remove-cursors-at-eol)
+;; (define-key phi-search-default-map (kbd "C-, d")   'mc/remove-duplicated-cursors)
+;; (define-key phi-search-default-map (kbd "C-, C-o") 'mc/remove-cursors-on-blank-lines)
 
-;; Emacs 24.4+ comes with rectangle-mark-mode.
-;(define-key rectangle-mark-mode-map (kbd "C-, C-,") 'mc/rect-rectangle-to-multiple-cursors)
+;; ;(define-key phi-search-default-map (kbd "C-, C-,") 'mc/freeze-fake-cursors-dwim)
 
-;(define-key cua--rectangle-keymap   (kbd "C-, C-,") 'mc/cua-rectangle-to-multiple-cursors)
+;; (define-key phi-search-default-map (kbd "C-, .")   'mc/move-to-column)
+;; (define-key phi-search-default-map (kbd "C-, =")   'mc/compare-chars)
 
-(phi-search-mc/setup-keys)
-(add-hook 'isearch-mode-hook 'phi-search-from-isearch-mc/setup-keys)
+;; ;; Emacs 24.4+ comes with rectangle-mark-mode.
+;; ;(define-key rectangle-mark-mode-map (kbd "C-, C-,") 'mc/rect-rectangle-to-multiple-cursors)
+
+;; ;(define-key cua--rectangle-keymap   (kbd "C-, C-,") 'mc/cua-rectangle-to-multiple-cursors)
+
+;; (phi-search-mc/setup-keys)
+;; (add-hook 'isearch-mode-hook 'phi-search-from-isearch-mc/setup-keys)
 
 ;; (use-package indent-bars
   ;; :ensure t
@@ -339,10 +343,10 @@
   ;; Use `dumb-jump' as `xref' backend
   (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
 
-(use-package dumb-jump
-  :ensure t
-  :config
-  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
+;; (use-package dumb-jump
+  ;; :ensure t
+  ;; :config
+  ;; (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
 
 (setq dumb-jump-force-searcher 'rg)
 
@@ -385,31 +389,31 @@
 
 
 ;; Structured editing and navigation in Emacs with Tree-Sitter
-(use-package combobulate-setup
-  :straight (combobulate
-             :host github
-             :repo "mickeynp/combobulate"
-             :nonrecursive t ; Cloning the `html-ts-mode' submodule causes problems
-             :files (:defaults (:exclude "combobulate.el"))) ; TEMP: The "combobulate.el" contains a lot of autoloads that prevent lazy loading
-  :custom
-  (combobulate-key-prefix "C-c b") ; "C-c o" is used by `minemacs-open-thing-map'
-  :config
-  ;; TEMP+FIX: Basically, load the same features that would be loaded by "combobulate.el"
-  (dolist (feature '(combobulate-rules
-                     combobulate-procedure combobulate-navigation
-                     combobulate-manipulation combobulate-envelope combobulate-display
-                     combobulate-ui combobulate-misc combobulate-query combobulate-cursor
-                     combobulate-toml combobulate-html combobulate-python combobulate-js-ts
-                     combobulate-css combobulate-yaml combobulate-json combobulate-go))
-    (require feature))
+;; (use-package combobulate-setup
+;;   :straight (combobulate
+;;              :host github
+;;              :repo "mickeynp/combobulate"
+;;              :nonrecursive t ; Cloning the `html-ts-mode' submodule causes problems
+;;              :files (:defaults (:exclude "combobulate.el"))) ; TEMP: The "combobulate.el" contains a lot of autoloads that prevent lazy loading
+;;   :custom
+;;   (combobulate-key-prefix "C-c b") ; "C-c o" is used by `minemacs-open-thing-map'
+;;   :config
+;;   ;; TEMP+FIX: Basically, load the same features that would be loaded by "combobulate.el"
+;;   (dolist (feature '(combobulate-rules
+;;                      combobulate-procedure combobulate-navigation
+;;                      combobulate-manipulation combobulate-envelope combobulate-display
+;;                      combobulate-ui combobulate-misc combobulate-query combobulate-cursor
+;;                      combobulate-toml combobulate-html combobulate-python combobulate-js-ts
+;;                      combobulate-css combobulate-yaml combobulate-json combobulate-go))
+;;     (require feature))
 
-  ;; The "M-<up/down/left/right>" keys are used globally by `drag-stuff', lets
-  ;; unset them for `combobulate' and use "M-S-<up/down/left/right>" instead.
-  (mapc (lambda (k) (keymap-unset combobulate-key-map k 'remove)) '("M-<up>" "M-<down>" "M-<left>" "M-<right>"))
-  (keymap-set combobulate-key-map "M-S-<up>" #'combobulate-splice-up)
-  (keymap-set combobulate-key-map "M-S-<down>" #'combobulate-splice-down)
-  (keymap-set combobulate-key-map "M-S-<left>" #'combobulate-splice-self)
-  (keymap-set combobulate-key-map "M-S-<right>" #'combobulate-splice-parent))
+;;   ;; The "M-<up/down/left/right>" keys are used globally by `drag-stuff', lets
+;;   ;; unset them for `combobulate' and use "M-S-<up/down/left/right>" instead.
+;;   (mapc (lambda (k) (keymap-unset combobulate-key-map k 'remove)) '("M-<up>" "M-<down>" "M-<left>" "M-<right>"))
+;;   (keymap-set combobulate-key-map "M-S-<up>" #'combobulate-splice-up)
+;;   (keymap-set combobulate-key-map "M-S-<down>" #'combobulate-splice-down)
+;;   (keymap-set combobulate-key-map "M-S-<left>" #'combobulate-splice-self)
+;;   (keymap-set combobulate-key-map "M-S-<right>" #'combobulate-splice-parent))
 
 (defun reverse-selection (beg end)
  "Reverse characters between BEG and END."
@@ -417,12 +421,3 @@
  (let ((region (buffer-substring beg end)))
    (delete-region beg end)
    (insert (nreverse region))))
-
-;; Insert paths into the minibuffer prompt
-(use-package consult-dir
-  :straight t
-  :bind (("C-x C-d" . consult-dir)
-         :package vertico
-         :map minibuffer-local-completion-map
-         ("C-x C-d" . consult-dir)
-         ("C-x C-j" . consult-dir-jump-file)))

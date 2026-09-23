@@ -16,7 +16,6 @@
 ;;;  - Citation Management
 ;;;  - Authoring
 ;;;  - Note Taking: Org-Roam
-;;;  - Note Taking: Denote
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
